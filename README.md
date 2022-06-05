@@ -1,3 +1,13 @@
+# Polycode frontend
+
+## Naming convention
+
+To name variables and functions, use the camelCase convention.
+
+For react components names should capitalized CamelCase, the filename should follow the name of the react component.
+
+## About
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
