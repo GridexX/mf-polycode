@@ -6,6 +6,16 @@ To name variables and functions, use the camelCase convention.
 
 For react components names should capitalized CamelCase, the filename should follow the name of the react component.
 
+## Folder architecture
+
+Pages related to the router should be in the pages folder (path-based routing).
+
+React components should be in the `components` folder, bse UI components should be in the `components/base` folder.
+
+Stylesheets should be in the `styles` folder, then following the path where the style is used (try to use one stylesheet file per component/page), example : the styles for the `Home` page compenent should go in `styles/pages/Home.module.css`.
+
+Typescript files that are not react compenents should go in the `lib` folder (for typescript files interacting with the api : `lib/api/*.ts`)
+
 ## About
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
