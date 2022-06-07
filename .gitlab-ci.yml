@@ -1,0 +1,36 @@
+variables:
+  GIT_DEPTH: 0
+
+stages:
+  - preparation
+  - build
+  - tests
+  - release
+
+include:
+  - remote: "https://api.r2devops.io/job/r/r2devops-bot/yarn_build/0.3.0.yaml"
+  - remote: "https://api.r2devops.io/job/r/r2devops-bot/npm_lint/1.1.0.yaml"
+  - remote: "https://api.r2devops.io/job/r/r2devops-bot/gitleaks/1.0.0.yaml"
+  - remote: "https://api.r2devops.io/job/r/r2devops-bot/docker_build/1.1.0.yaml"
+  # - remote: "https://api.r2devops.io/job/r/r2devops-bot/spell_check/1.0.0.yaml" // wait for the fix from r2devops
+
+determine_version:
+  stage: preparation
+  image:
+    name: gittools/gitversion:5.10.0-alpine.3.14-6.0
+    entrypoint: ['']
+  script: |
+    /tools/dotnet-gitversion /showvariable InformationalVersion | sed -r 's/[+]+/./g' >> SemVer.txt
+    echo "BUILD_VERSION=$(cat SemVer.txt)" > build.env
+    echo "BUILD_DATE=$(date)" >> build.env
+    echo "BUILD_HASH=$(git rev-parse --short HEAD)" >> build.env
+    echo "BUILD_BRANCH=$(git rev-parse --abbrev-ref HEAD)" >> build.env
+    echo "BUILD_TAG=$(git describe --tags)" >> build.env
+  artifacts:
+    reports:
+      dotenv: build.env
+
+docker_build:
+  stage: release
+  variables:
+    CUSTOM_TAG: ${BUILD_VERSION}
