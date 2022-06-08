@@ -20,12 +20,19 @@ determine_version:
     name: gittools/gitversion:5.10.0-alpine.3.14-6.0
     entrypoint: ['']
   script: |
-    /tools/dotnet-gitversion /showvariable InformationalVersion | sed -r 's/[+]+/./g' >> SemVer.txt
-    echo "BUILD_VERSION=$(cat SemVer.txt)" > build.env
+    /tools/dotnet-gitversion /showvariable MajorMinorPatch > SemVer.txt
+    echo ".rc-" >> SemVer.txt
+    /tools/dotnet-gitversion /showvariable CommitsSinceVersionSource >> SemVer.txt
+    echo "." >> SemVer.txt
+    /tools/dotnet-gitversion /showvariable EscapedBranchName >> SemVer.txt
+    echo "." >> SemVer.txt
+    /tools/dotnet-gitversion /showvariable ShortSha >> SemVer.txt
+    echo "BUILD_VERSION=$(cat SemVer.txt | tr -d '\n\r' | cat)" > build.env
     echo "BUILD_DATE=$(date)" >> build.env
     echo "BUILD_HASH=$(git rev-parse --short HEAD)" >> build.env
     echo "BUILD_BRANCH=$(git rev-parse --abbrev-ref HEAD)" >> build.env
     echo "BUILD_TAG=$(git describe --tags)" >> build.env
+    cat build.env
   artifacts:
     reports:
       dotenv: build.env
