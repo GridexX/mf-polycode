@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "setup": "husky install && husky set .husky/pre-commit 'npm run lint-staged' && curl -s -o config_commit_lint.sh https://gist.githubusercontent.com/GridexX/c070f55c12112fb9ef0f70c259bcd740/raw/1a59a073727481246eea8bd41de0bc1db7232ade/config_commit_lint.sh && bash config_commit_lint.sh && rm ./config_commit_lint.sh",
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
+    "lint-staged": "npm run lint && npm run format"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -33,6 +36,10 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
-    "typescript": "4.7.3"
+    "husky": "^8.0.1",
+    "prettier": "^2.6.2",
+    "typescript": "4.7.3",
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4"
   }
 }

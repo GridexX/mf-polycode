@@ -14,7 +14,7 @@ React components should be in the `components` folder, bse UI components should 
 
 Stylesheets should be in the `styles` folder, then following the path where the style is used (try to use one stylesheet file per component/page), example : the styles for the `Home` page compenent should go in `styles/pages/Home.module.css`.
 
-Typescript files that are not react compenents should go in the `lib` folder (for typescript files interacting with the api : `lib/api/*.ts`)
+Typescript files that are not react components should go in the `lib` folder (for typescript files interacting with the api : `lib/api/*.ts`)
 
 ## About
 
@@ -37,6 +37,30 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+
+## Installing packages
+
+- After cloning the project, you must have at least `npm >= 6` (see with `npm --version`) installed.
+Then run `npm install` to install packages.
+
+- As we are using [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), you must install them with
+`npm run setup`. These hooks are installed using [`husky`](https://github.com/typicode/husky)
+which is used in order to help you to not commit unformatted / unlinted code. Furthermore, [`commit-lint`](https://commitlint.js.org/#/) is used to ensure you respects [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). 
+
+- Copy the file `.env.example` to `.env.local`, this new file won't be committed, it is used to define local environment
+variables.
+
+- You are now ready to code, get started with `npm run start`! 🚀
+
+## Contributing
+
+To contribute to this repository, there are a few guidelines : 
+
+1. Create an issue with a descriptive title.
+2. Create an associated Merge Request.
+3. Perform modifications on your branch
+4. When you're done, ensure you check all the Mark of the DoD
+5. Great job, you're MR is ready to be reviewed 🚀
 
 ## Learn More
 
