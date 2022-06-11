@@ -38,6 +38,17 @@
       "errors": {
         "passwordRulesNotRespected": "Must have at least 8 characters"
       }
+    },
+    "profile": {
+      "title": "Profile",
+      "information": "Information",
+      "username": "Username",
+      "emails": "E-mails",
+      "preferredLanguage": "Preferred Language",
+      "score": "Score",
+      "polypoints": "Polypoints",
+      "rank": "Rank",
+      "biography": "Biography"
     }
   }
 }

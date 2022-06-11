@@ -1,0 +1,140 @@
+.container {
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+
+.contentContainer {
+  height: 100%;
+  width: 100%;
+  /* border: 1px solid purple; */
+}
+
+.information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  margin: 40px 0;
+  /* border: 1px solid purple; */
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  margin: 40px 0;
+  /* border: 1px solid blue; */
+}
+
+.biography {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  margin: 40px 0;
+  /* border: 1px solid orange; */
+}
+
+.subContentTitle {
+  width: 50%;
+  /* border: 1px solid purple; */
+}
+
+.informationContent,
+.scoreContent,
+.biographyContent {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5em;
+  width: 50%;
+  height: 50%;
+  /* border: 1px solid orange; */
+}
+
+.atomicContentMainContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
+  /* border: 1px solid blue; */
+}
+
+.atomicContentTitle {
+  align-self: center;
+  width: 35%;
+  height: 100%;
+  margin-right: 50px;
+  /* border: 1px solid black; */
+}
+
+.atomicContentContainer {
+  display: flex;
+  align-items: center;
+  width: 65%;
+  height: 100%;
+  /* border: 1px solid black; */
+}
+
+.emailListContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 65%;
+  height: 100%;
+  /* border: 1px solid blue; */
+}
+
+.emailItem {
+  width: 100%;
+  margin-bottom: 0.7em;
+  /* border: 1px solid red; */
+}
+
+.scoreContentImageContainer {
+  margin-left: 7px;
+  width: 2em;
+}
+
+@media (max-width: 780px) {
+  .informationContent {
+    width: 100%;
+  }
+
+  .subContentTitle {
+    width: 100%;
+    text-align: center;
+  }
+
+  .atomicContentMainContainer {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .atomicContentTitle {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .atomicContentContainer {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .emailListContainer {
+    width: 100%;
+    text-align: center;
+  }
+}
