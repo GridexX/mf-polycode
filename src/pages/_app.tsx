@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/toast.css';
 import type { AppProps } from 'next/app';
 import React from 'react';
 import { ThemeProvider } from '@emotion/react';
