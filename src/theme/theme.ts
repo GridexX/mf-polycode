@@ -5,10 +5,10 @@ import {
   PaletteMode,
   Theme,
 } from '@mui/material';
-import MuiButton from './components/Button';
-import MuiInputBase from './components/MuiInputBase';
-import MuiInputLabel from './components/MuiInputLabel';
-import lightTheme from './themes/LightTheme';
+import MuiButton from './components/base/Button';
+import MuiInputBase from './components/base/MuiInputBase';
+import MuiInputLabel from './components/base/MuiInputLabel';
+import lightTheme from './LightTheme';
 
 // Put component styles here
 const components: Components<Theme> = {

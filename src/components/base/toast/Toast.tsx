@@ -7,7 +7,9 @@ type Props = {
   children: ReactElement;
 };
 
-const Toast: React.FC<Props> = ({ children }) => <div>{children}</div>;
+export default function Toast({ children }: Props) {
+  return <div>{children}</div>;
+}
 
 export const toastError = (content: ReactElement, options?: ToastOptions) =>
   toast.error(<Toast children={content} />, options);

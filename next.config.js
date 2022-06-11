@@ -4,6 +4,9 @@ const nextConfig = {
   experimental: {
     outputStandalone: true,
   },
-}
+  eslint: {
+    dirs: ['src'],
+  },
+};
 
 module.exports = nextConfig;

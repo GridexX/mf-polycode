@@ -13,8 +13,7 @@ type Props = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-
-const TextInput: React.FC<Props> = ({
+export default function TextInput({
   label,
   value,
   disabled = false,
@@ -23,7 +22,9 @@ const TextInput: React.FC<Props> = ({
   variant = 'standard',
   onChange = undefined,
   ...props
-}) => <TextField 
+}: Props) {
+  return (
+    <TextField
       label={label}
       value={value}
       disabled={disabled}
@@ -33,6 +34,5 @@ const TextInput: React.FC<Props> = ({
       variant={variant}
       {...props}
     />
-    
-
-export default TextInput;
+  );
+}
