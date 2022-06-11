@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+}
+
+.profileImage {
+  height: 10em;
+  width: 10em;
+  margin-bottom: 3em;
+}
+
+.navigationButtons {
+  height: 100%;
+}
+
+.button {
+  text-transform: none;
+  justify-content: start;
+  font-size: 1.3em;
+}
+
+.icon {
+  size: large;
+  width: 1.7em;
+  height: 1.7em;
+  margin-bottom: 3px;
+  margin-right: 0.3em;
+}

@@ -19,5 +19,13 @@
       "passwordsMismatch": "Passwords don't match",
       "passwordEmpty": "Password is empty"
     }
+  },
+  "account": {
+    "menu": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "teams": "Teams",
+      "password": "Password"
+    }
   }
 }
