@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "email": "email",
+    "password": "password",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logout": "Logout",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "changePassword": "Change Password",
+    "noAccountQuestion": "Don't have an account?",
+    "haveAccountQuestion": "Already have an account?",
+    "username": "Username",
+    "confirmPassword": "Confirm Password",
+    "overThirteen": "I am over 13 years old",
+    "readTerms": "I have read and agree to the",
+    "termsOfService": "Terms of Service",
+    "errors": {
+      "passwordsMismatch": "Passwords don't match",
+      "passwordEmpty": "Password is empty"
+    }
+  }
+}

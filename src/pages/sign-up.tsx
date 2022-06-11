@@ -15,11 +15,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { LoadingButton } from '@mui/lab';
 import Checkbox from '@mui/material/Checkbox';
+import { useTranslation } from '../lib/translations';
 
 import styles from '../styles/pages/SignUp.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
 
 export default function SignIn() {
+  const { i18n } = useTranslation();
+
   // import Next router
   const router = useRouter();
 
@@ -58,9 +61,10 @@ export default function SignIn() {
       if (formErrorsState.confirmPassword.length === 0)
         setFormErrorsState((previous) => ({
           ...previous,
-          confirmPassword: 'Passwords don’t match',
+          confirmPassword: i18n.t('auth.error.passwordMismatch'),
         }));
-    } else setFormErrorsState((previous) => ({ ...previous, confirmPassword: '' }));
+    } else
+      setFormErrorsState((previous) => ({ ...previous, confirmPassword: '' }));
   };
 
   // check password on state change
@@ -69,6 +73,7 @@ export default function SignIn() {
     formState.password,
     formState.confirmPassword,
     formErrorsState.confirmPassword.length,
+    i18n,
   ]);
 
   // --- Event handlers ---
@@ -147,7 +152,7 @@ export default function SignIn() {
       // TODO: display notification
       setFormErrorsState((previous) => ({
         ...previous,
-        password: 'Password cannot be empty',
+        password: i18n.t('auth.error.passwordEmpty'),
       }));
 
       return;
@@ -199,7 +204,7 @@ export default function SignIn() {
               <TextField
                 type="text"
                 onChange={handleUsernameChange}
-                label="Username"
+                label={i18n.t('auth.username')}
                 variant="standard"
                 error={formErrorsState.username.length > 0}
                 helperText={formErrorsState.username}
@@ -207,7 +212,7 @@ export default function SignIn() {
               <TextField
                 type="email"
                 onChange={handleEmailChange}
-                label="Email"
+                label={i18n.t('auth.email')}
                 variant="standard"
                 error={formErrorsState.email.length > 0}
                 helperText={formErrorsState.email}
@@ -216,7 +221,7 @@ export default function SignIn() {
               <TextField
                 type="password"
                 onChange={handlePasswordChange}
-                label="Password"
+                label={i18n.t('auth.password')}
                 variant="standard"
                 error={formErrorsState.password.length > 0}
                 helperText={formErrorsState.password}
@@ -225,7 +230,7 @@ export default function SignIn() {
               <TextField
                 type="password"
                 onChange={handleConfirmPasswordChange}
-                label="Confirm Password"
+                label={i18n.t('auth.confirmPassword')}
                 variant="standard"
                 error={formErrorsState.confirmPassword.length > 0}
                 helperText={formErrorsState.confirmPassword}
@@ -238,7 +243,7 @@ export default function SignIn() {
                     checked={formState.overThirteen}
                   />
                 }
-                label="I am over 13"
+                label={i18n.t('auth.overThirteen')}
               />
               <FormControlLabel
                 control={
@@ -249,9 +254,9 @@ export default function SignIn() {
                 }
                 label={
                   <Typography>
-                    I have read the{' '}
+                    {i18n.t('auth.readTerms')}{' '}
                     <Link href="/tos" passHref>
-                      <MuiLink>terms of service</MuiLink>
+                      <MuiLink>{i18n.t('auth.termsOfService')}</MuiLink>
                     </Link>
                   </Typography>
                 }
@@ -263,13 +268,13 @@ export default function SignIn() {
               onClick={handleLogin}
               loading={loading}
             >
-              Sign up
+              {i18n.t('auth.signUp')}
             </LoadingButton>
 
             <Typography variant="body1">
-              Already have an account?{' '}
+              {i18n.t('auth.haveAccountQuestion')}{' '}
               <Link href="/sign-in" passHref>
-                <MuiLink>Sign in</MuiLink>
+                <MuiLink>{i18n.t('auth.signIn')}</MuiLink>
               </Link>
             </Typography>
           </FormGroup>

@@ -12,11 +12,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { LoadingButton } from '@mui/lab';
+import { useTranslation } from '../lib/translations';
 
 import styles from '../styles/pages/SignIn.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
 
 export default function SignIn() {
+  const { i18n } = useTranslation();
+
   // import Next router
   const router = useRouter();
 
@@ -90,14 +93,14 @@ export default function SignIn() {
             <TextField
               type="email"
               onChange={handleEmailChange}
-              label="email"
+              label={i18n.t('auth.email')}
               variant="standard"
             />
 
             <TextField
               type="password"
               onChange={handlePasswordChange}
-              label="password"
+              label={i18n.t('auth.password')}
               variant="standard"
             />
           </Stack>
@@ -107,13 +110,13 @@ export default function SignIn() {
             onClick={handleLogin}
             loading={loading}
           >
-            Sign in
+            {i18n.t('auth.signIn')}
           </LoadingButton>
 
           <Typography variant="body1">
-            Don’t have an account?{' '}
+            {i18n.t('auth.noAccountQuestion')}{' '}
             <Link href="/sign-up" passHref>
-              <MuiLink>sign up</MuiLink>
+              <MuiLink>{i18n.t('auth.signUp')}</MuiLink>
             </Link>
           </Typography>
         </Box>
