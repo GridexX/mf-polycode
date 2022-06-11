@@ -6,6 +6,7 @@ import { TextField } from '@mui/material';
 type Props = {
   label: string;
   value: string;
+  type?: string;
   disabled?: boolean;
   error?: boolean;
   helperText?: string;
@@ -16,6 +17,7 @@ type Props = {
 export default function TextInput({
   label,
   value,
+  type = 'text',
   disabled = false,
   error = false,
   helperText = '',
@@ -25,8 +27,10 @@ export default function TextInput({
 }: Props) {
   return (
     <TextField
+      fullWidth
       label={label}
       value={value}
+      type={type}
       disabled={disabled}
       error={error}
       helperText={helperText}

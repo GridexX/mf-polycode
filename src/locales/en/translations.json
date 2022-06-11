@@ -26,6 +26,18 @@
       "settings": "Settings",
       "teams": "Teams",
       "password": "Password"
+    },
+    "password": {
+      "titlePage": "Change Password",
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "passwordLabel": "password",
+      "passwordConfirmationLabel": "confirmation",
+      "saveButton": "Save",
+      "resetButton": "Reset",
+      "errors": {
+        "passwordRulesNotRespected": "Must have at least 8 characters"
+      }
     }
   }
 }
