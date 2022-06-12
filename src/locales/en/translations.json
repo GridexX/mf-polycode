@@ -51,6 +51,26 @@
       "polypoints": "Polypoints",
       "rank": "Rank",
       "biography": "Biography"
+    },
+    "settings": {
+      "titlePage": "Settings",
+      "information": "Information",
+      "username": "Username",
+      "emails": "Emails",
+      "primaryEmail": "Primary email",
+      "secondaryEmail": "Secondary email",
+      "preferedLanguage": "Prefered Language",
+      "biography": "Biography",
+      "saveButton": "Save",
+      "resetButton": "Reset",
+      "errors": {
+        "usernameTooShort": "Username must be at least 3 characters long",
+        "usernameTooLong": "Username must be at most 20 characters long",
+        "emailTooShort": "Email must be at least 3 characters long",
+        "emailTooLong": "Email must be at most 50 characters long",
+        "emailInvalid": "Email is invalid",
+        "biographyTooLong": "Biography must be at most 500 characters long"
+      }
     }
   },
   "components": {

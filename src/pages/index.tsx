@@ -1,6 +1,6 @@
 import React from 'react';
-import UserSettings from '../components/UserSettings';
+import AccountSettings from '../components/account/Settings';
 
 export default function Home() {
-  return <UserSettings />;
+  return <AccountSettings />;
 }

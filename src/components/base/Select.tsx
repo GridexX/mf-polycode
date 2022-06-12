@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { uuid } from 'uuidv4'; 
 
 type Item = {
   name: string;
@@ -13,20 +14,14 @@ type Item = {
 type Props = {
   label: string;
   items: Item[];
-  labelId?: string;
+  value: string;
+  onChange: (event: SelectChangeEvent<string>) => void;
   id?: string;
 };
 
 export default function CustomSelect(props: Props) {
-  const { label, items, labelId, id } = props;
-
-  const [selectedValue, setSelectedValue] = React.useState<string>(
-    items[0]?.value
-  );
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelectedValue(event.target.value as string);
-  };
+  const { label, items, value, onChange, id } = props;
+  const labelId = uuid();
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -38,8 +33,8 @@ export default function CustomSelect(props: Props) {
           labelId={labelId}
           label={label}
           id={id}
-          value={selectedValue}
-          onChange={handleChange}
+          value={value}
+          onChange={onChange}
         >
           {/* menu items */}
           {items && items.length > 0
@@ -57,5 +52,4 @@ export default function CustomSelect(props: Props) {
 
 CustomSelect.defaultProps = {
   id: 'selectId',
-  labelId: 'labelId',
 };
