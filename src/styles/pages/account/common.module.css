@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.contentContainer {
+  display: flex;
+  flex-grow: 1;
+}
+
+.divider {
+  height: 75vh;
+  margin-top: 40px;
+}

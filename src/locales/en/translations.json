@@ -36,6 +36,8 @@
       "saveButton": "Save",
       "resetButton": "Reset",
       "errors": {
+        "someFieldsEmpty": "Some fields are empty",
+        "passwordsMismatch": "Passwords don't match",
         "passwordRulesNotRespected": "Must have at least 8 characters"
       }
     },

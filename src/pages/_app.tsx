@@ -3,10 +3,15 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import { Box } from '@mui/material';
 import createEmotionCache from '../lib/emotionCache';
 import { TranslationProvider } from '../lib/translations';
 import { ThemeManagerProvider } from '../lib/themeManager';
 import { LoginContextProvider } from '../lib/loginContext';
+import '../styles/globals.css';
+import styles from '../styles/pages/app.module.css';
 
 import NavBar from '../components/navbar/NavBar';
 
@@ -31,8 +36,22 @@ export default function MyApp(props: MyAppProps) {
       <TranslationProvider>
         <ThemeManagerProvider>
           <LoginContextProvider>
-            <NavBar />
-            <Component {...pageProps} />
+            <Box className={styles.container}>
+              <NavBar />
+              <Component {...pageProps} />
+            </Box>
+            <ToastContainer
+              theme="colored"
+              position="top-right"
+              autoClose={4000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </LoginContextProvider>
         </ThemeManagerProvider>
       </TranslationProvider>

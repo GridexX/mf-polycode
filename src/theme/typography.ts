@@ -20,11 +20,11 @@ const typography = {
   },
   h3: {
     fontFamily: 'Rubik',
-    fontSize: '2.5rem',
+    fontSize: '2.3rem',
   },
   h4: {
     fontFamily: 'Rubik',
-    fontSize: '2rem',
+    fontSize: '1.8rem',
   },
   h5: {
     fontFamily: 'Rubik',

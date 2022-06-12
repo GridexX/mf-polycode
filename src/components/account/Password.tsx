@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState, useEffect } from 'react';
 import { Box, Typography, Stack, Button, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { toast } from 'react-toastify';
 import { useTranslation } from '../../lib/translations';
 
 import styles from '../../styles/components/account/Password.module.css';
@@ -50,7 +51,7 @@ export default function Password() {
       if (formErrorsState.confirmPassword.length === 0) {
         setFormErrorsState((previous) => ({
           ...previous,
-          confirmPassword: i18n.t('auth.errors.passwordsMismatch'),
+          confirmPassword: i18n.t('account.password.errors.passwordsMismatch'),
         }));
       }
     } else {
@@ -101,13 +102,22 @@ export default function Password() {
   const handleSave = () => {
     // check availability to save
     if (
+      formState.password === '' ||
+      formState.confirmPassword === '' ||
+      formState.oldPassword === ''
+    ) {
+      toast.error(i18n.t('account.password.errors.someFieldsEmpty'));
+    }
+
+    if (
       !formState.password ||
       !formState.confirmPassword ||
       !formState.oldPassword ||
       formErrorsState.password ||
       formErrorsState.confirmPassword
-    )
+    ) {
       return;
+    }
 
     setLoading(true);
 
@@ -177,7 +187,7 @@ export default function Password() {
           </Typography>
 
           <Box className={styles.inputContainer}>
-            <Stack spacing={2} className={styles.fieldForm}>
+            <Stack spacing={4} className={styles.fieldForm}>
               <TextInput
                 type="password"
                 onChange={handlePasswordChange}

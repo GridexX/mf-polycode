@@ -11,17 +11,15 @@ import { useTranslation } from '../../lib/translations';
 import styles from '../../styles/components/account/Menu.module.css';
 import profileImage from '../../../public/images/profil_image.svg';
 
-export default function Menu() {
+type Props = {
+  buttonSelected: 'profile' | 'settings' | 'teams' | 'password';
+}
+
+export default function Menu({ buttonSelected }: Props) {
   const { i18n } = useTranslation();
 
   // import MUI theme
   const theme = useTheme();
-
-  const [buttonSelected, setButtonSelected] = React.useState('profile');
-
-  const handleChange = (event: React.MouseEvent<HTMLElement>) => {
-    setButtonSelected((event.target as HTMLElement).id);
-  };
 
   return (
     <Box className={styles.container}>
@@ -42,7 +40,6 @@ export default function Menu() {
                 className={styles.button}
                 startIcon={<PersonIcon className={styles.icon} />}
                 color={buttonSelected === 'profile' ? 'primary' : 'inherit'}
-                onClick={handleChange}
               >
                 {i18n.t('account.menu.profile')}
               </Button>
@@ -53,7 +50,6 @@ export default function Menu() {
                 className={styles.button}
                 startIcon={<SettingsIcon className={styles.icon} />}
                 color={buttonSelected === 'settings' ? 'primary' : 'inherit'}
-                onClick={handleChange}
               >
                 {i18n.t('account.menu.settings')}
               </Button>
@@ -64,7 +60,6 @@ export default function Menu() {
                 className={styles.button}
                 startIcon={<PeopleAltIcon className={styles.icon} />}
                 color={buttonSelected === 'teams' ? 'primary' : 'inherit'}
-                onClick={handleChange}
               >
                 {i18n.t('account.menu.teams')}
               </Button>
@@ -75,7 +70,6 @@ export default function Menu() {
                 className={styles.button}
                 startIcon={<LockIcon className={styles.icon} />}
                 color={buttonSelected === 'password' ? 'primary' : 'inherit'}
-                onClick={handleChange}
               >
                 {i18n.t('account.menu.password')}
               </Button>
