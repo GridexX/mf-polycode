@@ -50,5 +50,13 @@
       "rank": "Rank",
       "biography": "Biography"
     }
+  },
+  "components": {
+    "navbar": {
+      "practice": "Practice",
+      "challenge": "Challenge",
+      "certification": "Certification",
+      "sign-in": "Sign In"
+    }
   }
 }

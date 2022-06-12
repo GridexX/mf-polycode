@@ -6,16 +6,17 @@ import { toastSuccess } from '../components/base/toast/Toast';
 // This page aims to show the result of the different components created.
 // It should be remove before merging the branch.
 // It also works with JSX inside Notif
-const notifySuccess = () => toastSuccess(
-  <div>
-    <h1>Success</h1>
-    <p>This notification works as expected</p>
-    <ul>
-      <li>1</li>
-      <li>2</li>
-    </ul>
-  </div>
-);
+const notifySuccess = () =>
+  toastSuccess(
+    <div>
+      <h1>Success</h1>
+      <p>This notification works as expected</p>
+      <ul>
+        <li>1</li>
+        <li>2</li>
+      </ul>
+    </div>
+  );
 const notifyInfo = () => toast.info('This is an info notification!');
 const notifyWarning = () => toast.warning('This is an warning notification!');
 const notifyError = () => toast.error('This is an error notification!');
@@ -24,9 +25,7 @@ export default function Test() {
   return (
     <>
       <button type="button" onClick={notifySuccess}>
-
         Notify success!
-
       </button>
       <br />
       <button type="button" onClick={notifyError}>
@@ -56,7 +55,9 @@ export default function Test() {
       />
       {/* Disabled input */}
       <TextInput label="Email" value="test@gmail.com" disabled />
-      <Button type='button' disabled>hello</Button>
+      <Button type="button" disabled>
+        hello
+      </Button>
       <ToastContainer
         theme="colored"
         position="top-right"

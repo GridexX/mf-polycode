@@ -8,6 +8,8 @@ import { TranslationProvider } from '../lib/translations';
 import { ThemeManagerProvider } from '../lib/themeManager';
 import { LoginContextProvider } from '../lib/loginContext';
 
+import NavBar from '../components/navbar/NavBar';
+
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -29,6 +31,7 @@ export default function MyApp(props: MyAppProps) {
       <TranslationProvider>
         <ThemeManagerProvider>
           <LoginContextProvider>
+            <NavBar />
             <Component {...pageProps} />
           </LoginContextProvider>
         </ThemeManagerProvider>

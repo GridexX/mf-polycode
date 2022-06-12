@@ -1,44 +1,45 @@
-.container {}
+.container {
+}
 
 .titleContainer {
-    width: 100%;
-    padding-left: 2em;
-    display: flex;
+  width: 100%;
+  padding-left: 2em;
+  display: flex;
 }
 
 .contentContainer {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
 
 .formRow {
-    display: flex;
+  display: flex;
 }
 
-.formRow>* {
-    flex-grow: 1;
+.formRow > * {
+  flex-grow: 1;
 }
 
 .buttonsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .buttonsStack {
-    width: 22em;
-    height: 3.5em;
+  width: 22em;
+  height: 3.5em;
 }
 
 .saveButton,
 .cancelButton {
-    text-transform: none;
-    font-size: 18px;
-    width: 100%;
-    height: 100%;
+  text-transform: none;
+  font-size: 18px;
+  width: 100%;
+  height: 100%;
 }

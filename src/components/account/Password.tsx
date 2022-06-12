@@ -1,11 +1,5 @@
 import React, { ChangeEvent, useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  Stack,
-  Button,
-  useTheme,
-} from '@mui/material';
+import { Box, Typography, Stack, Button, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useTranslation } from '../../lib/translations';
 

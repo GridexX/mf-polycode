@@ -6,13 +6,12 @@ const MuiInputLabel: {
   styleOverrides: {
     root: ({ theme }) => ({
       color: theme.palette.text.primary,
-      fontFamily: "Varela Round, sans-serif",
+      fontFamily: 'Varela Round, sans-serif',
       '&.Mui-disabled': {
         color: theme.palette.text.primary,
-      }
+      },
     }),
-  }
-}
+  },
+};
 
 export default MuiInputLabel;
-

@@ -1,5 +1,4 @@
 .container {
-
   /* CSS grid helps with centering elements */
   display: grid;
   grid-template-rows: 1fr;
