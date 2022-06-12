@@ -18,13 +18,12 @@ import styles from '../styles/pages/SignIn.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
 
 export default function SignIn() {
+  const theme = useTheme();
+
   const { i18n } = useTranslation();
 
   // import Next router
   const router = useRouter();
-
-  // import mui theme
-  const theme = useTheme();
 
   // form state
 
@@ -86,7 +85,8 @@ export default function SignIn() {
       <Box className={styles.side}>
         <Box className={styles.loginForm}>
           <Typography variant="h4">
-            <span style={{ color: theme.palette.primary.main }}>Poly</span>Code
+            <span style={{ color: theme.palette.primary.main }}>Poly</span>
+            Code
           </Typography>
 
           <Stack spacing={2}>

@@ -1,14 +1,15 @@
 import {
   Components,
   createTheme,
-  Palette,
   PaletteMode,
+  PaletteOptions,
   Theme,
 } from '@mui/material';
 import MuiButton from './components/base/Button';
 import MuiInputBase from './components/base/MuiInputBase';
 import MuiInputLabel from './components/base/MuiInputLabel';
-import lightTheme from './LightTheme';
+import lightPalette from './LightTheme';
+import typography from './typography';
 
 // Put component styles here
 const components: Components<Theme> = {
@@ -18,12 +19,18 @@ const components: Components<Theme> = {
 };
 
 // Color palettes
-const lightPalette: Partial<Palette> = lightTheme.palette;
-const darkPalette: Partial<Palette> = {};
+const darkPalette: PaletteOptions = {};
 
-export default function GetTheme(mode: PaletteMode) {
+export function GetTheme(mode: PaletteMode) {
   return createTheme({
     palette: mode === 'light' ? lightPalette : darkPalette,
     components,
   });
 }
+
+const defaultTheme = createTheme({
+  palette: lightPalette,
+  components,
+  typography,
+});
+export default defaultTheme;
