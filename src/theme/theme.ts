@@ -25,6 +25,7 @@ export function GetTheme(mode: PaletteMode) {
   return createTheme({
     palette: mode === 'light' ? lightPalette : darkPalette,
     components,
+    typography,
   });
 }
 

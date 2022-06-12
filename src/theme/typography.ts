@@ -17,7 +17,6 @@ const typography = {
   },
   body2: {
     fontFamily: 'Varela Round',
-    fontWeight: 700,
   },
   h3: {
     fontFamily: 'Rubik',
@@ -25,6 +24,7 @@ const typography = {
   },
   h4: {
     fontFamily: 'Rubik',
+    fontSize: '2rem',
   },
   h5: {
     fontFamily: 'Rubik',
@@ -34,7 +34,6 @@ const typography = {
   },
   button: {
     fontFamily: 'Poppins',
-    fontWeight: 800,
   },
   subtitle1: {
     fontFamily: 'Poppins',
