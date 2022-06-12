@@ -65,7 +65,7 @@ docker_build:
     - git config user.email "bot@polycode.do-2021.fr"
   after_script:
     - eval $(ssh-agent -s)
-    - echo "$GITLAB_CI_DEPLOY_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - echo "$GITLAB_GIT_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - git pull "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git" ${CI_COMMIT_BRANCH:-main} --rebase --autostash -Xours
     - git commit -a -m "${GIT_PUSH_COMMIT_NAME}"
     - git push "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git" HEAD:${CI_COMMIT_BRANCH:-main}
