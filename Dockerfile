@@ -12,6 +12,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
+# Test the application
+FROM node:16-alpine AS test
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run lint
+
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
 WORKDIR /app
