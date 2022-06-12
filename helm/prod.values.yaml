@@ -1,0 +1,16 @@
+# Prod values for frontend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 3
+
+ingress:
+  hosts:
+    - host: polycode.do-2021.fr
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: frontend-tls
+      hosts:
+        - polycode.do-2021.fr
