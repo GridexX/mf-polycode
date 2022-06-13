@@ -9,7 +9,8 @@
     "lint": "next lint",
     "setup": "husky install && husky set .husky/pre-commit 'npm run lint-staged' && curl -s -o config_commit_lint.sh https://gist.githubusercontent.com/GridexX/c070f55c12112fb9ef0f70c259bcd740/raw/1a59a073727481246eea8bd41de0bc1db7232ade/config_commit_lint.sh && bash config_commit_lint.sh && rm ./config_commit_lint.sh",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
-    "lint-staged": "npm run lint && npm run format"
+    "lint-staged": "npm run lint && npm run format",
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/cache": "^11.7.1",
@@ -30,7 +31,11 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
+    "import-local": "^3.1.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
     "@types/i18n-js": "^3.8.2",
+    "@types/jest": "^28.1.1",
     "@types/node": "17.0.39",
     "@types/react": "18.0.11",
     "@types/react-dom": "18.0.5",
@@ -47,6 +52,8 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "husky": "^8.0.1",
+    "jest": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.1",
     "prettier": "^2.6.2",
     "typescript": "4.7.3"
   }
