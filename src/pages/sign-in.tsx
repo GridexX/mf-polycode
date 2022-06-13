@@ -12,12 +12,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { LoadingButton } from '@mui/lab';
+import { toast } from 'react-toastify';
 import { useTranslation } from '../lib/translations';
 
 import styles from '../styles/pages/SignIn.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
+import { useLoginContext } from '../lib/loginContext';
+import { apiSignIn, InvalidCredentialsError } from '../lib/api/auth';
 
 export default function SignIn() {
+  const { user, credentialsManager } = useLoginContext();
+
   const theme = useTheme();
 
   const { i18n } = useTranslation();
@@ -31,6 +36,10 @@ export default function SignIn() {
 
   // progress indicator
   const [loading, setLoading] = useState(false);
+
+  // if the user is logged in, redirect to the home page
+
+  if (user) router.push('/');
 
   // --- Event handlers ---
 
@@ -49,29 +58,22 @@ export default function SignIn() {
   const handleLogin = () => {
     setLoading(true);
 
-    const apiCall = new Promise<{ username: string }>((resolve) => {
-      console.warn('Faking request to backend');
-
-      setTimeout(() => {
-        resolve({ username: 'test' });
-      }, 1000);
-    });
-
-    // redirect to home page
-    apiCall.then(() => {
-      router.push('/');
-    });
-
-    // handle error
-    apiCall.catch((reason) => {
-      // TODO : use notification
-
-      console.error(reason);
-    });
-
-    apiCall.finally(() => {
-      setLoading(false);
-    });
+    apiSignIn(state.email, state.password, credentialsManager)
+      .then(() => {
+        // redirect to home page
+        router.push('/');
+      })
+      .catch((reason) => {
+        // handle error
+        if (reason === InvalidCredentialsError) {
+          toast(i18n.t('signIn.invalidCredentials'));
+        } else {
+          toast(i18n.t('signIn.unexpectedError'));
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

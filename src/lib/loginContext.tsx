@@ -30,7 +30,7 @@ import {
 
 interface LoginContextInterface {
   user: User | undefined | null;
-  tokensManager: CredentialsManager;
+  credentialsManager: CredentialsManager;
   refreshUser: RefreshUser;
 }
 
@@ -104,7 +104,7 @@ export function useCreateLoginContext(): LoginContextInterface {
     } else setUser(null);
   }, [credentials, refreshUser]);
 
-  return { user, tokensManager, refreshUser };
+  return { user, credentialsManager: tokensManager, refreshUser };
 }
 
 /**
@@ -112,7 +112,7 @@ export function useCreateLoginContext(): LoginContextInterface {
  */
 export const LoginContext = createContext<LoginContextInterface>({
   user: undefined,
-  tokensManager: { credentials: undefined, setCredentials: () => {} },
+  credentialsManager: { credentials: undefined, setCredentials: () => {} },
   refreshUser: () => {},
 });
 
@@ -129,6 +129,10 @@ export function LoginContextProvider({
 }
 
 // Retrieves the login context from the context provider
-export function useLoginContext() {
+export function useLoginContext(): {
+  user: User | undefined | null;
+  credentialsManager: CredentialsManager;
+  refreshUser: RefreshUser;
+} {
   return useContext(LoginContext);
 }

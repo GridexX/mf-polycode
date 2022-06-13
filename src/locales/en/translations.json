@@ -17,7 +17,9 @@
     "termsOfService": "Terms of Service",
     "errors": {
       "passwordsMismatch": "Passwords don't match",
-      "passwordEmpty": "Password is empty"
+      "passwordEmpty": "Password is empty",
+      "invalidCreditentials": "Invalid credentials",
+      "unexpectedError": "Unexpected error"
     }
   },
   "account": {
