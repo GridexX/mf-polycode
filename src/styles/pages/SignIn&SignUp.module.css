@@ -4,13 +4,17 @@
   grid-template-rows: 1fr;
   grid-template-columns: 1fr auto 1fr;
 
-  /* currently takes the entire height of the page to be in the middle of the viewport */
-  height: 100vh;
+  flex-grow: 1;
 }
 
-.side {
+.form,
+.logo {
   margin: auto;
   max-width: 60rem;
+}
+.divider {
+  margin: auto;
+  height: 60%;
 }
 
 .loginForm {
@@ -30,4 +34,17 @@
   margin-left: auto;
   margin-top: 3rem;
   margin-bottom: 0.5rem;
+}
+
+@media screen and (max-width: 60rem) {
+  .container {
+    display: block;
+  }
+  .form {
+    max-width: 20rem;
+  }
+  .logo,
+  .divider {
+    display: none;
+  }
 }

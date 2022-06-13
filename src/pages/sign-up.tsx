@@ -16,12 +16,12 @@ import { useRouter } from 'next/router';
 import { LoadingButton } from '@mui/lab';
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from '../lib/translations';
-
-import styles from '../styles/pages/SignUp.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
 import { useLoginContext } from '../lib/loginContext';
 import { apiSignUp } from '../lib/api/auth';
 import { toastError } from '../components/base/toast/Toast';
+
+import styles from '../styles/pages/SignIn&SignUp.module.css';
 
 export default function SignIn() {
   const { user } = useLoginContext();
@@ -210,13 +210,18 @@ export default function SignIn() {
 
   return (
     <Box className={styles.container}>
-      <Box className={styles.side}>
+      <Box className={styles.logo}>
         <Image src={polybunny} />
       </Box>
 
-      <Divider orientation="vertical" variant="middle" flexItem />
+      <Divider
+        orientation="vertical"
+        variant="middle"
+        flexItem
+        className={styles.divider}
+      />
 
-      <Box className={styles.side}>
+      <Box className={styles.form}>
         <Box className={styles.loginForm}>
           <Typography variant="h4">
             <span style={{ color: theme.palette.primary.main }}>Poly</span>Code

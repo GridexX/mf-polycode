@@ -15,7 +15,7 @@ import { LoadingButton } from '@mui/lab';
 import { toast } from 'react-toastify';
 import { useTranslation } from '../lib/translations';
 
-import styles from '../styles/pages/SignIn.module.css';
+import styles from '../styles/pages/SignIn&SignUp.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
 import { useLoginContext } from '../lib/loginContext';
 import { apiSignIn, InvalidCredentialsError } from '../lib/api/auth';
@@ -78,13 +78,18 @@ export default function SignIn() {
 
   return (
     <Box className={styles.container}>
-      <Box className={styles.side}>
+      <Box className={styles.logo}>
         <Image src={polybunny} />
       </Box>
 
-      <Divider orientation="vertical" variant="middle" flexItem />
+      <Divider
+        orientation="vertical"
+        variant="middle"
+        flexItem
+        className={styles.divider}
+      />
 
-      <Box className={styles.side}>
+      <Box className={styles.form}>
         <Box className={styles.loginForm}>
           <Typography variant="h4">
             <span style={{ color: theme.palette.primary.main }}>Poly</span>
