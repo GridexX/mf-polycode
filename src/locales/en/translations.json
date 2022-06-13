@@ -19,7 +19,12 @@
       "passwordsMismatch": "Passwords don't match",
       "passwordEmpty": "Password is empty",
       "invalidCreditentials": "Invalid credentials",
-      "unexpectedError": "Unexpected error"
+      "unexpectedError": "Unexpected error",
+      "emailEmpty": "Email is empty",
+      "usernameEmpty": "Username is empty",
+      "errorInFields": "There is at least one error in the fields",
+      "mustAcceptTOS": "You must accept the Terms of Service",
+      "mustBeOverThirteen": "You must be over 13 years old"
     }
   },
   "account": {

@@ -19,8 +19,13 @@ import { useTranslation } from '../lib/translations';
 
 import styles from '../styles/pages/SignUp.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
+import { useLoginContext } from '../lib/loginContext';
+import { apiSignUp } from '../lib/api/auth';
+import { toastError } from '../components/base/toast/Toast';
 
 export default function SignIn() {
+  const { user } = useLoginContext();
+
   const { i18n } = useTranslation();
 
   // import Next router
@@ -61,7 +66,7 @@ export default function SignIn() {
       if (formErrorsState.confirmPassword.length === 0)
         setFormErrorsState((previous) => ({
           ...previous,
-          confirmPassword: i18n.t('auth.error.passwordMismatch'),
+          confirmPassword: i18n.t('auth.errors.passwordsMismatch'),
         }));
     } else
       setFormErrorsState((previous) => ({ ...previous, confirmPassword: '' }));
@@ -75,6 +80,10 @@ export default function SignIn() {
     formErrorsState.confirmPassword.length,
     i18n,
   ]);
+
+  // redirect to home if user is logged in
+
+  if (user) router.push('/');
 
   // --- Event handlers ---
 
@@ -126,63 +135,77 @@ export default function SignIn() {
     }));
   };
 
-  const handleLogin = () => {
+  const handleSignUp = () => {
     let error = false;
 
     Object.values(formErrorsState).forEach((value) => {
       if (value.length > 0) error = true;
     });
 
+    if (formState.password.length === 0) {
+      setFormErrorsState((previous) => ({
+        ...previous,
+        password: i18n.t('auth.errors.passwordEmpty'),
+      }));
+
+      error = true;
+    }
+
+    if (formState.email.length === 0) {
+      setFormErrorsState((previous) => ({
+        ...previous,
+        email: i18n.t('auth.errors.emailEmpty'),
+      }));
+
+      error = true;
+    }
+
+    if (formState.username.length === 0) {
+      setFormErrorsState((previous) => ({
+        ...previous,
+        username: i18n.t('auth.errors.usernameEmpty'),
+      }));
+
+      error = true;
+    }
     if (error) {
-      // TODO: display notification
+      toastError(
+        <Typography>{i18n.t('auth.errors.errorInFields')}</Typography>
+      );
       return;
     }
 
     if (!formState.acceptTos) {
-      // TODO: display notification
+      toastError(
+        <Typography>{i18n.t('auth.errors.mustAcceptTOS')}</Typography>
+      );
       return;
     }
 
     if (!formState.overThirteen) {
-      // TODO: display notification
-      return;
-    }
-
-    if (formState.password.length === 0) {
-      // TODO: display notification
-      setFormErrorsState((previous) => ({
-        ...previous,
-        password: i18n.t('auth.error.passwordEmpty'),
-      }));
-
+      toastError(
+        <Typography>{i18n.t('auth.errors.mustBeOverThirteen')}</Typography>
+      );
       return;
     }
 
     setLoading(true);
 
-    const apiCall = new Promise<{ username: string }>((resolve) => {
-      console.warn('Faking request to backend');
-
-      setTimeout(() => {
-        resolve({ username: 'test' });
-      }, 1000);
-    });
-
-    // redirect to home page
-    apiCall.then(() => {
-      router.push('/');
-    });
-
-    // handle error
-    apiCall.catch((reason) => {
-      // TODO : use notification
-
-      console.error(reason);
-    });
-
-    apiCall.finally(() => {
-      setLoading(false);
-    });
+    apiSignUp(formState.email, formState.password, formState.username)
+      .then(() => {
+        router.push('/');
+      })
+      .catch((reason) => {
+        // handle error
+        toastError(
+          <Typography>
+            {i18n.t('auth.errors.unexpectedError')} : {JSON.stringify(reason)}
+          </Typography>
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -265,7 +288,7 @@ export default function SignIn() {
             <LoadingButton
               variant="contained"
               className={styles.loginButton}
-              onClick={handleLogin}
+              onClick={handleSignUp}
               loading={loading}
             >
               {i18n.t('auth.signUp')}

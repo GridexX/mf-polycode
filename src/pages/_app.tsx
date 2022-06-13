@@ -14,6 +14,7 @@ import '../styles/globals.css';
 import styles from '../styles/pages/app.module.css';
 
 import NavBar from '../components/navbar/NavBar';
+import '../styles/components/toast.css';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

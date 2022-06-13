@@ -1,4 +1,5 @@
 import { CredentialsManager, fetchJSONApi } from './api';
+import { User } from './user';
 
 export const InvalidCredentialsError = new Error('Invalid credentials');
 
@@ -22,4 +23,20 @@ export async function apiSignIn(
     return true;
   }
   throw InvalidCredentialsError;
+}
+
+// eslint-disable-next-line import/prefer-default-export
+export async function apiSignUp(
+  email: string,
+  password: string,
+  username: string
+): Promise<User> {
+  const response = await fetchJSONApi<{ data: User }>('/user', 'POST', {
+    email,
+    password,
+    username,
+  });
+
+  if (response.status === 200) return response.json.data;
+  throw new Error('Unexpected response from server');
 }
