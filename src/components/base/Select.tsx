@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { uuid } from 'uuidv4'; 
+import { v4 as uuid } from 'uuid';
 
 type Item = {
   name: string;
