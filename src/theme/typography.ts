@@ -31,6 +31,7 @@ const typography = {
   },
   h6: {
     fontFamily: 'Rubik',
+    fontWeight: 'normal',
   },
   button: {
     fontFamily: 'Poppins',

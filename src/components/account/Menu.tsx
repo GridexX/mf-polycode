@@ -13,7 +13,7 @@ import profileImage from '../../../public/images/profil_image.svg';
 
 type Props = {
   buttonSelected: 'profile' | 'settings' | 'teams' | 'password';
-}
+};
 
 export default function Menu({ buttonSelected }: Props) {
   const { i18n } = useTranslation();

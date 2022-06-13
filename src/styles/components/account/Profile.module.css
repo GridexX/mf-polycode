@@ -2,13 +2,16 @@
   align-items: center;
   height: 100%;
   width: 100%;
-  padding: 20px;
+  padding: 40px 60px 20px 60px;
 }
 
 .contentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
-  width: 100%;
-  /* border: 1px solid purple; */
+  width: 50%;
+  margin: 0 auto;
 }
 
 .information {
@@ -18,8 +21,7 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  margin: 40px 0;
-  /* border: 1px solid purple; */
+  margin: 30px 0;
 }
 
 .score {
@@ -29,8 +31,7 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  margin: 40px 0;
-  /* border: 1px solid blue; */
+  margin: 30px 0;
 }
 
 .biography {
@@ -40,13 +41,11 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  margin: 40px 0;
-  /* border: 1px solid orange; */
+  margin: 30px 0;
 }
 
 .subContentTitle {
-  width: 50%;
-  /* border: 1px solid purple; */
+  width: 100%;
 }
 
 .informationContent,
@@ -54,35 +53,28 @@
 .biographyContent {
   display: flex;
   flex-direction: column;
-  margin-top: 1.5em;
-  width: 50%;
+  margin-top: 25px;
+  width: 100%;
   height: 50%;
-  /* border: 1px solid orange; */
 }
 
 .atomicContentMainContainer {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   width: 100%;
-  margin-top: 0.7em;
-  margin-bottom: 0.7em;
-  /* border: 1px solid blue; */
+  margin-bottom: 20px;
 }
 
 .atomicContentTitle {
-  align-self: center;
   width: 35%;
-  height: 100%;
   margin-right: 50px;
-  /* border: 1px solid black; */
 }
 
 .atomicContentContainer {
   display: flex;
   align-items: center;
   width: 65%;
-  height: 100%;
-  /* border: 1px solid black; */
 }
 
 .emailListContainer {
@@ -92,13 +84,11 @@
   justify-content: flex-start;
   width: 65%;
   height: 100%;
-  /* border: 1px solid blue; */
 }
 
 .emailItem {
   width: 100%;
-  margin-bottom: 0.7em;
-  /* border: 1px solid red; */
+  margin: 3px 0 15px 0;
 }
 
 .scoreContentImageContainer {
