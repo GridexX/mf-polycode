@@ -6,11 +6,11 @@ replicaCount: 1
 
 ingress:
   hosts:
-    - host: staging.polycode.do-2021.fr
+    - host: www.staging.polycode.do-2021.fr
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: frontend-tls
       hosts:
-        - staging.polycode.do-2021.fr
+        - www.staging.polycode.do-2021.fr
