@@ -10,7 +10,14 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
+    - host: staging.polycode.do-2021.fr
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   tls:
-    - secretName: frontend-tls
+    - secretName: frontend-www-tls
       hosts:
         - www.staging.polycode.do-2021.fr
+    - secretName: frontend-tls
+      hosts:
+        - staging.polycode.do-2021.fr
