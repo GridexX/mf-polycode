@@ -28,6 +28,7 @@ const typography = {
   },
   h5: {
     fontFamily: 'Rubik',
+    fontSize: '1.6rem',
   },
   h6: {
     fontFamily: 'Rubik',
