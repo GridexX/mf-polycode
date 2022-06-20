@@ -219,7 +219,7 @@ export default function Settings() {
       {/* content container */}
       <Box className={styles.formContainer}>
         {/* Information */}
-        <Box className={styles.inputsContainer}>
+        <Box>
           <Typography
             className={styles.subContentTitle}
             variant="h4"

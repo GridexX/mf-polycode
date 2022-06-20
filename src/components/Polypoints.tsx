@@ -4,7 +4,7 @@ import { Stack, Typography, useTheme } from '@mui/material';
 
 type Props = {
   points: number;
-  size: 'small' | 'medium' | 'normal' | 'large';
+  size?: 'small' | 'medium' | 'normal' | 'large';
 };
 
 export default function Polypoints({ points, size }: Props) {
@@ -14,31 +14,39 @@ export default function Polypoints({ points, size }: Props) {
 
   switch (size) {
     case 'small':
-      widthAndHeight = '18';
+      widthAndHeight = '18px';
       break;
     case 'medium':
-      widthAndHeight = '24';
+      widthAndHeight = '24px';
       break;
     case 'normal':
-      widthAndHeight = '32';
+      widthAndHeight = '32px';
       break;
     case 'large':
-      widthAndHeight = '48';
+      widthAndHeight = '48px';
       break;
     default:
-      widthAndHeight = '32';
+      widthAndHeight = '32px';
       break;
   }
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
-      <Typography color={theme.palette.text.primary} sx={{ marginRight: '10px' }}>
+      <Typography
+        color={theme.palette.text.primary}
+        sx={{
+          marginRight: '10px',
+          paddingTop: '2px',
+          textOverflow: 'ellipsis',
+        }}
+      >
         {points}
       </Typography>
       <Image
         width={widthAndHeight}
         height={widthAndHeight}
-        src='/images/carrot.png'
+        layout="fixed"
+        src="/images/carrot.png"
       />
     </Stack>
   );

@@ -19,12 +19,16 @@
 
 .navigationButtons {
   height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .button {
   text-transform: none;
   justify-content: start;
   font-size: 1.3em;
+  margin: 12px 0;
 }
 
 .icon {
@@ -33,4 +37,30 @@
   height: 1.7em;
   margin-bottom: 3px;
   margin-right: 0.3em;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    overflow-x: scroll;
+  }
+
+  .innerContainer {
+    flex-direction: row;
+    padding: 20px 10px;
+  }
+
+  .profileImage {
+    display: none;
+  }
+
+  .navigationButtons {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .button {
+    margin: 0 12px;
+  }
 }

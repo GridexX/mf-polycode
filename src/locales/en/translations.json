@@ -78,6 +78,13 @@
         "emailInvalid": "Email is invalid",
         "biographyTooLong": "Biography must be at most 500 characters long"
       }
+    },
+    "teams": {
+      "title": "Teams",
+      "captainOf": "Captain of",
+      "memberOf": "Member of",
+      "notCaptainOf": "You are not captain of any team",
+      "notMemberOf": "You are not member of any team"
     }
   },
   "components": {

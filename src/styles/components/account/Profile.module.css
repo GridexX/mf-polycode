@@ -9,53 +9,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
-  width: 50%;
-  margin: 40px auto;
+  margin: 40px;
 }
 
-.information {
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 40px;
+}
+
+.sectionContainer:last-child {
+  margin-bottom: 0;
+}
+
+.fieldContainer {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fieldLabel {
+  margin-right: 50px;
+}
+
+.fieldValue {
+  min-width: 300px;
+}
+
+.emailList {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  margin-bottom: 30px;
-}
-
-.score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  margin: 30px 0;
-}
-
-.biography {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  margin-top: 30px;
+  justify-content: flex-start;
+  min-width: 300px;
 }
 
 .subContentTitle {
   width: 100%;
-}
-
-.informationContent,
-.scoreContent,
-.biographyContent {
-  display: flex;
-  flex-direction: column;
-  margin-top: 25px;
-  width: 100%;
-  height: 50%;
 }
 
 .atomicContentMainContainer {
@@ -97,6 +89,19 @@
 }
 
 @media (max-width: 780px) {
+  .titleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 40px 100px 40px;
+  }
+
   .informationContent {
     width: 100%;
   }

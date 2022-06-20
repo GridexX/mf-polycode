@@ -20,7 +20,6 @@ import styles from '../styles/pages/app.module.css';
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
-  // eslint-disable-next-line react/require-default-props
   emotionCache?: EmotionCache;
 }
 
