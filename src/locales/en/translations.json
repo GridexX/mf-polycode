@@ -87,6 +87,29 @@
       "notMemberOf": "You are not member of any team"
     }
   },
+  "team" : {
+    "editor" : {
+      "title": "Team Editor",
+      "errors": {
+        "nameTooLong": "Name must be at most 20 characters long",
+        "nameTooShort": "Name must be at least 3 characters long",
+        "descriptionTooLong": "Description must be at most 500 characters long",
+        "descriptionTooShort": "Description must be at least 3 characters long"
+      }
+    },
+    "menu": {
+      "polypoints": "Polypoints",
+      "rank": "Rank",
+      "members": "Members"
+    },
+    "content" : {
+      "name": "Name",
+      "description": "Description",
+      "members": "Members",
+      "saveButton": "Save",
+      "resetButton": "Reset"
+    }
+  },
   "components": {
     "navbar": {
       "practice": "Practice",

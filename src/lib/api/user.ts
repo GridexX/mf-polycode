@@ -1,5 +1,9 @@
+import { Email } from './email';
+
 export interface User {
   id: string;
   username: string;
-  emailVerified: boolean;
+  rank: number;
+  points: number;
+  emails: Email[];
 }

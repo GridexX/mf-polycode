@@ -38,7 +38,6 @@ export function ThemeManagerProvider({
   );
 }
 
-
 /*
   ThemeManager is a wrapper around the ThemeProvider component.
 

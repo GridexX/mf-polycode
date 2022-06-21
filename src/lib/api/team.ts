@@ -4,7 +4,8 @@ export interface Team {
   id: string;
   name: string;
   description: string;
-  captain: string;
-  polypoints: number;
-  members?: User[];
+  rank: number;
+  points: number;
+  members: User[];
+  captain: User;
 }

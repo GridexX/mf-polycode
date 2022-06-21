@@ -5,9 +5,10 @@ import { Stack, Typography, useTheme } from '@mui/material';
 type Props = {
   points: number;
   size?: 'small' | 'medium' | 'normal' | 'large';
+  color?: string;
 };
 
-export default function Polypoints({ points, size }: Props) {
+export default function Polypoints({ points, size, color }: Props) {
   let widthAndHeight;
 
   const theme = useTheme();
@@ -33,7 +34,7 @@ export default function Polypoints({ points, size }: Props) {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Typography
-        color={theme.palette.text.primary}
+        color={color ?? theme.palette.text.primary}
         sx={{
           marginRight: '10px',
           paddingTop: '2px',
@@ -51,3 +52,8 @@ export default function Polypoints({ points, size }: Props) {
     </Stack>
   );
 }
+
+Polypoints.defaultProps = {
+  size: 'normal',
+  color: undefined,
+};

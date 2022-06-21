@@ -76,7 +76,7 @@ export default function NavBar() {
           >
             {isLoggedIn && (
               <>
-                <Polypoints points={polypoints} size='normal' />
+                <Polypoints points={polypoints} size="normal" />
                 <IconButton
                   size="large"
                   edge="end"

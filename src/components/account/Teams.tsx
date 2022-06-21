@@ -16,27 +16,51 @@ import { Team } from '../../lib/api/team';
 import { useLoginContext } from '../../lib/loginContext';
 import Polypoints from '../Polypoints';
 
-const fakeData = [
+const fakeData: Team[] = [
   {
     id: '1',
     name: 'DO_2021_2022fzefzefezfezfezfzefhziufheizfiuezuifheizhifhiezuifhuie',
     description: 'DO 2021-2022 team',
-    captain: '1',
-    polypoints: 24000,
+    captain: {
+      id: '1',
+      username: 'John Doe',
+      rank: 1,
+      emails: [],
+      points: 20000,
+    },
+    points: 24000,
+    members: [],
+    rank: 1,
   },
   {
     id: '2',
     name: 'LesBestGamer34',
     description: 'Play with the best',
-    captain: '2',
-    polypoints: 18250,
+    captain: {
+      id: '1',
+      username: 'John Doe',
+      rank: 1,
+      emails: [],
+      points: 20000,
+    },
+    points: 18250,
+    members: [],
+    rank: 2,
   },
   {
     id: '3',
     name: 'Les Lumières',
     description: 'We light the world',
-    captain: '2',
-    polypoints: 9500,
+    captain: {
+      id: '1',
+      username: 'John Doe',
+      rank: 1,
+      emails: [],
+      points: 20000,
+    },
+    points: 9500,
+    members: [],
+    rank: 3,
   },
 ];
 
@@ -66,8 +90,8 @@ export default function Teams() {
   }, []);
 
   React.useEffect(() => {
-    setTeamsCaptainOf(teams.filter((team) => team.captain === user?.id));
-    setTeamsMemberOf(teams.filter((team) => team.captain !== user?.id));
+    setTeamsCaptainOf(teams.filter((team) => team.captain.id === user?.id));
+    setTeamsMemberOf(teams.filter((team) => team.captain.id !== user?.id));
   }, [teams, user]);
 
   // --- render ---
@@ -122,7 +146,7 @@ export default function Teams() {
                       className={styles.teamInnerRight}
                       spacing={2}
                     >
-                      <Polypoints points={team.polypoints} />
+                      <Polypoints points={team.points} />
                       <IconButton
                         color="primary"
                         aria-label="upload picture"
@@ -184,7 +208,9 @@ export default function Teams() {
                         <LocalPolice
                           sx={{ fill: theme.palette.primary.main }}
                         />
-                        <Typography variant="h6">{team.captain}</Typography>
+                        <Typography variant="h6">
+                          {team.captain.username}
+                        </Typography>
                       </Stack>
                     </Stack>
                     <Stack
@@ -192,7 +218,7 @@ export default function Teams() {
                       className={styles.teamInnerRight}
                       spacing={2}
                     >
-                      <Polypoints points={team.polypoints} />
+                      <Polypoints points={team.points} />
                       <IconButton
                         color="primary"
                         aria-label="upload picture"
