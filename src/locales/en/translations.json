@@ -87,8 +87,8 @@
       "notMemberOf": "You are not member of any team"
     }
   },
-  "team" : {
-    "editor" : {
+  "team": {
+    "editor": {
       "title": "Team Editor",
       "errors": {
         "nameTooLong": "Name must be at most 20 characters long",
@@ -102,7 +102,7 @@
       "rank": "Rank",
       "members": "Members"
     },
-    "content" : {
+    "content": {
       "name": "Name",
       "description": "Description",
       "members": "Members",
@@ -120,5 +120,10 @@
       "certification": "Certification",
       "sign-in": "Sign In"
     }
+  },
+  "modules": {
+    "titlePage": "Modules",
+    "filters": "Filters",
+    "resetButton": "Reset"
   }
 }
