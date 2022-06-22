@@ -13,7 +13,7 @@ import { LoginContextProvider } from '../lib/loginContext';
 import NavBar from '../components/navbar/NavBar';
 
 import '../styles/globals.css';
-import '../styles/components/toast.css';
+import '../styles/components/base/toast.css';
 import styles from '../styles/pages/app.module.css';
 
 // Client-side cache, shared for the whole session of the user in the browser.
