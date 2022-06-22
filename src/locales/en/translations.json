@@ -110,6 +110,9 @@
       "resetButton": "Reset"
     }
   },
+  "leaderboard": {
+    "title": "Leaderboard"
+  },
   "components": {
     "navbar": {
       "practice": "Practice",

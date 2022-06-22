@@ -1,0 +1,46 @@
+.innerContainer {
+  padding-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.playerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: '100%';
+  padding: 8px;
+}
+
+.userRow {
+  position: fixed;
+  border-radius: 5px;
+  border: 1.5px solid;
+  bottom: 0;
+  margin-bottom: 40px;
+}
+
+.rankBox {
+  display: flex;
+  justify-content: left;
+  flex-basis: 25%;
+}
+
+.userBox {
+  display: flex;
+  justify-content: center;
+  flex-basis: 50%;
+}
+
+.pointsBox {
+  display: flex;
+  justify-content: right;
+  flex-basis: 25%;
+}
+
+.title {
+  margin-bottom: 60px;
+}
