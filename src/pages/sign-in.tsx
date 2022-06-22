@@ -12,13 +12,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { LoadingButton } from '@mui/lab';
-import { toast } from 'react-toastify';
 import { useTranslation } from '../lib/translations';
 
 import styles from '../styles/pages/SignIn&SignUp.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
 import { useLoginContext } from '../lib/loginContext';
 import { apiSignIn, InvalidCredentialsError } from '../lib/api/auth';
+import { toastError } from '../components/base/toast/Toast';
 
 export default function SignIn() {
   const { user, credentialsManager } = useLoginContext();
@@ -66,9 +66,13 @@ export default function SignIn() {
       .catch((reason) => {
         // handle error
         if (reason === InvalidCredentialsError) {
-          toast(i18n.t('signIn.invalidCredentials'));
+          toastError(
+            <Typography>{i18n.t('signIn.invalidCredentials')}</Typography>
+          );
         } else {
-          toast(i18n.t('signIn.unexpectedError'));
+          toastError(
+            <Typography>{i18n.t('signIn.unexpectedError')}</Typography>
+          );
         }
       })
       .finally(() => {
