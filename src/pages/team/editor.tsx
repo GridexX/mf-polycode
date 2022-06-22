@@ -18,24 +18,24 @@ export default function TeamEditor() {
       {
         id: '1',
         username: 'John Doe',
+        description: 'John Doe is a cool guy',
         rank: 1,
         points: 30000,
-        emails: [{ id: '1', email: 'john@doe.com', isVerified: false }],
       },
       {
         id: '2',
         username: 'John Dash',
+        description: 'John Dash is a cool guy',
         rank: 2,
         points: 3000,
-        emails: [{ id: '2', email: 'john@dash.com', isVerified: false }],
       },
     ],
     captain: {
       id: '1',
       username: 'John Doe',
+      description: 'John Doe is a cool guy',
       rank: 1,
       points: 30000,
-      emails: [{ id: '1', email: 'john@doe.com', isVerified: false }],
     },
   };
 

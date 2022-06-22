@@ -13,12 +13,12 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from '../lib/translations';
 import polybunny from '../../public/images/polybunny-do.png';
 import { useLoginContext } from '../lib/loginContext';
-import { apiSignUp } from '../lib/api/auth';
+import { createUser } from '../lib/api/user';
 import { toastError } from '../components/base/toast/Toast';
 
 import styles from '../styles/pages/SignIn&SignUp.module.css';
@@ -191,7 +191,11 @@ export default function SignIn() {
 
     setLoading(true);
 
-    apiSignUp(formState.email, formState.password, formState.username)
+    createUser({
+      email: formState.email,
+      password: formState.password,
+      username: formState.username,
+    })
       .then(() => {
         router.push('/');
       })

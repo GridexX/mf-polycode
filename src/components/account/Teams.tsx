@@ -24,8 +24,7 @@ const fakeData: Team[] = [
     captain: {
       id: '1',
       username: 'John Doe',
-      rank: 1,
-      emails: [],
+      description: 'John Doe is a great player',
       points: 20000,
     },
     points: 24000,
@@ -39,8 +38,7 @@ const fakeData: Team[] = [
     captain: {
       id: '1',
       username: 'John Doe',
-      rank: 1,
-      emails: [],
+      description: 'John Doe is a great player',
       points: 20000,
     },
     points: 18250,
@@ -54,8 +52,7 @@ const fakeData: Team[] = [
     captain: {
       id: '1',
       username: 'John Doe',
-      rank: 1,
-      emails: [],
+      description: 'John Doe is a great player',
       points: 20000,
     },
     points: 9500,

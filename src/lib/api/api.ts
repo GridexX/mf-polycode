@@ -1,3 +1,13 @@
+import { mapKeys, camelCase, snakeCase } from 'lodash';
+
+// errors
+export const MissingMetaData = new Error('Missing metadata in response');
+export const MissingData = new Error('Missing data in response');
+export const UnexpectedResponse = new Error('Unexpected response from server');
+export const InvalidCredentialsError = new Error('Invalid credentials');
+export const InvalidRefreshTokenError = new Error('Invalid refresh token');
+
+// credentials
 export interface Credentials {
   accessToken: string;
   refreshToken: string;
@@ -19,28 +29,19 @@ const apiServer =
     : 'http://localhost:8080');
 
 // Fetch the backend api
-async function fetchApi<T>(
+export async function fetchApi<MetaDataType, DataType>(
   ressource: string,
-  options?: RequestInit
-): Promise<{ json: T; status: number }> {
-  const response = await fetch(apiServer + ressource, options);
-  const json = await response.json();
-  return {
-    json,
-    status: response.status,
-  };
-}
-
-export async function fetchJSONApi<T>(
-  ressource: string,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET',
   body?: any,
   headers: HeadersInit = {}
-): Promise<{ json: T; status: number }> {
-  return Promise.race([
-    fetchApi<T>(ressource, {
+): Promise<{ metadata: MetaDataType; data: DataType; status: number }> {
+  const formatedBody = body
+    ? JSON.stringify(mapKeys(body, (_, k) => snakeCase(k)))
+    : undefined;
+  const response = await Promise.race([
+    fetch(apiServer + ressource, {
       method,
-      body: body ? JSON.stringify(body) : undefined,
+      body: formatedBody,
       headers: {
         ...headers,
         'Content-Type': 'application/json',
@@ -48,45 +49,88 @@ export async function fetchJSONApi<T>(
     }),
     new Promise((_, reject) => {
       setTimeout(() => reject(new Error('Request timeout')), fetchTimeout);
-    }) as Promise<{ json: T; status: number }>,
+    }) as Promise<Response>,
   ]);
+  const json = await response.json();
+
+  return {
+    metadata: mapKeys(json.metadata, (_v, k) => camelCase(k)) as MetaDataType,
+    data: mapKeys(json.data, (_v, k) => camelCase(k)) as DataType,
+    status: response.status,
+  };
 }
 
-async function refreshTokens(
-  credentials: Credentials,
-  setCredentials: SetCredentials
-) {
-  const { json } = await fetchJSONApi<{
-    accessToken: string;
-    refreshToken: string;
-  }>('/auth/refresh', 'POST', {
-    refreshToken: credentials.refreshToken,
-  });
+export async function refreshTokens(
+  credentialsManager: CredentialsManager
+): Promise<boolean> {
+  const { data, status } = await fetchApi<{}, Credentials>(
+    '/auth/token',
+    'POST',
+    {
+      grantType: 'refresh_token',
+      refreshToken: credentialsManager.credentials?.refreshToken,
+    }
+  );
 
-  setCredentials(json);
-  return { accessToken: json.accessToken, refreshToken: json.refreshToken };
+  if (status === 200) {
+    credentialsManager.setCredentials(data);
+    return true;
+  }
+
+  throw InvalidRefreshTokenError;
+}
+
+export async function login(
+  email: string,
+  password: string,
+  credentialsManager: CredentialsManager
+): Promise<boolean> {
+  const { data, status } = await fetchApi<{}, Credentials>(
+    '/auth/token',
+    'POST',
+    {
+      grantType: 'implicit',
+      identity: email,
+      secret: password,
+    }
+  );
+
+  if (status === 200) {
+    credentialsManager.setCredentials(data);
+    return true;
+  }
+  throw InvalidCredentialsError;
 }
 
 // Fetch the backend api with automatic refresh
-export async function fetchApiWithAuth<T>(
+export async function fetchApiWithAuth<MetaDataType, DataType>(
   ressource: string,
-  tokensManager: CredentialsManager,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+  credentialsManager: CredentialsManager,
+  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET',
   body?: any
-): Promise<{ json: T; status: number }> {
-  if (!tokensManager.credentials) {
-    throw new Error('No credentials');
-  }
+): Promise<{ metadata: MetaDataType; data: DataType; status: number }> {
+  const tryFetch = async () => {
+    if (!credentialsManager.credentials) {
+      throw new Error('No credentials');
+    }
 
-  const response = await fetchJSONApi<T>(apiServer + ressource, method, body, {
-    Authorization: `Bearer ${tokensManager.credentials.accessToken}`,
-  });
-
-  if (response.status === 403)
-    await refreshTokens(
-      tokensManager.credentials,
-      tokensManager.setCredentials
+    return fetchApi<MetaDataType, DataType>(
+      apiServer + ressource,
+      method,
+      body,
+      {
+        Authorization: `Bearer ${credentialsManager.credentials.accessToken}`,
+      }
     );
+  };
+
+  const response = await tryFetch();
+
+  if (response.status === 403) {
+    const success = await refreshTokens(credentialsManager);
+
+    if (success) return tryFetch();
+  }
 
   return response;
 }

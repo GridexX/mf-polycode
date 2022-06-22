@@ -11,14 +11,14 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { useTranslation } from '../lib/translations';
 
 import styles from '../styles/pages/SignIn&SignUp.module.css';
 import polybunny from '../../public/images/polybunny-do.png';
 import { useLoginContext } from '../lib/loginContext';
-import { apiSignIn, InvalidCredentialsError } from '../lib/api/auth';
 import { toastError } from '../components/base/toast/Toast';
+import { login, InvalidCredentialsError } from '../lib/api/api';
 
 export default function SignIn() {
   const { user, credentialsManager } = useLoginContext();
@@ -58,7 +58,7 @@ export default function SignIn() {
   const handleLogin = () => {
     setLoading(true);
 
-    apiSignIn(state.email, state.password, credentialsManager)
+    login(state.email, state.password, credentialsManager)
       .then(() => {
         // redirect to home page
         router.push('/');

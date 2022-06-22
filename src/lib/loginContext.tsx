@@ -21,11 +21,11 @@ import {
   This context provides the following properties : 
   - user : the currently logged user, undefined means the user data is being fetched, null means no user is logged
   - refreshUser : a function to refresh the user data
-  - tokensManager : a structure containing a Credential object (accessToken and refreshToken) and a function to update the tokens
+  - credentialsManager : a structure containing a Credential object (accessToken and refreshToken) and a function to update the tokens
 
   To log out just set the tokens to undefined.
 
-  Api calls that needs authentication will require the tokensManager to be provided. This allows to refresh the tokens if needed.
+  Api calls that needs authentication will require the credentialsManager to be provided. This allows to refresh the tokens if needed.
 */
 
 interface LoginContextInterface {
@@ -80,22 +80,22 @@ export function useCreateLoginContext(): LoginContextInterface {
     internalSetCredentials(newCreds);
   }, []);
 
-  const tokensManager = useMemo(
+  const credentialsManager = useMemo(
     () => ({ credentials, setCredentials }),
     [credentials, setCredentials]
   );
 
   const refreshUser = useCallback(() => {
     if (credentials)
-      fetchApiWithAuth<User>('/users/me', tokensManager)
-        .then(({ json, status }) => {
-          if (status === 200) setUser(json);
+      fetchApiWithAuth<{}, User>('/user/@me', credentialsManager)
+        .then(({ data, status }) => {
+          if (status === 200) setUser(data);
           else setUser(null);
         })
         .catch(() => {
           setUser(null);
         });
-  }, [credentials, tokensManager]);
+  }, [credentials, credentialsManager]);
 
   // Fetch the user on credentials change
   useEffect(() => {
@@ -104,7 +104,7 @@ export function useCreateLoginContext(): LoginContextInterface {
     } else setUser(null);
   }, [credentials, refreshUser]);
 
-  return { user, credentialsManager: tokensManager, refreshUser };
+  return { user, credentialsManager, refreshUser };
 }
 
 /**

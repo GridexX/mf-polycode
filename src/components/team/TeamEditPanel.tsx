@@ -25,10 +25,28 @@ const fakeData: Team = {
   points: 45000,
   description: 'This is the team description',
   members: [
-    { id: '1', username: 'Judox', rank: 1, points: 25000, emails: [] },
-    { id: '2', username: 'GridexX', rank: 1, points: 20000, emails: [] },
+    {
+      id: '1',
+      username: 'Judox',
+      description: 'This is the user description',
+      rank: 1,
+      points: 25000,
+    },
+    {
+      id: '2',
+      username: 'GridexX',
+      description: 'This is the user description',
+      rank: 1,
+      points: 20000,
+    },
   ],
-  captain: { id: '2', rank: 1, username: 'Judox', points: 25000, emails: [] },
+  captain: {
+    id: '2',
+    rank: 1,
+    username: 'Judox',
+    description: 'This is the user description',
+    points: 25000,
+  },
 };
 
 type EditorState = {
