@@ -118,7 +118,13 @@
       "practice": "Practice",
       "challenge": "Challenge",
       "certification": "Certification",
-      "sign-in": "Sign In"
+      "sign-in": "Sign In",
+      "menu": {
+        "profile": "Profile",
+        "leaderboard": "Leaderboard",
+        "settings": "Settings",
+        "logout": "Logout"
+      }
     }
   },
   "modules": {
