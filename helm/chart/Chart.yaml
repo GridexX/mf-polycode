@@ -16,9 +16,9 @@ type: application
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 <<<<<<< Updated upstream
-version: '0.1.0-rc66.main.df6724b'
+version: '0.1.0-rc68.main.0a1b059'
 =======
-version: '0.1.0-rc66.main.df6724b'
+version: '0.1.0-rc68.main.0a1b059'
 >>>>>>> Stashed changes
 
 # This is the version number of the application being deployed. This version number should be
@@ -26,7 +26,7 @@ version: '0.1.0-rc66.main.df6724b'
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 <<<<<<< Updated upstream
-appVersion: '0.1.0-rc66.main.df6724b'
+appVersion: '0.1.0-rc68.main.0a1b059'
 =======
-appVersion: '0.1.0-rc66.main.df6724b'
+appVersion: '0.1.0-rc68.main.0a1b059'
 >>>>>>> Stashed changes
