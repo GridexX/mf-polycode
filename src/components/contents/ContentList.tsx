@@ -15,7 +15,9 @@ export default function ContentList({ contents }: Props) {
     <Box className={styles.container}>
       {contents && contents.length > 0
         ? contents.map((content: ContentType) => (
-            <Content key={content.title} content={content} />
+            <Box key={content.id} className={styles.contentContainer}>
+              <Content content={content} />
+            </Box>
           ))
         : 'loading...'}
     </Box>
