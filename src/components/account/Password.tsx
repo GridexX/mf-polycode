@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState, useEffect } from 'react';
 import { Box, Typography, Stack, Button, useTheme } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { toast } from 'react-toastify';
 import { useTranslation } from '../../lib/translations';
 

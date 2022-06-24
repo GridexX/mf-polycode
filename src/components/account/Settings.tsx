@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { toast } from 'react-toastify';
 import {
   Box,
   Typography,
@@ -10,26 +9,28 @@ import {
   Stack,
   SelectChangeEvent,
 } from '@mui/material';
-
-import { LoadingButton } from '@mui/lab';
+import { isEqual } from 'lodash';
+import LoadingButton from '@mui/lab/LoadingButton';
 import CustomSelect from '../base/Select';
 import styles from '../../styles/components/account/Settings.module.css';
 import TextInput from '../base/TextInput';
 import { useTranslation } from '../../lib/translations';
-
-const fakeData = {
-  username: 'GridexX',
-  emails: ['arsene582@gmail.com', 'theBestPlayer@gmail.com'],
-  preferedLanguage: 'javascript',
-  polypoints: 24000,
-  rank: 1,
-  biography: 'This is my biography',
-};
+import { useLoginContext } from '../../lib/loginContext';
+import {
+  createUserEmail,
+  deleteUserEmail,
+  getUserEmails,
+  getUserSettings,
+  updateUser,
+  updateUserSettings,
+  UserEmail,
+} from '../../lib/api/user';
+import { toastError, toastSuccess } from '../base/toast/Toast';
 
 type EditorState = {
   username: string;
-  emails: string[];
-  preferedLanguage: string;
+  emails: UserEmail[];
+  preferredEditingLanguage: string;
   biography: string;
 };
 
@@ -48,12 +49,13 @@ const defaultEditorErrors = {
 export default function Settings() {
   // import mui theme
   const theme = useTheme();
+  const { user, credentialsManager, refreshUser } = useLoginContext();
   const { i18n } = useTranslation();
   const [defaultEditorState, setDefaultEditorState] =
     React.useState<EditorState>({
       username: '',
-      emails: ['', ''],
-      preferedLanguage: 'javascript',
+      emails: [],
+      preferredEditingLanguage: 'javascript',
       biography: '',
     });
   const [editorState, setEditorState] =
@@ -63,19 +65,32 @@ export default function Settings() {
   const [loading, setLoading] = React.useState(false);
 
   // --- init data ---
-  const initData = async () => {
-    // Fake api call
-    setLoading(true);
-    setTimeout(() => {
-      setDefaultEditorState(fakeData);
-      setEditorState(fakeData);
-      setLoading(false);
-    }, 2000);
-  };
-
   React.useEffect(() => {
-    initData();
-  }, []);
+    const initData = async () => {
+      if (user) {
+        const userEmails = await getUserEmails(credentialsManager, user.id);
+        const userSettings = await getUserSettings(credentialsManager, user.id);
+        const state = {
+          username: user.username,
+          emails: userEmails,
+          preferredEditingLanguage: userSettings.preferredEditingLanguage,
+          biography: user.description,
+        };
+        setDefaultEditorState(state);
+        setEditorState(state);
+      }
+    };
+    setLoading(true);
+    initData()
+      .catch(() =>
+        toastError(
+          <Typography>
+            {i18n.t('account.settings.errors.serverFetchFailed')}
+          </Typography>
+        )
+      )
+      .finally(() => setLoading(false));
+  }, [user, credentialsManager, i18n]);
 
   // --- error checks ---
   const checkUsername = () => {
@@ -101,7 +116,7 @@ export default function Settings() {
   };
 
   const checkEmails = (index: number) => {
-    if (editorState.emails[index].length < 3) {
+    if (editorState.emails[index]?.email.length < 3) {
       const newEmails = [...editorErrors.emails];
       newEmails[index] = i18n.t('account.settings.errors.emailTooShort');
       setEditorErrors({
@@ -110,7 +125,7 @@ export default function Settings() {
       });
       return false;
     }
-    if (editorState.emails[index].length > 50) {
+    if (editorState.emails[index]?.email.length > 50) {
       const newEmails = [...editorErrors.emails];
       newEmails[index] = i18n.t('account.settings.errors.emailTooLong');
       setEditorErrors({
@@ -119,7 +134,7 @@ export default function Settings() {
       });
       return false;
     }
-    if (editorState.emails[index].indexOf('@') === -1) {
+    if (editorState.emails[index]?.email.indexOf('@') === -1) {
       const newEmails = [...editorErrors.emails];
       newEmails[index] = i18n.t('account.settings.errors.emailInvalid');
       setEditorErrors({
@@ -168,7 +183,7 @@ export default function Settings() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newEmails = [...editorState.emails];
-    newEmails[index] = event.target.value;
+    newEmails[index].email = event.target.value;
     setEditorState({
       ...editorState,
       emails: newEmails,
@@ -178,7 +193,7 @@ export default function Settings() {
   const handlePreferedLanguageChange = (event: SelectChangeEvent<string>) => {
     setEditorState({
       ...editorState,
-      preferedLanguage: event.target.value,
+      preferredEditingLanguage: event.target.value,
     });
   };
 
@@ -195,10 +210,61 @@ export default function Settings() {
     if (validate()) {
       setEditorErrors(defaultEditorErrors);
       setLoading(true);
-      setTimeout(() => {
-        toast.info('Saved');
-        setLoading(false);
-      }, 2000);
+
+      if (user) {
+        let primaryEmailUpdate = Promise.resolve([true, true]);
+        let secondaryEmailUpdate = Promise.resolve([true, true]);
+
+        // we can't update an email. We need to delete and recreate a new one
+        if (!isEqual(editorState.emails[0], defaultEditorState.emails[0])) {
+          primaryEmailUpdate = Promise.all([
+            deleteUserEmail(
+              credentialsManager,
+              user.id,
+              defaultEditorState.emails[0].id
+            ),
+            createUserEmail(credentialsManager, user.id, {
+              email: editorState.emails[0].email,
+            }),
+          ]);
+        }
+        if (!isEqual(editorState.emails[0], defaultEditorState.emails[0])) {
+          secondaryEmailUpdate = Promise.all([
+            deleteUserEmail(
+              credentialsManager,
+              user.id,
+              defaultEditorState.emails[1].id
+            ),
+            createUserEmail(credentialsManager, user.id, {
+              email: editorState.emails[1].email,
+            }),
+          ]);
+        }
+        Promise.all([
+          updateUser(credentialsManager, user.id, {
+            username: editorState.username,
+          }),
+          updateUserSettings(credentialsManager, user.id, {
+            preferredEditingLanguage: editorState.preferredEditingLanguage,
+          }),
+          primaryEmailUpdate,
+          secondaryEmailUpdate,
+        ])
+          .then(() => {
+            refreshUser();
+            toastSuccess(
+              <Typography>{i18n.t('account.settings.saveSuccess')}</Typography>
+            );
+          })
+          .catch(() =>
+            toastError(
+              <Typography>
+                {i18n.t('account.settings.errors.serverSaveFailed')}
+              </Typography>
+            )
+          )
+          .finally(() => setLoading(false));
+      }
     }
   };
 
@@ -260,7 +326,7 @@ export default function Settings() {
             <Box className={styles.emailsContainer}>
               <TextInput
                 label={i18n.t('account.settings.primaryEmail')}
-                value={editorState.emails[0]}
+                value={editorState.emails[0]?.email || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleEmailChange(0, e)
                 }
@@ -269,7 +335,7 @@ export default function Settings() {
               />
               <TextInput
                 label={i18n.t('account.settings.secondaryEmail')}
-                value={editorState.emails[1]}
+                value={editorState.emails[1]?.email || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleEmailChange(1, e)
                 }
@@ -296,7 +362,7 @@ export default function Settings() {
                   { name: 'Python', value: 'python' },
                   { name: 'Rust', value: 'rust' },
                 ]}
-                value={editorState.preferedLanguage}
+                value={editorState.preferredEditingLanguage}
                 onChange={handlePreferedLanguageChange}
               />
             </Box>

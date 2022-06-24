@@ -57,7 +57,11 @@
       "score": "Score",
       "polypoints": "Polypoints",
       "rank": "Rank",
-      "biography": "Biography"
+      "biography": "Biography",
+      "errors": {
+        "unknownRank": "Unknown",
+        "serverFetchFailed": "Failed to fetch settings from server"
+      }
     },
     "settings": {
       "titlePage": "Settings",
@@ -70,13 +74,16 @@
       "biography": "Biography",
       "saveButton": "Save",
       "resetButton": "Reset",
+      "saveSuccess": "Settings saved successfully",
       "errors": {
         "usernameTooShort": "Username must be at least 3 characters long",
         "usernameTooLong": "Username must be at most 20 characters long",
         "emailTooShort": "Email must be at least 3 characters long",
         "emailTooLong": "Email must be at most 50 characters long",
         "emailInvalid": "Email is invalid",
-        "biographyTooLong": "Biography must be at most 500 characters long"
+        "biographyTooLong": "Biography must be at most 500 characters long",
+        "serverFetchFailed": "Failed to fetch data from server",
+        "serverSaveFailed": "Failed to save data to server"
       }
     },
     "teams": {

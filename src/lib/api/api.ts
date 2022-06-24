@@ -1,5 +1,3 @@
-import { mapKeys, camelCase, snakeCase } from 'lodash';
-
 // errors
 export const MissingMetaData = new Error('Missing metadata in response');
 export const MissingData = new Error('Missing data in response');
@@ -26,7 +24,7 @@ const apiServer =
   process.env.NEXT_PUBLIC_API_URL ??
   (process.env.NODE_ENV === 'production'
     ? 'https://api.polycode.dopolytech.fr'
-    : 'http://localhost:8080');
+    : 'http://localhost:3000');
 
 // Fetch the backend api
 export async function fetchApi<MetaDataType, DataType>(
@@ -35,9 +33,7 @@ export async function fetchApi<MetaDataType, DataType>(
   body?: any,
   headers: HeadersInit = {}
 ): Promise<{ metadata: MetaDataType; data: DataType; status: number }> {
-  const formatedBody = body
-    ? JSON.stringify(mapKeys(body, (_, k) => snakeCase(k)))
-    : undefined;
+  const formatedBody = body ? JSON.stringify(body) : undefined;
   const response = await Promise.race([
     fetch(apiServer + ressource, {
       method,
@@ -54,8 +50,8 @@ export async function fetchApi<MetaDataType, DataType>(
   const json = await response.json();
 
   return {
-    metadata: mapKeys(json.metadata, (_v, k) => camelCase(k)) as MetaDataType,
-    data: mapKeys(json.data, (_v, k) => camelCase(k)) as DataType,
+    metadata: json.metadata,
+    data: json.data,
     status: response.status,
   };
 }
@@ -72,7 +68,7 @@ export async function refreshTokens(
     }
   );
 
-  if (status === 200) {
+  if (status === 201) {
     credentialsManager.setCredentials(data);
     return true;
   }
@@ -95,7 +91,7 @@ export async function login(
     }
   );
 
-  if (status === 200) {
+  if (status === 201) {
     credentialsManager.setCredentials(data);
     return true;
   }
@@ -114,14 +110,9 @@ export async function fetchApiWithAuth<MetaDataType, DataType>(
       throw new Error('No credentials');
     }
 
-    return fetchApi<MetaDataType, DataType>(
-      apiServer + ressource,
-      method,
-      body,
-      {
-        Authorization: `Bearer ${credentialsManager.credentials.accessToken}`,
-      }
-    );
+    return fetchApi<MetaDataType, DataType>(ressource, method, body, {
+      Authorization: `Bearer ${credentialsManager.credentials.accessToken}`,
+    });
   };
 
   const response = await tryFetch();

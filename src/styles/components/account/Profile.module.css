@@ -88,6 +88,11 @@
   width: 2em;
 }
 
+.biographyContent {
+  margin-top: 20px;
+  text-align: justify;
+}
+
 @media (max-width: 780px) {
   .titleContainer {
     display: flex;

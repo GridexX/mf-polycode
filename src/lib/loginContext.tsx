@@ -63,7 +63,7 @@ function writeLocalStorage(credentials: Credentials | undefined) {
  *
  */
 export function useCreateLoginContext(): LoginContextInterface {
-  const [user, setUser] = useState<User | undefined | null>(null);
+  const [user, setUser] = useState<User | undefined | null>(undefined);
   const [credentials, internalSetCredentials] = useState<
     Credentials | undefined
   >(undefined);
@@ -86,7 +86,7 @@ export function useCreateLoginContext(): LoginContextInterface {
   );
 
   const refreshUser = useCallback(() => {
-    if (credentials)
+    if (credentialsManager.credentials) {
       fetchApiWithAuth<{}, User>('/user/@me', credentialsManager)
         .then(({ data, status }) => {
           if (status === 200) setUser(data);
@@ -95,14 +95,13 @@ export function useCreateLoginContext(): LoginContextInterface {
         .catch(() => {
           setUser(null);
         });
-  }, [credentials, credentialsManager]);
+    }
+  }, [credentialsManager]);
 
   // Fetch the user on credentials change
   useEffect(() => {
-    if (credentials) {
-      refreshUser();
-    } else setUser(null);
-  }, [credentials, refreshUser]);
+    refreshUser();
+  }, [credentialsManager, refreshUser]);
 
   return { user, credentialsManager, refreshUser };
 }

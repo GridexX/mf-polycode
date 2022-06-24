@@ -4,7 +4,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { v4 as uuid } from 'uuid';
 
 type Item = {
   name: string;
@@ -19,18 +18,21 @@ type Props = {
   id?: string;
 };
 
-export default function CustomSelect(props: Props) {
-  const { label, items, value, onChange, id } = props;
-  const labelId = uuid();
-
+export default function CustomSelect({
+  label,
+  items,
+  value,
+  onChange,
+  id,
+}: Props) {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         {/* label */}
-        <InputLabel id={labelId}>{label}</InputLabel>
+        <InputLabel id={label}>{label}</InputLabel>
         {/* select */}
         <Select
-          labelId={labelId}
+          labelId={label}
           label={label}
           id={id}
           value={value}

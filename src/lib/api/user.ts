@@ -28,8 +28,8 @@ export interface UserEmail {
 export interface UserSettings {
   id: string;
   userId: string;
-  preferedEditingLanguage: string;
-  preferedLanguage: string;
+  preferredEditingLanguage: string;
+  preferredLanguage: string;
 }
 
 // Request structure
@@ -49,8 +49,8 @@ export interface UpdateUserRequest {
 }
 
 export interface UpdateUserSettingsRequest {
-  preferedEditingLanguage: string;
-  preferedLanguage?: string;
+  preferredEditingLanguage?: string;
+  preferredLanguage?: string;
 }
 
 // Create functions
@@ -160,6 +160,7 @@ export async function updateUser(
     'PATCH',
     request
   );
+
   if (status === 200) {
     if (typeof data === 'undefined') throw MissingData;
     return data;
