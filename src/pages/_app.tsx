@@ -37,7 +37,9 @@ export default function MyApp(props: MyAppProps) {
         <ThemeManagerProvider>
           <LoginContextProvider>
             <Box className={styles.container}>
-              <NavBar />
+              <Box className={styles.nav}>
+                <NavBar />
+              </Box>
               <Component {...pageProps} />
             </Box>
             <ToastContainer

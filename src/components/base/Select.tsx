@@ -16,6 +16,7 @@ type Props = {
   value: string;
   onChange: (event: SelectChangeEvent<string>) => void;
   id?: string;
+  size?: 'small' | 'medium' | undefined;
 };
 
 export default function CustomSelect({
@@ -24,6 +25,7 @@ export default function CustomSelect({
   value,
   onChange,
   id,
+  size,
 }: Props) {
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -37,6 +39,7 @@ export default function CustomSelect({
           id={id}
           value={value}
           onChange={onChange}
+          size={size}
         >
           {/* menu items */}
           {items && items.length > 0
@@ -54,4 +57,5 @@ export default function CustomSelect({
 
 CustomSelect.defaultProps = {
   id: 'selectId',
+  size: undefined,
 };

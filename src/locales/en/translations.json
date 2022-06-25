@@ -138,5 +138,37 @@
     "titlePage": "Modules",
     "filters": "Filters",
     "resetButton": "Reset"
+  },
+  "playground": {
+    "hints": {
+      "title": "Hints",
+      "item": "Hint #",
+      "buy": "buy another hint for",
+      "error": {
+        "fetch": "There was an error when retrieving hint #",
+        "buy": "There was an error when buying hint #"
+      }
+    },
+    "output": {
+      "console": "Console",
+      "debug": "Debug"
+    },
+    "error": {
+      "notFound": "Content not found"
+    },
+    "toolbar": {
+      "submit": "Submit",
+      "resetCode": "Reset code"
+    },
+    "validator": {
+      "#": "#",
+      "hidden": "(hidden test)",
+      "run": "Run",
+      "input": "Input :",
+      "expected": "Expected :",
+      "title": "Tests",
+      "passed": "% passed",
+      "runAll": "Run all"
+    }
   }
 }
