@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import { Stack, Typography, useTheme } from '@mui/material';
 
+import carrot from '../images/carrot.png';
+
 type Props = {
   points: number;
   size?: 'small' | 'medium' | 'normal' | 'large';
@@ -47,7 +49,7 @@ export default function Polypoints({ points, size, color }: Props) {
         width={widthAndHeight}
         height={widthAndHeight}
         layout="fixed"
-        src="/images/carrot.png"
+        src={carrot}
       />
     </Stack>
   );

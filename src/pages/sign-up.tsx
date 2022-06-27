@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from '../lib/translations';
-import polybunny from '../../public/images/polybunny-do.png';
+import polybunny from '../images/polybunny-do.png';
 import { useLoginContext } from '../lib/loginContext';
 import { createUser } from '../lib/api/user';
 import { toastError } from '../components/base/toast/Toast';

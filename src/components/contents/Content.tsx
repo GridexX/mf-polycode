@@ -7,9 +7,9 @@ import ContentType from '../../lib/api/content';
 
 import styles from '../../styles/components/contents/Content.module.css';
 
-import exercise from '../../../public/images/exercise.jpg';
-import lesson from '../../../public/images/lesson.jpg';
-import carrot from '../../../public/images/carrot.png';
+import exercise from '../../images/exercise.png';
+import lesson from '../../images/lesson.png';
+import carrot from '../../images/carrot.png';
 
 type Props = {
   content: ContentType;

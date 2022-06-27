@@ -15,7 +15,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { useTranslation } from '../lib/translations';
 
 import styles from '../styles/pages/SignIn&SignUp.module.css';
-import polybunny from '../../public/images/polybunny-do.png';
+import polybunny from '../images/polybunny-do.png';
 import { useLoginContext } from '../lib/loginContext';
 import { toastError } from '../components/base/toast/Toast';
 import { login, InvalidCredentialsError } from '../lib/api/api';

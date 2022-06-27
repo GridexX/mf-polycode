@@ -18,6 +18,8 @@ import Menu from './Menu';
 import styles from '../../styles/components/navbar/NavBar.module.css';
 import { useTranslation } from '../../lib/translations';
 
+import logo from '../../images/logo.png';
+
 export default function NavBar() {
   const context = {
     isLoggedIn: true,
@@ -54,7 +56,7 @@ export default function NavBar() {
               aria-label="open drawer"
               sx={{ mr: 2 }}
             >
-              <Image src="/images/logo.png" width={72} height={72} />
+              <Image src={logo} width={72} height={72} />
             </IconButton>
             <Typography
               variant="h4"

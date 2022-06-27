@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useTranslation } from '../../lib/translations';
 
 import styles from '../../styles/components/account/Menu.module.css';
-import profileImage from '../../../public/images/profil_image.svg';
+import profileImage from '../../images/profil_image.svg';
 
 type Props = {
   buttonSelected: 'profile' | 'settings' | 'teams' | 'password';

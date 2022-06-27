@@ -8,7 +8,7 @@ import Tag from './Tag';
 
 import styles from '../../styles/components/modules/Module.module.css';
 
-import carrot from '../../../public/images/carrot.png';
+import carrot from '../../images/carrot.png';
 
 type Props = {
   module: ModuleContent;

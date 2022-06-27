@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image';
 import { useTranslation } from '../../lib/translations';
 
-import polybunny from '../../../public/images/polybunny-navbar-menu.png';
+import polybunny from '../../images/polybunny-navbar-menu.png';
 
 import styles from '../../styles/components/navbar/Menu.module.css';
 

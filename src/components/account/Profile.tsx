@@ -5,8 +5,8 @@ import Image from 'next/image';
 import { useTranslation } from '../../lib/translations';
 
 import styles from '../../styles/components/account/Profile.module.css';
-import rankImage from '../../../public/images/rank.png';
-import carrotImage from '../../../public/images/carrot.png';
+import rankImage from '../../images/rank.png';
+import carrotImage from '../../images/carrot.png';
 import { useLoginContext } from '../../lib/loginContext';
 import { getUserEmails, getUserSettings, UserEmail } from '../../lib/api/user';
 import { toastError } from '../base/toast/Toast';
