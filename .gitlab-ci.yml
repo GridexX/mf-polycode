@@ -5,6 +5,7 @@ stages:
   - preparation
   - build
   - release
+  - package
 
 include:
   - remote: "https://api.r2devops.io/job/r/r2devops-bot/gitleaks/1.0.0.yaml"
@@ -90,3 +91,26 @@ bump_version:
       npm install -g conventional-changelog-cli
       conventional-changelog -p angular -i CHANGELOG.md -s
     fi
+
+helm-package:
+  stage: package
+  image:
+    name: alpine/helm:3.5.3
+    entrypoint: ['']
+  variables:
+    CHART: frontend
+    CI_REGISTRY_USER: gitlab-ci-token
+    CI_REGISTRY_PASSWORD: ${CI_JOB_TOKEN}
+  before_script:
+    - apk add git
+    - helm plugin install --version=v0.10.2 https://github.com/chartmuseum/helm-push.git
+    - >
+      helm repo add ${CHART}
+      --username ${CI_REGISTRY_USER}
+      --password ${CI_REGISTRY_PASSWORD}
+      ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/stable
+  script: |
+    sed -i "/appVersion:/c\appVersion: \'$BUILD_VERSION\'" ${CI_PROJECT_DIR}/helm/chart/Chart.yaml
+    sed -i "/version:/c\version: \'$BUILD_VERSION\'" ${CI_PROJECT_DIR}/helm/chart/Chart.yaml
+    helm package ${CI_PROJECT_DIR}/helm/chart
+    helm cm-push ${CI_PROJECT_DIR}/${CHART}-${BUILD_VERSION}.tgz ${CHART}
