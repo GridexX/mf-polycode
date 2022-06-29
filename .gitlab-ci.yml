@@ -105,12 +105,23 @@ helm-package:
     - apk add git
     - helm plugin install --version=v0.10.2 https://github.com/chartmuseum/helm-push.git
     - >
-      helm repo add ${CHART}
+      helm repo add ${CHART}-all
       --username ${CI_REGISTRY_USER}
       --password ${CI_REGISTRY_PASSWORD}
-      ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/stable
+      ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/all
+    - >
+      helm repo add ${CHART}-latest-stable
+      --username ${CI_REGISTRY_USER}
+      --password ${CI_REGISTRY_PASSWORD}
+      ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/latest-stable
   script: |
     sed -i "/appVersion:/c\appVersion: \'$BUILD_VERSION\'" ${CI_PROJECT_DIR}/helm/chart/Chart.yaml
     sed -i "/version:/c\version: \'$BUILD_VERSION\'" ${CI_PROJECT_DIR}/helm/chart/Chart.yaml
     helm package ${CI_PROJECT_DIR}/helm/chart
-    helm cm-push ${CI_PROJECT_DIR}/${CHART}-${BUILD_VERSION}.tgz ${CHART}
+    helm cm-push ${CI_PROJECT_DIR}/${CHART}-${BUILD_VERSION}.tgz ${CHART}-all
+    if [ $CI_COMMIT_BRANCH = 'main' ]; then
+      sed -i "/appVersion:/c\appVersion: \'0.0.0\'" ${CI_PROJECT_DIR}/helm/chart/Chart.yaml
+      sed -i "/version:/c\version: \'0.0.0\'" ${CI_PROJECT_DIR}/helm/chart/Chart.yaml
+      helm package ${CI_PROJECT_DIR}/helm/chart
+      helm cm-push ${CI_PROJECT_DIR}/${CHART}-0.0.0.tgz ${CHART}-latest-stable
+    fi
