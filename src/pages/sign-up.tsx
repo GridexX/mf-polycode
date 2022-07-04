@@ -7,7 +7,6 @@ import {
   Divider,
   Link as MuiLink,
   useTheme,
-  FormGroup,
   FormControlLabel,
 } from '@mui/material';
 import Image from 'next/image';
@@ -135,7 +134,10 @@ export default function SignIn() {
     }));
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    evt.preventDefault();
     let error = false;
 
     Object.values(formErrorsState).forEach((value) => {
@@ -197,6 +199,9 @@ export default function SignIn() {
       username: formState.username,
     })
       .then(() => {
+        // go to home
+
+        console.log('user created');
         router.push('/');
       })
       .catch((reason) => {
@@ -226,91 +231,90 @@ export default function SignIn() {
       />
 
       <Box className={styles.form}>
-        <Box className={styles.loginForm}>
+        <form className={styles.loginForm}>
           <Typography variant="h4">
             <span style={{ color: theme.palette.primary.main }}>Poly</span>Code
           </Typography>
 
-          <FormGroup>
-            <Stack spacing={2}>
-              <TextField
-                type="text"
-                onChange={handleUsernameChange}
-                label={i18n.t('auth.username')}
-                variant="standard"
-                error={formErrorsState.username.length > 0}
-                helperText={formErrorsState.username}
-              />
-              <TextField
-                type="email"
-                onChange={handleEmailChange}
-                label={i18n.t('auth.email')}
-                variant="standard"
-                error={formErrorsState.email.length > 0}
-                helperText={formErrorsState.email}
-              />
+          <Stack spacing={2}>
+            <TextField
+              type="text"
+              onChange={handleUsernameChange}
+              label={i18n.t('auth.username')}
+              variant="standard"
+              error={formErrorsState.username.length > 0}
+              helperText={formErrorsState.username}
+            />
+            <TextField
+              type="email"
+              onChange={handleEmailChange}
+              label={i18n.t('auth.email')}
+              variant="standard"
+              error={formErrorsState.email.length > 0}
+              helperText={formErrorsState.email}
+            />
 
-              <TextField
-                type="password"
-                onChange={handlePasswordChange}
-                label={i18n.t('auth.password')}
-                variant="standard"
-                error={formErrorsState.password.length > 0}
-                helperText={formErrorsState.password}
-              />
+            <TextField
+              type="password"
+              onChange={handlePasswordChange}
+              label={i18n.t('auth.password')}
+              variant="standard"
+              error={formErrorsState.password.length > 0}
+              helperText={formErrorsState.password}
+            />
 
-              <TextField
-                type="password"
-                onChange={handleConfirmPasswordChange}
-                label={i18n.t('auth.confirmPassword')}
-                variant="standard"
-                error={formErrorsState.confirmPassword.length > 0}
-                helperText={formErrorsState.confirmPassword}
-              />
+            <TextField
+              type="password"
+              onChange={handleConfirmPasswordChange}
+              label={i18n.t('auth.confirmPassword')}
+              variant="standard"
+              error={formErrorsState.confirmPassword.length > 0}
+              helperText={formErrorsState.confirmPassword}
+            />
 
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={handleOverThirteenChange}
-                    checked={formState.overThirteen}
-                  />
-                }
-                label={i18n.t('auth.overThirteen')}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={handleAcceptTosChange}
-                    checked={formState.acceptTos}
-                  />
-                }
-                label={
-                  <Typography>
-                    {i18n.t('auth.readTerms')}{' '}
-                    <Link href="/tos" passHref>
-                      <MuiLink>{i18n.t('auth.termsOfService')}</MuiLink>
-                    </Link>
-                  </Typography>
-                }
-              />
-            </Stack>
-            <LoadingButton
-              variant="contained"
-              className={styles.loginButton}
-              onClick={handleSignUp}
-              loading={loading}
-            >
-              {i18n.t('auth.signUp')}
-            </LoadingButton>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={handleOverThirteenChange}
+                  checked={formState.overThirteen}
+                />
+              }
+              label={i18n.t('auth.overThirteen')}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={handleAcceptTosChange}
+                  checked={formState.acceptTos}
+                />
+              }
+              label={
+                <Typography>
+                  {i18n.t('auth.readTerms')}{' '}
+                  <Link href="/tos" passHref>
+                    <MuiLink>{i18n.t('auth.termsOfService')}</MuiLink>
+                  </Link>
+                </Typography>
+              }
+            />
+          </Stack>
+          <LoadingButton
+            variant="contained"
+            className={styles.loginButton}
+            onClick={handleSignUp}
+            loading={loading}
+            type="submit"
+          >
+            {i18n.t('auth.signUp')}
+          </LoadingButton>
 
-            <Typography variant="body1">
-              {i18n.t('auth.haveAccountQuestion')}{' '}
-              <Link href="/sign-in" passHref>
-                <MuiLink>{i18n.t('auth.signIn')}</MuiLink>
-              </Link>
-            </Typography>
-          </FormGroup>
-        </Box>
+          <Typography variant="body1">
+            {i18n.t('auth.haveAccountQuestion')}{' '}
+            <Link href="/sign-in" passHref>
+              <MuiLink>{i18n.t('auth.signIn')}</MuiLink>
+            </Link>
+          </Typography>
+        </form>
       </Box>
     </Box>
   );

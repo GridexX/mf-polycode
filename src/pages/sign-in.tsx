@@ -60,8 +60,8 @@ export default function SignIn() {
 
     login(state.email, state.password, credentialsManager)
       .then(() => {
-        // redirect to home page
-        router.push('/');
+        // redirect to the last page
+        router.back();
       })
       .catch((reason) => {
         // handle error
@@ -94,7 +94,7 @@ export default function SignIn() {
       />
 
       <Box className={styles.form}>
-        <Box className={styles.loginForm}>
+        <form className={styles.loginForm}>
           <Typography variant="h4">
             <span style={{ color: theme.palette.primary.main }}>Poly</span>
             Code
@@ -120,6 +120,7 @@ export default function SignIn() {
             className={styles.loginButton}
             onClick={handleLogin}
             loading={loading}
+            type="submit"
           >
             {i18n.t('auth.signIn')}
           </LoadingButton>
@@ -130,7 +131,7 @@ export default function SignIn() {
               <MuiLink>{i18n.t('auth.signUp')}</MuiLink>
             </Link>
           </Typography>
-        </Box>
+        </form>
       </Box>
     </Box>
   );
