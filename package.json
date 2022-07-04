@@ -1,6 +1,10 @@
 {
   "name": "frontend",
+<<<<<<< Updated upstream
   "version": "0.1.0-rc84.main.e81dfdc",
+=======
+  "version": "0.1.0-rc86.main.d864604",
+>>>>>>> Stashed changes
   "private": true,
   "scripts": {
     "dev": "next dev",
