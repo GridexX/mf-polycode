@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTheme, Button, Box, Divider, Typography } from '@mui/material';
 
-import ModulesPanel from '../components/modules/Modules';
-import TagFilter from '../components/filters/TagFilter';
-import SortFilter from '../components/filters/SortFilter';
-import { useTranslation } from '../lib/translations';
+import ModulesPanel from '../../components/modules/Modules';
+import TagFilter from '../../components/filters/TagFilter';
+import SortFilter from '../../components/filters/SortFilter';
+import { useTranslation } from '../../lib/translations';
 
-import styles from '../styles/pages/Modules.module.css';
+import styles from '../../styles/pages/module/Modules.module.css';
 
 export default function Modules() {
   // import mui theme & i18n

@@ -19,7 +19,7 @@ export default function Module({ module }: Props) {
   const theme = useTheme();
 
   return (
-    <Link href={`/modules/${module.id}`}>
+    <Link href={`/module/${module.id}`}>
       <Box
         className={styles.container}
         sx={{ border: `1px solid ${theme.palette.text.secondary}` }}

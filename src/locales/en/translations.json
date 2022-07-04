@@ -137,7 +137,10 @@
   "modules": {
     "titlePage": "Modules",
     "filters": "Filters",
-    "resetButton": "Reset"
+    "resetButton": "Reset",
+    "heroTale": {
+      "resumeButton": "Resume"
+    }
   },
   "playground": {
     "hints": {

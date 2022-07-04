@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-import HomeContentList from './HomeContentList';
-import HomeModuleList from './HomeModuleList';
+import TitledContentList from '../titledLists/TitledContentList';
+import TitledModuleList from '../titledLists/TitledModuleList';
 
 import styles from '../../styles/components/home/HomeContent.module.css';
 
@@ -108,13 +108,13 @@ export default function HomeContent() {
 
   return (
     <Box className={styles.container}>
-      <HomeContentList title="Last Viewed" contents={[fakeContents[0]]} />
-      <HomeContentList
+      <TitledContentList title="Last Viewed" contents={[fakeContents[0]]} />
+      <TitledContentList
         title="New Contents"
         contents={fakeContents.slice(0, 3)}
       />
-      <HomeModuleList title="New Modules" modules={fakeModules} />
-      <HomeContentList
+      <TitledModuleList title="New Modules" modules={fakeModules} />
+      <TitledContentList
         title="Preferred Contents"
         contents={fakeContents.slice(0, 6)}
       />
