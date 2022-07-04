@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Divider } from '@mui/material';
 
-import HeroTale from '../components/home/HeroTale';
-import HomeContent from '../components/home/HomeContent';
+import HeroTale from './HeroTale';
+import HomeContent from './HomeContent';
 
-import styles from '../styles/pages/Home.module.css';
+import styles from '../../styles/pages/Home.module.css';
 
 export default function Home() {
   const fakeData = {

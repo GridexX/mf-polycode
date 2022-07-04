@@ -173,5 +173,9 @@
       "passed": "% passed",
       "runAll": "Run all"
     }
+  },
+  "home":{
+    "manifesto": "Prepare yourself for coding interviews or learn new programmming langages in minutes !",
+    "start": "START TODAY"
   }
 }
