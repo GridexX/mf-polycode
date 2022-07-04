@@ -51,6 +51,7 @@ determine_version:
 docker_build:
   variables:
     CUSTOM_TAG: ${BUILD_VERSION}
+    DOCKER_USE_CACHE: "true"
 
 .git_push: &git_push
   before_script:
