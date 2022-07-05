@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.1.0-rc90.main.a67a81c",
+  "version": "0.1.0-rc92.main.839627e",
   "private": true,
   "scripts": {
     "dev": "next dev",
