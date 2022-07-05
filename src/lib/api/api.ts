@@ -11,7 +11,7 @@ export interface Credentials {
   refreshToken: string;
 }
 export type RefreshUser = () => any;
-export type SetCredentials = (newCreds: Credentials) => void;
+export type SetCredentials = (newCreds: Credentials | undefined) => void;
 export interface CredentialsManager {
   credentials: Credentials | undefined;
   setCredentials: SetCredentials;
@@ -76,28 +76,6 @@ export async function refreshTokens(
   throw InvalidRefreshTokenError;
 }
 
-export async function login(
-  email: string,
-  password: string,
-  credentialsManager: CredentialsManager
-): Promise<boolean> {
-  const { data, status } = await fetchApi<{}, Credentials>(
-    '/auth/token',
-    'POST',
-    {
-      grantType: 'implicit',
-      identity: email,
-      secret: password,
-    }
-  );
-
-  if (status === 201) {
-    credentialsManager.setCredentials(data);
-    return true;
-  }
-  throw InvalidCredentialsError;
-}
-
 // Fetch the backend api with automatic refresh
 export async function fetchApiWithAuth<MetaDataType, DataType>(
   ressource: string,
@@ -124,4 +102,34 @@ export async function fetchApiWithAuth<MetaDataType, DataType>(
   }
 
   return response;
+}
+
+export async function login(
+  email: string,
+  password: string,
+  credentialsManager: CredentialsManager
+): Promise<boolean> {
+  const { data, status } = await fetchApi<{}, Credentials>(
+    '/auth/token',
+    'POST',
+    {
+      grantType: 'implicit',
+      identity: email,
+      secret: password,
+    }
+  );
+
+  if (status === 201) {
+    credentialsManager.setCredentials(data);
+    return true;
+  }
+  throw InvalidCredentialsError;
+}
+
+export async function logout(
+  credentialsManager: CredentialsManager
+): Promise<void> {
+  await fetchApiWithAuth('/auth/logout', credentialsManager, 'POST');
+
+  credentialsManager.setCredentials(undefined);
 }
