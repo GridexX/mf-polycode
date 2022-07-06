@@ -1,5 +1,5 @@
 import React from 'react';
-import { IContainerComponent } from '../../lib/api/playground';
+import { ContainerComponent } from '../../lib/api/content';
 
 // Cycle looks inevitable since we can render a container in a container
 // eslint-disable-next-line import/no-cycle
@@ -10,7 +10,7 @@ import VerticalContainer from './VerticalContainer';
 export default function Container({
   component,
 }: {
-  component: IContainerComponent;
+  component: ContainerComponent;
 }) {
   const { components } = component.data;
 

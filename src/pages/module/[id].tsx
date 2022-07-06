@@ -6,8 +6,39 @@ import ModuleList from '../../components/modules/ModuleList';
 import ContentList from '../../components/contents/ContentList';
 
 import styles from '../../styles/pages/module/ModuleDetails.module.css';
+import { Content } from '../../lib/api/content';
 
 export default function ModuleDetails() {
+  const fakeComponents = {
+    type: 'container',
+    data: {
+      components: [
+        {
+          type: 'markdown',
+          data: {
+            markdown: 'Hello World',
+          },
+        },
+        {
+          type: 'editor',
+          data: {
+            validators: [],
+            items: [],
+            editorSettings: {
+              languages: [
+                {
+                  language: 'javascript',
+                  defaultCode: 'console.log("Hello World");',
+                  version: '18.0',
+                },
+              ],
+            },
+          },
+        },
+      ],
+      orientation: 'horizontal',
+    },
+  };
   const fakeData = {
     id: 'uuid1',
     title: '10 days with Javascript',
@@ -43,23 +74,26 @@ export default function ModuleDetails() {
       {
         id: 'uuid4',
         type: 'exercise',
-        title: 'Ownership in Rust',
+        name: 'Ownership in Rust',
         description: 'description4',
-        carrot: 2500,
+        reward: 2500,
+        rootComponent: fakeComponents,
       },
       {
         id: 'uuid5',
         type: 'exercise',
-        title: 'Loop For While',
+        name: 'Loop For While',
         description: 'description5',
-        carrot: 100,
+        reward: 100,
+        rootComponents: fakeComponents,
       },
       {
         id: 'uuid6',
-        type: 'lesson',
-        title: 'Le Dogo et Le Gato',
+        type: 'exercise',
+        name: 'Le Dogo et Le Gato',
         description: 'description6',
-        carrot: 250,
+        reward: 250,
+        rootComponents: fakeComponents,
       },
     ],
   };
@@ -78,7 +112,9 @@ export default function ModuleDetails() {
 
       {/* contents */}
       <Box className={styles.contentsContainer}>
-        {fakeData.contents && <ContentList contents={fakeData.contents} />}
+        {fakeData.contents && (
+          <ContentList contents={fakeData.contents as Content[]} />
+        )}
       </Box>
     </Box>
   );

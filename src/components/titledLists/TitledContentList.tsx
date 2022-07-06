@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 import Content from '../contents/Content';
-import ContentType from '../../lib/api/content';
+import { Content as ContentType } from '../../lib/api/content';
 
 import styles from '../../styles/components/home/HomeContentList.module.css';
 

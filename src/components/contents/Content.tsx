@@ -3,12 +3,12 @@ import { useTheme, Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import ContentType from '../../lib/api/content';
+import { Content as ContentType } from '../../lib/api/content';
 
 import styles from '../../styles/components/contents/Content.module.css';
 
 import exercise from '../../images/exercise.png';
-import lesson from '../../images/lesson.png';
+/* import lesson from '../../images/lesson.png'; */
 import carrot from '../../images/carrot.png';
 
 type Props = {
@@ -33,16 +33,13 @@ export default function Content({ content }: Props) {
           >
             {content.type}
           </Typography>
-          <Typography className={styles.title}>{content.title}</Typography>
+          <Typography className={styles.title}>{content.name}</Typography>
         </Box>
 
         {/* footer */}
         <Box className={styles.footerContainer}>
           <Box className={styles.imageContainer}>
-            <Image
-              className={styles.image}
-              src={content.type === 'exercise' ? exercise : lesson}
-            />
+            <Image className={styles.image} src={exercise} />
           </Box>
           {/* description */}
           <Box className={styles.descriptionContainer}>
@@ -53,7 +50,7 @@ export default function Content({ content }: Props) {
             <Box className={styles.carrotContainer}>
               <Box className={styles.innerCarrotContainer}>
                 <Typography className={styles.nbCarrot}>
-                  {content.carrot}
+                  {content.reward}
                 </Typography>
                 <Image
                   className={styles.carrot}

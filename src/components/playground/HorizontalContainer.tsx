@@ -1,6 +1,6 @@
 import { Box, Divider } from '@mui/material';
 import React from 'react';
-import { IComponent, IEditorComponent } from '../../lib/api/playground';
+import { Component, CodeEditorComponent } from '../../lib/api/content';
 import { EditorContextProvider } from './CodeEditorContext';
 // Cycle looks inevitable since we can render a container in a container
 // eslint-disable-next-line import/no-cycle
@@ -13,7 +13,7 @@ import styles from '../../styles/components/playground/HorizontalContainer.modul
 import dividerStyles from '../../styles/components/playground/Divider.module.css';
 
 interface HorizontalContainerProps {
-  components: IComponent[];
+  components: Component[];
 }
 
 export default function HorizontalContainer({
@@ -23,7 +23,7 @@ export default function HorizontalContainer({
 
   const editors = components.filter(
     (c) => c.type === 'editor'
-  ) as IEditorComponent[];
+  ) as CodeEditorComponent[];
 
   const leftComponents = components.filter((c) => c.type !== 'editor');
 

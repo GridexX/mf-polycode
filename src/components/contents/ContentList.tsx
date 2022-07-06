@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 
 import Content from './Content';
-import ContentType from '../../lib/api/content';
+import { Content as ContentType } from '../../lib/api/content';
 
 import styles from '../../styles/components/contents/ContentList.module.css';
 

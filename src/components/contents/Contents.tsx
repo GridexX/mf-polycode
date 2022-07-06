@@ -4,54 +4,83 @@ import { useTheme, Box, Typography } from '@mui/material';
 import ContentList from './ContentList';
 
 import styles from '../../styles/components/contents/Contents.module.css';
+import { Content } from '../../lib/api/content';
 
 export default function Contents() {
   // import mui theme
   const theme = useTheme();
 
+  const fakeComponents = {
+    type: 'container',
+    data: {
+      components: [
+        {
+          type: 'markdown',
+          data: {
+            markdown: 'Hello World',
+          },
+        },
+        {
+          type: 'editor',
+          data: {
+            validators: [],
+            items: [],
+            editorSettings: {
+              languages: [
+                {
+                  language: 'javascript',
+                  defaultCode: 'console.log("Hello World");',
+                  version: '18.0',
+                },
+              ],
+            },
+          },
+        },
+      ],
+      orientation: 'horizontal',
+    },
+  };
   const fakeData = [
     {
       id: 'uuid1',
       type: 'exercise',
-      title: 'Hello World',
+      name: 'Hello World',
       description:
         'In this exercise, you will print "Hello World" on the console !',
-      carrot: 500,
+      reward: 500,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid2',
       type: 'exercise',
-      title: 'Le Vaisseau Mère',
+      name: 'Le Vaisseau Mère',
       description: 'description2',
-      carrot: 300,
+      reward: 300,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid3',
       type: 'exercise',
-      title: 'Dracula',
+      name: 'Dracula',
       description: 'description3',
-      carrot: 1000,
+      reward: 1000,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid4',
       type: 'exercise',
-      title: 'Ownership in Rust',
+      name: 'Ownership in Rust',
       description: 'description4',
-      carrot: 2500,
+      reward: 2500,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid5',
       type: 'exercise',
-      title: 'Loop For While',
+      name: 'Loop For While',
       description: 'description5',
-      carrot: 100,
-    },
-    {
-      id: 'uuid6',
-      type: 'lesson',
-      title: 'Le Dogo et Le Gato',
-      description: 'description6',
-      carrot: 250,
+      reward: 100,
+      rootComponent: fakeComponents,
     },
   ];
 
@@ -60,7 +89,7 @@ export default function Contents() {
       <Typography variant="h3" sx={{ color: theme.palette.primary.main }}>
         Contents
       </Typography>
-      <ContentList contents={fakeData} />
+      <ContentList contents={fakeData as Content[]} />
     </Box>
   );
 }

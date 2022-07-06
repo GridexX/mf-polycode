@@ -17,6 +17,31 @@ export interface CredentialsManager {
   setCredentials: SetCredentials;
 }
 
+// pagination
+export interface PaginationMeta {
+  count: number;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  page: number;
+  limit: number;
+  count: number;
+  total: number;
+}
+
+// API response
+export interface AsyncResponse<T> {
+  data?: T;
+  loading: boolean;
+  error: boolean;
+}
+
 // 1 minute timeout
 const fetchTimeout = 60000;
 

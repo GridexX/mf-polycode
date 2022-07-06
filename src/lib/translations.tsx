@@ -101,3 +101,11 @@ export function useTranslation() {
 
   return context;
 }
+
+export function format(s: string, ...args: string[]): string {
+  let result = s;
+  for (let i = 0; i < args.length; i += 2) {
+    result = result.replaceAll(args[i], args[i + 1]);
+  }
+  return result;
+}

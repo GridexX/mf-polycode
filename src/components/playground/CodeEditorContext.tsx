@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { IEditorComponent, IValidator } from '../../lib/api/playground';
+import {
+  CodeEditorComponent,
+  EditorLanguage,
+  Validator,
+} from '../../lib/api/content';
 
 interface ICodeEditorContext {
   code: string;
@@ -20,7 +24,7 @@ interface ICodeEditorContext {
   setLanguage: (language: string) => void;
   availableLanguages: string[];
 
-  validators: IValidator[];
+  validators: Validator[];
 
   items: string[];
 }
@@ -37,7 +41,7 @@ export function EditorContextProvider({
   editorComponent,
   children,
 }: {
-  editorComponent: IEditorComponent;
+  editorComponent: CodeEditorComponent;
   children: React.ReactNode;
 }) {
   // Code is stored per language
@@ -61,7 +65,13 @@ export function EditorContextProvider({
   const defaultCodes = useMemo(
     () =>
       editorComponent.data.editorSettings.languages.reduce(
-        (acc, { language, defaultCode }) => ({
+        (
+          acc: any,
+          {
+            language,
+            defaultCode,
+          }: { language: EditorLanguage; defaultCode: string }
+        ) => ({
           ...acc,
           [language]: defaultCode,
         }),
@@ -117,7 +127,7 @@ export function EditorContextProvider({
   // set language if the language is available
   const setLanguage = useCallback(
     (newLanguage: string) => {
-      if (availableLanguages.includes(newLanguage))
+      if (availableLanguages.includes(newLanguage as EditorLanguage))
         setSelectedLanguage(newLanguage);
     },
     [availableLanguages]

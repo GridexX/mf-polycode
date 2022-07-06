@@ -4,14 +4,16 @@ import MarkdownCode from './MarkdownCode';
 
 interface MarkdownProps {
   content: string;
+  className?: string;
 }
 
-export default function Markdown({ content }: MarkdownProps) {
+export default function Markdown({ content, className }: MarkdownProps) {
   return (
     <ReactMarkdown
       components={{
         code: MarkdownCode,
       }}
+      className={className}
     >
       {content}
     </ReactMarkdown>

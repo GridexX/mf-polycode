@@ -9,7 +9,7 @@ import {
   AccordionDetails,
 } from './TopLevelAccordion';
 
-import { RunValidator } from '../../lib/api/playground';
+import runValidatorAPI from '../../lib/api/playground';
 import { useLoginContext } from '../../lib/loginContext';
 import { toastError } from '../base/toast/Toast';
 import { useEditorContext } from './CodeEditorContext';
@@ -79,8 +79,8 @@ export default function Validators() {
     let stdout = '';
     let success = false;
     try {
-      result = await RunValidator(
-        context.validators[index].id,
+      result = await runValidatorAPI(
+        context.validators[index].id || '',
         context.code,
         credentialsManager
       );

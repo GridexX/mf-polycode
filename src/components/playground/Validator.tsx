@@ -8,7 +8,7 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import { IValidator } from '../../lib/api/playground';
+import { Validator as IValidator } from '../../lib/api/content';
 
 import styles from '../../styles/components/playground/Validator.module.css';
 import { useTranslation } from '../../lib/translations';
@@ -139,9 +139,9 @@ export default function Validator({
         <AccordionDetails>
           <Box className={styles.description}>
             <Typography>{i18n.t('playground.validator.input')}</Typography>
-            <pre className={styles.outputPre}>{data.input.stdin}</pre>
+            <pre className={styles.outputPre}>{data.input?.stdin}</pre>
             <Typography>{i18n.t('playground.validator.expected')}</Typography>
-            <pre className={styles.outputPre}>{data.expected.stdout}</pre>
+            <pre className={styles.outputPre}>{data.expected?.stdout}</pre>
           </Box>
         </AccordionDetails>
       )}

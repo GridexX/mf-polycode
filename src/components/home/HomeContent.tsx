@@ -5,51 +5,88 @@ import TitledContentList from '../titledLists/TitledContentList';
 import TitledModuleList from '../titledLists/TitledModuleList';
 
 import styles from '../../styles/components/home/HomeContent.module.css';
+import { Content } from '../../lib/api/content';
 
 export default function HomeContent() {
+  const fakeComponents = {
+    type: 'container',
+    data: {
+      components: [
+        {
+          type: 'markdown',
+          data: {
+            markdown: 'Hello World',
+          },
+        },
+        {
+          type: 'editor',
+          data: {
+            validators: [],
+            items: [],
+            editorSettings: {
+              languages: [
+                {
+                  language: 'javascript',
+                  defaultCode: 'console.log("Hello World");',
+                  version: '18.0',
+                },
+              ],
+            },
+          },
+        },
+      ],
+      orientation: 'horizontal',
+    },
+  };
   const fakeContents = [
     {
       id: 'uuid1',
       type: 'exercise',
-      title: 'Hello World',
+      name: 'Hello World',
       description:
         'In this exercise, you will print "Hello World" on the console !',
-      carrot: 500,
+      reward: 500,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid2',
       type: 'exercise',
-      title: 'Le Vaisseau Mère',
+      name: 'Le Vaisseau Mère',
       description: 'description2',
-      carrot: 300,
+      reward: 300,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid3',
       type: 'exercise',
-      title: 'Dracula',
+      name: 'Dracula',
       description: 'description3',
-      carrot: 1000,
+      reward: 1000,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid4',
       type: 'exercise',
-      title: 'Ownership in Rust',
+      name: 'Ownership in Rust',
       description: 'description4',
-      carrot: 2500,
+      reward: 2500,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid5',
       type: 'exercise',
-      title: 'Loop For While',
+      name: 'Loop For While',
       description: 'description5',
-      carrot: 100,
+      reward: 100,
+      rootComponent: fakeComponents,
     },
     {
       id: 'uuid6',
-      type: 'lesson',
-      title: 'Le Dogo et Le Gato',
+      type: 'exercise',
+      name: 'Le Dogo et Le Gato',
       description: 'description6',
-      carrot: 250,
+      reward: 250,
+      rootComponent: fakeComponents,
     },
   ];
 
@@ -108,15 +145,18 @@ export default function HomeContent() {
 
   return (
     <Box className={styles.container}>
-      <TitledContentList title="Last Viewed" contents={[fakeContents[0]]} />
+      <TitledContentList
+        title="Last Viewed"
+        contents={[fakeContents[0] as Content]}
+      />
       <TitledContentList
         title="New Contents"
-        contents={fakeContents.slice(0, 3)}
+        contents={fakeContents.slice(0, 3) as Content[]}
       />
       <TitledModuleList title="New Modules" modules={fakeModules} />
       <TitledContentList
         title="Preferred Contents"
-        contents={fakeContents.slice(0, 6)}
+        contents={fakeContents.slice(0, 6) as Content[]}
       />
     </Box>
   );

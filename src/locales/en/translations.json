@@ -94,6 +94,69 @@
       "notMemberOf": "You are not member of any team"
     }
   },
+  "contentEditor": {
+    "componentDialogButton": {
+      "container": "Container",
+      "editor": "Editor",
+      "markdown": "Markdown",
+      "quiz": "Quiz"
+    },
+    "componentListEditor": {
+      "new": "+ NEW"
+    },
+    "containerEditor": {
+      "type": "Container",
+      "description": "Containing {0} component{1}",
+      "orientation": "Orientation",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical",
+      "components": "Components",
+      "noComponents": "No components"
+    },
+    "contentEditorWizard": {
+      "description": "Description",
+      "name": "Name",
+      "save": "Save",
+      "reward": "Reward",
+      "errors": {
+        "nameEmpty": "Name is empty",
+        "nameTooLong": "Name must be at most 50 characters long",
+        "descriptionEmpty": "Description is empty",
+        "descriptionTooLong": "Description must be at most 500 characters long"
+      }
+    },
+    "codeEditorEditor": {
+      "type": "Editor",
+      "language": "Language",
+      "allowedLanguages": "Allowed languages",
+      "defaultCode": "Default code",
+      "validators": {
+        "title": "Validators",
+        "input": "Input",
+        "expectedOutput": "Expected output",
+        "hidden": "Hidden",
+        "new": "+ New"
+      }
+    },
+    "markdownEditor": {
+      "type": "Markdown",
+      "editor": "Editor",
+      "preview": "Preview"
+    },
+    "newComponentDialog": {
+      "title": "New Component",
+      "cancel": "Cancel"
+    },
+    "page": {
+      "titleNew": "New content",
+      "titleEdit": "Edit content",
+      "saveSuccess": "Content saved successfully",
+      "errors": {
+        "serverFetchFailed": "Failed to fetch data from server",
+        "serverSaveFailed": "Failed to save data to server"
+      }
+    }
+  },
   "team": {
     "editor": {
       "title": "Team Editor",
@@ -139,7 +202,7 @@
     "filters": "Filters",
     "resetButton": "Reset",
     "heroTale": {
-      "resumeButton": "Resume"
+      "resumeButton": "RESUME"
     }
   },
   "playground": {
@@ -174,7 +237,7 @@
       "runAll": "Run all"
     }
   },
-  "home":{
+  "home": {
     "manifesto": "Prepare yourself for coding interviews or learn new programming languages in minutes !",
     "start": "START TODAY"
   }
