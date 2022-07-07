@@ -1,6 +1,9 @@
 FROM node:16-alpine
 WORKDIR /build
 
+ARG public_api_url
+ENV NEXT_PUBLIC_API_URL=$public_api_url
+
 # Install dependencies
 COPY package.json package-lock.json ./ 
 RUN npm ci
