@@ -84,18 +84,18 @@ bump_version:
     - tags
   variables:
     GIT_PUSH_COMMIT_NAME: "chore: bump app version to ${BUILD_VERSION} [skip ci]"
+  before_script:
+    - apt-get update -y && apt-get install -yqqf openssh-client git unzip sshpass rsync --fix-missing
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )"
+
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $CI_SERVER_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+    - git config user.name "polycode.bot"
+    - git config user.email "bot@polycode.do-2021.fr"
   script: |
-    apt-get update -y && apt-get install -yqqf openssh-client git unzip sshpass rsync --fix-missing
-    "which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )"
-
-    mkdir -p ~/.ssh
-    chmod 700 ~/.ssh
-    ssh-keyscan $CI_SERVER_HOST >> ~/.ssh/known_hosts
-    chmod 644 ~/.ssh/known_hosts
-
-    git config user.name "polycode.bot"
-    git config user.email "bot@polycode.do-2021.fr"
-
     eval $(ssh-agent -s)
     echo "$GITLAB_GIT_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     git pull "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git" ${CI_COMMIT_BRANCH:-main} --rebase --autostash -Xours
