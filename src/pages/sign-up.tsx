@@ -291,7 +291,7 @@ export default function SignIn() {
               label={
                 <Typography>
                   {i18n.t('auth.readTerms')}{' '}
-                  <Link href="/tos" passHref>
+                  <Link href="/terms" passHref>
                     <MuiLink>{i18n.t('auth.termsOfService')}</MuiLink>
                   </Link>
                 </Typography>
