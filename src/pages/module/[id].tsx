@@ -41,7 +41,7 @@ export default function ModuleDetails() {
   };
   const fakeData = {
     id: 'uuid1',
-    title: '10 days with Javascript',
+    name: '10 days with Javascript',
     tags: ['Javascript'],
     description: 'In this module, you will learn some Javascript bases !',
     progress: 33,
@@ -51,7 +51,7 @@ export default function ModuleDetails() {
     modules: [
       {
         id: 'uuid2',
-        title: 'Survive 40 days with Rust',
+        name: 'Survive 40 days with Rust',
         tags: ['Rust'],
         description: 'Survive in the big world of Rust during 40 days !',
         progress: 50,
@@ -61,7 +61,7 @@ export default function ModuleDetails() {
       },
       {
         id: 'uuid4',
-        title: "Java the garbage's champion",
+        name: "Java the garbage's champion",
         tags: ['Java'],
         description: 'Learn how garbage collector work with java',
         progress: 0,
@@ -98,12 +98,10 @@ export default function ModuleDetails() {
     ],
   };
 
-  const { modules, contents, ...moduleInfo } = fakeData;
-
   return (
     <Box className={styles.container}>
       {/* header */}
-      <HeroTale module={moduleInfo} />
+      <HeroTale module={fakeData} />
 
       {/* modules */}
       <Box className={styles.modulesContainer}>

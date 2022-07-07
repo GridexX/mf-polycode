@@ -21,7 +21,7 @@ export default function HomeContentList({ title, contents }: Props) {
       </Box>
       <Box className={styles.contentList}>
         {contents && contents.length > 0
-          ? contents.slice(0, MAX_CONTENTS).map((content: ContentType) => (
+          ? contents.slice(0, MAX_CONTENTS).map((content) => (
               <Box className={styles.contentContainer} key={content.id}>
                 <Content content={content} />
               </Box>

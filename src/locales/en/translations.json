@@ -206,10 +206,15 @@
       }
     }
   },
+  "contents": {
+    "notFound": "No exercises found",
+    "title": "Exercises"
+  },
   "modules": {
-    "titlePage": "Modules",
+    "title": "Modules",
     "filters": "Filters",
     "resetButton": "Reset",
+    "notFound": "No modules found",
     "heroTale": {
       "resumeButton": "RESUME"
     }
@@ -249,5 +254,8 @@
   "home": {
     "manifesto": "Prepare yourself for coding interviews or learn new programming languages in minutes !",
     "start": "START TODAY"
+  },
+  "error": {
+    "fetch": "There was an error when retrieving data from server"
   }
 }

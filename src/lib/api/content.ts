@@ -1,17 +1,24 @@
-import useSWR from 'swr';
+import useSWR from "swr";
+import { SortFilterType, StateFilterType } from "../common/filter";
 import {
   AsyncResponse,
   CredentialsManager,
   fetchApiWithAuth,
-  PaginatedResponse,
   PaginationMeta,
   UnexpectedResponse,
-} from './api';
+} from "./api";
 
 // Variants
-export type EditorLanguage = 'java' | 'javascript' | 'python' | 'rust';
-export type ComponentType = 'container' | 'editor' | 'markdown';
-export type ContentType = 'exercise';
+export type EditorLanguage = "java" | "javascript" | "python" | "rust";
+export type ComponentType = "container" | "editor" | "markdown";
+export type ContentType = "exercise";
+
+export interface ContentFilters {
+  limit: number;
+  offset: number;
+  state: StateFilterType;
+  sort: SortFilterType;
+}
 
 // Components
 interface BaseComponent {
@@ -25,15 +32,15 @@ export type Component =
   | CodeEditorComponent;
 
 export interface ContainerComponent extends BaseComponent {
-  type: 'container';
+  type: "container";
   data: {
     components: Component[];
-    orientation: 'horizontal' | 'vertical';
+    orientation: "horizontal" | "vertical";
   };
 }
 
 export interface MarkdownComponent extends BaseComponent {
-  type: 'markdown';
+  type: "markdown";
   data: {
     markdown: string;
   };
@@ -48,7 +55,7 @@ export interface EditorSettings {
 }
 
 export interface CodeEditorComponent extends BaseComponent {
-  type: 'editor';
+  type: "editor";
   data: {
     validators: Validator[];
     items: string[];
@@ -80,14 +87,14 @@ export interface Content {
 }
 
 export const defaultContent = {
-  type: 'exercise',
-  name: '',
-  description: '',
+  type: "exercise",
+  name: "",
+  description: "",
   reward: 0,
   rootComponent: {
-    type: 'container',
+    type: "container",
     data: {
-      orientation: 'horizontal',
+      orientation: "horizontal",
       components: [],
     },
   },
@@ -99,35 +106,57 @@ export const defaultContent = {
 // Create functions
 export async function createContent(
   credentialsManager: CredentialsManager,
-  request: Content
+  request: Content,
 ): Promise<Content> {
   const { data, status } = await fetchApiWithAuth<{}, Content>(
-    '/content',
+    "/content",
     credentialsManager,
-    'POST',
-    request
+    "POST",
+    request,
   );
 
   if (status === 201) return data;
   throw UnexpectedResponse;
 }
 
+function buildFilterQuery(filters: ContentFilters): string {
+  let url = `/content?limit=${filters.limit}&offset=${filters.offset}`;
+
+  const states = Object.keys(filters.state).reduce((prev, key) => {
+    if (filters.state[key]) return [...prev, key];
+    return prev;
+  }, [] as string[]);
+
+  url += `&states=[${states.join(",")}]`;
+  url += `&sort=${filters.sort}`;
+
+  return url;
+}
+
 // Get functions
 export async function getContents(
-  credentialsManager: CredentialsManager
-): Promise<PaginatedResponse<Content>> {
-  const { data, metadata, status } = await fetchApiWithAuth<
+  credentialsManager: CredentialsManager,
+  filters?: ContentFilters,
+) {
+  const endpoint = filters ? buildFilterQuery(filters) : "/content";
+
+  const { data, /* metadata, */ status } = await fetchApiWithAuth<
     PaginationMeta,
     Content[]
-  >('/content', credentialsManager, 'GET');
+  >(
+    endpoint,
+    credentialsManager,
+    "GET",
+  );
 
   if (status === 200) {
     return {
       data,
-      page: metadata.pagination.page,
-      limit: metadata.pagination.limit,
-      count: metadata.count,
-      total: metadata.pagination.total,
+      /* backend doesn't return these things yet */
+      // page: metadata.pagination.page,
+      // limit: metadata.pagination.limit,
+      // count: metadata.count,
+      // total: metadata.pag  ination.total,
     };
   }
   throw UnexpectedResponse;
@@ -135,12 +164,12 @@ export async function getContents(
 
 export async function getContent(
   credentialsManager: CredentialsManager,
-  id: string
+  id: string,
 ): Promise<Content> {
   const { data, status } = await fetchApiWithAuth<{}, Content>(
     `/content/${id}`,
     credentialsManager,
-    'GET'
+    "GET",
   );
 
   if (status === 200) return data;
@@ -151,13 +180,13 @@ export async function getContent(
 export async function updateContent(
   credentialsManager: CredentialsManager,
   id: string,
-  request: Content
+  request: Content,
 ): Promise<Content> {
   const { data, status } = await fetchApiWithAuth<{}, Content>(
     `/content/${id}`,
     credentialsManager,
-    'PUT',
-    request
+    "PUT",
+    request,
   );
 
   if (status === 200) return data;
@@ -167,12 +196,12 @@ export async function updateContent(
 // Delete functions
 export async function deleteContent(
   credentialsManager: CredentialsManager,
-  id: string
+  id: string,
 ): Promise<boolean> {
   const { status } = await fetchApiWithAuth<{}, void>(
     `/content/${id}`,
     credentialsManager,
-    'DELETE'
+    "DELETE",
   );
 
   if (status === 204) return true;
@@ -182,10 +211,12 @@ export async function deleteContent(
 // Hooks
 
 export function useGetContents(
-  credentialsManager: CredentialsManager
-): AsyncResponse<PaginatedResponse<Content>> {
-  const { data, error } = useSWR('/content', () =>
-    getContents(credentialsManager)
+  credentialsManager: CredentialsManager,
+  filters?: ContentFilters,
+) {
+  const { data, error } = useSWR(
+    `/content?q=${JSON.stringify(filters || null)}`,
+    () => getContents(credentialsManager, filters),
   );
 
   return {
@@ -197,10 +228,11 @@ export function useGetContents(
 
 export function useGetContent(
   credentialsManager: CredentialsManager,
-  id?: string
+  id?: string,
 ): AsyncResponse<Content> {
-  const { data, error } = useSWR(`/content/${id}`, () =>
-    id ? getContent(credentialsManager, id) : undefined
+  const { data, error } = useSWR(
+    `/content/${id}`,
+    () => id ? getContent(credentialsManager, id) : undefined,
   );
 
   return {

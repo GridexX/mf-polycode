@@ -11,11 +11,19 @@ import {
 import styles from '../../styles/components/filters/Filter.module.css';
 import stateStyles from '../../styles/components/filters/TagFilter.module.css';
 
-export default function TagFilter() {
+import { TagFilterType } from '../../lib/common/filter';
+
+interface TagFilterProps {
+  value: TagFilterType;
+  onChange: (tags: TagFilterType) => void;
+}
+
+export default function TagFilter({
+  value: selectedTags,
+  onChange,
+}: TagFilterProps) {
   // import mui theme
   const theme = useTheme();
-
-  const fakeData = ['Javascript', 'Python', 'Rust', 'Java'];
 
   return (
     <Box
@@ -30,16 +38,26 @@ export default function TagFilter() {
 
         {/* checkbox group */}
         <FormGroup className={stateStyles.formGroup}>
-          {fakeData && fakeData.length > 0
-            ? fakeData.map((language: string) => (
+          {selectedTags
+            ? Object.keys(selectedTags).map((language: string) => (
                 <FormControlLabel
                   key={language}
                   className={stateStyles.formGroupLabel}
-                  control={<Checkbox defaultChecked />}
+                  control={
+                    <Checkbox
+                      checked={selectedTags[language] || false}
+                      onClick={() => {
+                        onChange({
+                          ...selectedTags,
+                          [language]: !selectedTags[language],
+                        });
+                      }}
+                    />
+                  }
                   label={language}
                 />
               ))
-            : 'loading...'}
+            : null}
         </FormGroup>
       </Box>
     </Box>

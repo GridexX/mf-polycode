@@ -76,11 +76,9 @@ export default function NavBar() {
               sx={{ ml: 18, display: { xs: 'none', md: 'none', lg: 'flex' } }}
             >
               <NavBarLink href="/content">
-                {i18n.t('components.navbar.exercises')}
+                {i18n.t('contents.title')}
               </NavBarLink>
-              <NavBarLink href="/module">
-                {i18n.t('components.navbar.modules')}
-              </NavBarLink>
+              <NavBarLink href="/module">{i18n.t('modules.title')}</NavBarLink>
               <NavBarLink href="/certification">
                 {i18n.t('components.navbar.certification')}
               </NavBarLink>

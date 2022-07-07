@@ -57,11 +57,7 @@ export async function fetchApi<MetaDataType, DataType>(
   body?: any,
   headers: HeadersInit = {},
 ): Promise<
-  { metadata: MetaDataType; data: DataType; status: number } | {
-    metadata: undefined;
-    data: undefined;
-    status: 204;
-  }
+  { metadata: MetaDataType; data: DataType; status: number }
 > {
   const formatedBody = body ? JSON.stringify(body) : undefined;
   const response = await Promise.race([
@@ -81,8 +77,8 @@ export async function fetchApi<MetaDataType, DataType>(
   // handle 204 - no content
   if (response.status === 204) {
     return {
-      metadata: undefined,
-      data: undefined,
+      metadata: null as unknown as MetaDataType,
+      data: null as unknown as DataType,
       status: 204,
     };
   }

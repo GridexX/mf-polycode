@@ -9,13 +9,13 @@ import {
 import Link from 'next/link';
 
 import { useTranslation } from '../../lib/translations';
-import ModuleType from '../../lib/api/module';
+import { ModuleShort } from '../../lib/api/module';
 import Polypoints from '../Polypoints';
 
 import styles from '../../styles/components/modules/HeroTale.module.css';
 
 type Props = {
-  module: ModuleType;
+  module: ModuleShort;
 };
 
 export default function HeroTale({ module }: Props) {
@@ -41,7 +41,7 @@ export default function HeroTale({ module }: Props) {
 
         {/* title */}
         <Box className={styles.titleContainer}>
-          <Typography className={styles.title}>{module.title}</Typography>
+          <Typography className={styles.title}>{module.name}</Typography>
         </Box>
 
         {/* description */}

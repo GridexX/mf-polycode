@@ -11,7 +11,14 @@ import {
 import styles from '../../styles/components/filters/Filter.module.css';
 import sortStyles from '../../styles/components/filters/SortFilter.module.css';
 
-export default function SortFilter() {
+import { SortFilterType } from '../../lib/common/filter';
+
+type Props = {
+  value: SortFilterType;
+  onChange: (sort: SortFilterType) => void;
+};
+
+export default function SortFilter({ value, onChange }: Props) {
   // import mui theme
   const theme = useTheme();
 
@@ -29,8 +36,9 @@ export default function SortFilter() {
         {/* radio group */}
         <RadioGroup
           className={sortStyles.radioGroup}
-          defaultValue="name"
+          defaultValue={value}
           name="radio-buttons-group"
+          onChange={(event) => onChange(event.target.value as SortFilterType)}
         >
           <FormControlLabel
             className={sortStyles.formGroupLabel}

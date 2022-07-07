@@ -1,23 +1,28 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import Module from './Module';
-import ModuleType from '../../lib/api/module';
+import { ModuleShort } from '../../lib/api/module';
 
 import styles from '../../styles/components/modules/ModuleList.module.css';
+import { useTranslation } from '../../lib/translations';
 
 type Props = {
-  modules: ModuleType[];
+  modules: ModuleShort[];
 };
 
 export default function ModuleList({ modules }: Props) {
+  const { i18n } = useTranslation();
+
   return (
     <Box className={styles.container}>
-      {modules && modules.length > 0
-        ? modules.map((module: ModuleType) => (
-            <Module key={module.title} module={module} />
-          ))
-        : 'loading...'}
+      {modules && modules.length > 0 ? (
+        modules.map((module: ModuleShort) => (
+          <Module key={module.name} module={module} />
+        ))
+      ) : (
+        <Typography className={styles.message}>{i18n.t('modules.notFound')}</Typography>
+      )}
     </Box>
   );
 }
