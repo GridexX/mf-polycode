@@ -76,25 +76,6 @@ docker_build:
     echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     /kaniko/executor --context ${DOCKER_CONTEXT_PATH} --dockerfile ${DOCKER_CONTEXT_PATH}/${DOCKERFILE_PATH} --verbosity=info --cache=true --cache-ttl=336h --use-new-run --snapshotMode=redo ${REGISTRY_DESTINATION} ${DOCKER_BUILD_OPTIONS}
 
-.git_push: &git_push
-  before_script:
-    - apt-get update -y && apt-get install -yqqf openssh-client git unzip sshpass rsync --fix-missing
-    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )"
-
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan $CI_SERVER_HOST >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-
-    - git config user.name "polycode.bot"
-    - git config user.email "bot@polycode.do-2021.fr"
-  after_script:
-    - eval $(ssh-agent -s)
-    - echo "$GITLAB_GIT_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - git pull "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git" ${CI_COMMIT_BRANCH:-main} --rebase --autostash -Xours
-    - git commit -a -m "${GIT_PUSH_COMMIT_NAME}"
-    - git push "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git" HEAD:${CI_COMMIT_BRANCH:-main}
-
 bump_version:
   stage: release
   image: node:16-buster-slim
@@ -103,8 +84,22 @@ bump_version:
     - tags
   variables:
     GIT_PUSH_COMMIT_NAME: "chore: bump app version to ${BUILD_VERSION} [skip ci]"
-  <<: *git_push
   script: |
+    apt-get update -y && apt-get install -yqqf openssh-client git unzip sshpass rsync --fix-missing
+    "which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )"
+
+    mkdir -p ~/.ssh
+    chmod 700 ~/.ssh
+    ssh-keyscan $CI_SERVER_HOST >> ~/.ssh/known_hosts
+    chmod 644 ~/.ssh/known_hosts
+
+    git config user.name "polycode.bot"
+    git config user.email "bot@polycode.do-2021.fr"
+
+    eval $(ssh-agent -s)
+    echo "$GITLAB_GIT_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    git pull "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git" ${CI_COMMIT_BRANCH:-main} --rebase --autostash -Xours
+
     echo "VERSION=$BUILD_VERSION"
 
     sed -i "/\"version\":/c\  \"version\": \"$BUILD_VERSION\"," package.json
@@ -115,6 +110,9 @@ bump_version:
       npm install -g conventional-changelog-cli
       conventional-changelog -p angular -i CHANGELOG.md -s
     fi
+
+    git commit -a -m "${GIT_PUSH_COMMIT_NAME}"
+    git push "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git" HEAD:${CI_COMMIT_BRANCH:-main}
 
 helm-package:
   stage: package
