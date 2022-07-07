@@ -33,6 +33,9 @@ export default function Menu({ handleMenu }: Props) {
 
     // back to landing page
     router.push('/');
+
+    // close menu
+    handleMenu();
   };
 
   return (

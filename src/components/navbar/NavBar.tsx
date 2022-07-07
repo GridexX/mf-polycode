@@ -8,29 +8,23 @@ import {
   Stack,
   useTheme,
 } from '@mui/material';
+import Link from 'next/link';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import Image from 'next/image';
 
 import Polypoints from '../Polypoints';
 import NavBarLink from './NavBarLink';
 import Menu from './Menu';
+import { useLoginContext } from '../../lib/loginContext';
 
 import styles from '../../styles/components/navbar/NavBar.module.css';
 import { useTranslation } from '../../lib/translations';
 
 import logo from '../../images/logo.png';
+import EmailNotification from './EmailNotification';
 
 export default function NavBar() {
-  const context = {
-    isLoggedIn: true,
-    user: {
-      username: 'GridexX',
-      polypoints: 24000,
-    },
-  };
-
-  const { isLoggedIn } = context;
-  const { polypoints } = context.user;
+  const { user } = useLoginContext();
 
   const theme = useTheme();
   const { i18n } = useTranslation();
@@ -49,24 +43,31 @@ export default function NavBar() {
         <AppBar className={styles.transparent} position="static">
           <Toolbar sx={{ backgroundColor: 'white', m: 1 }}>
             {/* title */}
-            <IconButton
-              size="small"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <Image src={logo} width={72} height={72} />
-            </IconButton>
-            <Typography
-              variant="h4"
-              noWrap
-              component="div"
-              color={theme.palette.primary.main}
-              sx={{ display: { xs: 'none', sm: 'block' } }}
-            >
-              Poly<span style={{ color: 'black' }}>Code</span>
-            </Typography>
+
+            <Link href="/">
+              <Box className={styles.homeLink}>
+                <IconButton
+                  size="small"
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  sx={{ mr: 2 }}
+                  disableRipple
+                >
+                  <Image src={logo} width={72} height={72} />
+                </IconButton>
+
+                <Typography
+                  variant="h4"
+                  noWrap
+                  component="div"
+                  color={theme.palette.primary.main}
+                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                >
+                  Poly<span style={{ color: 'black' }}>Code</span>
+                </Typography>
+              </Box>
+            </Link>
 
             {/* stack of links */}
             <Stack
@@ -74,11 +75,11 @@ export default function NavBar() {
               direction="row"
               sx={{ ml: 18, display: { xs: 'none', md: 'none', lg: 'flex' } }}
             >
-              <NavBarLink href="/practice">
-                {i18n.t('components.navbar.practice')}
+              <NavBarLink href="/content">
+                {i18n.t('components.navbar.exercises')}
               </NavBarLink>
-              <NavBarLink href="/challenge">
-                {i18n.t('components.navbar.challenge')}
+              <NavBarLink href="/module">
+                {i18n.t('components.navbar.modules')}
               </NavBarLink>
               <NavBarLink href="/certification">
                 {i18n.t('components.navbar.certification')}
@@ -88,11 +89,13 @@ export default function NavBar() {
             {/* separator */}
             <Box sx={{ flexGrow: 1 }} />
 
+            <EmailNotification />
+
             {/* stack of icons */}
             <Stack spacing={4} direction="row">
-              {isLoggedIn && (
+              {user && (
                 <Box className={styles.iconsContainer}>
-                  <Polypoints points={polypoints} size="normal" />
+                  <Polypoints points={user.points} size="normal" />
                   <IconButton
                     className={styles.menuIcon}
                     size="large"
@@ -107,7 +110,7 @@ export default function NavBar() {
                   </IconButton>
                 </Box>
               )}
-              {!isLoggedIn && (
+              {!user && (
                 <span style={{ marginRight: '12px' }}>
                   <NavBarLink href="/sign-in">
                     {i18n.t('components.navbar.sign-in')}

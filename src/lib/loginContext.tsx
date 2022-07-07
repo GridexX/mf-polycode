@@ -78,6 +78,7 @@ export function useCreateLoginContext(): LoginContextInterface {
   const setCredentials = useCallback((newCreds: Credentials | undefined) => {
     writeLocalStorage(newCreds);
     internalSetCredentials(newCreds);
+    if (!newCreds) setUser(null);
   }, []);
 
   const credentialsManager = useMemo(

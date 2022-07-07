@@ -185,15 +185,24 @@
   },
   "components": {
     "navbar": {
-      "practice": "Practice",
-      "challenge": "Challenge",
+      "exercises": "Exercises",
+      "modules": "Modules",
       "certification": "Certification",
-      "sign-in": "Sign In",
+      "sign-in": "Sign in",
       "menu": {
         "profile": "Profile",
         "leaderboard": "Leaderboard",
         "settings": "Settings",
         "logout": "Logout"
+      },
+      "modal": {
+        "sentMail": "We sent an email to",
+        "sentMailSuite": "for verification, please click the link in the mail.",
+        "didNotReceive": "Didn't receive the email?",
+        "resend": "RESEND EMAIL",
+        "title": "Email not verified",
+        "resendSuccess": "Email sent successfully",
+        "resendError": "Failed to send email"
       }
     }
   },

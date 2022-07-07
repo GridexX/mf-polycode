@@ -1,9 +1,9 @@
 // errors
-export const MissingMetaData = new Error('Missing metadata in response');
-export const MissingData = new Error('Missing data in response');
-export const UnexpectedResponse = new Error('Unexpected response from server');
-export const InvalidCredentialsError = new Error('Invalid credentials');
-export const InvalidRefreshTokenError = new Error('Invalid refresh token');
+export const MissingMetaData = new Error("Missing metadata in response");
+export const MissingData = new Error("Missing data in response");
+export const UnexpectedResponse = new Error("Unexpected response from server");
+export const InvalidCredentialsError = new Error("Invalid credentials");
+export const InvalidRefreshTokenError = new Error("Invalid refresh token");
 
 // credentials
 export interface Credentials {
@@ -45,19 +45,24 @@ export interface AsyncResponse<T> {
 // 1 minute timeout
 const fetchTimeout = 60000;
 
-const apiServer =
-  process.env.NEXT_PUBLIC_API_URL ??
-  (process.env.NODE_ENV === 'production'
-    ? 'https://api.polycode.dopolytech.fr'
-    : 'http://localhost:3000');
+const apiServer = process.env.NEXT_PUBLIC_API_URL ??
+  (process.env.NODE_ENV === "production"
+    ? "https://api.polycode.dopolytech.fr"
+    : "http://localhost:3000");
 
 // Fetch the backend api
 export async function fetchApi<MetaDataType, DataType>(
   ressource: string,
-  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET',
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" = "GET",
   body?: any,
-  headers: HeadersInit = {}
-): Promise<{ metadata: MetaDataType; data: DataType; status: number }> {
+  headers: HeadersInit = {},
+): Promise<
+  { metadata: MetaDataType; data: DataType; status: number } | {
+    metadata: undefined;
+    data: undefined;
+    status: 204;
+  }
+> {
   const formatedBody = body ? JSON.stringify(body) : undefined;
   const response = await Promise.race([
     fetch(apiServer + ressource, {
@@ -65,15 +70,24 @@ export async function fetchApi<MetaDataType, DataType>(
       body: formatedBody,
       headers: {
         ...headers,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     }),
     new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('Request timeout')), fetchTimeout);
+      setTimeout(() => reject(new Error("Request timeout")), fetchTimeout);
     }) as Promise<Response>,
   ]);
-  const json = await response.json();
 
+  // handle 204 - no content
+  if (response.status === 204) {
+    return {
+      metadata: undefined,
+      data: undefined,
+      status: 204,
+    };
+  }
+
+  const json = await response.json();
   return {
     metadata: json.metadata,
     data: json.data,
@@ -82,15 +96,15 @@ export async function fetchApi<MetaDataType, DataType>(
 }
 
 export async function refreshTokens(
-  credentialsManager: CredentialsManager
+  credentialsManager: CredentialsManager,
 ): Promise<boolean> {
   const { data, status } = await fetchApi<{}, Credentials>(
-    '/auth/token',
-    'POST',
+    "/auth/token",
+    "POST",
     {
-      grantType: 'refresh_token',
+      grantType: "refresh_token",
       refreshToken: credentialsManager.credentials?.refreshToken,
-    }
+    },
   );
 
   if (status === 201) {
@@ -105,12 +119,12 @@ export async function refreshTokens(
 export async function fetchApiWithAuth<MetaDataType, DataType>(
   ressource: string,
   credentialsManager: CredentialsManager,
-  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET',
-  body?: any
-): Promise<{ metadata: MetaDataType; data: DataType; status: number }> {
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" = "GET",
+  body?: any,
+) {
   const tryFetch = async () => {
     if (!credentialsManager.credentials) {
-      throw new Error('No credentials');
+      throw new Error("No credentials");
     }
 
     return fetchApi<MetaDataType, DataType>(ressource, method, body, {
@@ -132,16 +146,16 @@ export async function fetchApiWithAuth<MetaDataType, DataType>(
 export async function login(
   email: string,
   password: string,
-  credentialsManager: CredentialsManager
+  credentialsManager: CredentialsManager,
 ): Promise<boolean> {
   const { data, status } = await fetchApi<{}, Credentials>(
-    '/auth/token',
-    'POST',
+    "/auth/token",
+    "POST",
     {
-      grantType: 'implicit',
+      grantType: "implicit",
       identity: email,
       secret: password,
-    }
+    },
   );
 
   if (status === 201) {
@@ -152,9 +166,11 @@ export async function login(
 }
 
 export async function logout(
-  credentialsManager: CredentialsManager
-): Promise<void> {
-  await fetchApiWithAuth('/auth/logout', credentialsManager, 'POST');
-
-  credentialsManager.setCredentials(undefined);
+  credentialsManager: CredentialsManager,
+) {
+  return fetchApiWithAuth("/auth/logout", credentialsManager, "POST").catch(
+    () => {}, // ignore errors, logout not yet implemented in backend
+  ).finally(() => {
+    credentialsManager.setCredentials(undefined);
+  });
 }
