@@ -2,13 +2,13 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 import Module from './Module';
-import { ModuleShort } from '../../lib/api/module';
+import { ModuleWithProgress } from '../../lib/api/module';
 
 import styles from '../../styles/components/modules/ModuleList.module.css';
 import { useTranslation } from '../../lib/translations';
 
 type Props = {
-  modules: ModuleShort[];
+  modules: ModuleWithProgress[];
 };
 
 export default function ModuleList({ modules }: Props) {
@@ -17,7 +17,7 @@ export default function ModuleList({ modules }: Props) {
   return (
     <Box className={styles.container}>
       {modules && modules.length > 0 ? (
-        modules.map((module: ModuleShort) => (
+        modules.map((module: ModuleWithProgress) => (
           <Module key={module.name} module={module} />
         ))
       ) : (

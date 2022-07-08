@@ -2,13 +2,13 @@ import React from 'react';
 import { Button, Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
-import { ModuleShort } from '../../lib/api/module';
+import { ModuleWithProgress } from '../../lib/api/module';
 
 import styles from '../../styles/components/home/HeroTale.module.css';
 import { useTranslation } from '../../lib/translations';
 
 type Props = {
-  module: ModuleShort;
+  module: ModuleWithProgress;
 };
 
 export default function HeroTale({ module }: Props) {
@@ -18,7 +18,7 @@ export default function HeroTale({ module }: Props) {
     <Box
       className={styles.container}
       sx={{
-        backgroundImage: `url(${module.image})`,
+        // backgroundImage: `url(${module.image})`,
         backgroundSize: 'cover',
         borderRadius: '5px',
       }}

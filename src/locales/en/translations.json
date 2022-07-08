@@ -166,6 +166,28 @@
       },
       "modules": {
         "title": "Modules"
+      },
+      "submodules": "Submodules",
+      "contents": "Contents",
+      "editor": {
+        "titleNew": "New Module",
+        "titleEdit": "Edit Module",
+        "name": "Name",
+        "description": "Description",
+        "create": "Create",
+        "update": "Update",
+        "updated": "Module updated successfully",
+        "created": "Module created successfully",
+        "reward": "Reward",
+        "tags": "Tags",
+        "insertSubmodule": "Insert a submodule",
+        "insertContent": "Insert a content",
+        "search": "Search",
+        "onlyMyModules": "Show only my modules",
+        "error": {
+          "save": "Failed to save module",
+          "search": "Failed to search"
+        }
       }
     },
     "navbar": {

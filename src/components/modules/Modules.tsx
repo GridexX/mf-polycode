@@ -7,7 +7,7 @@ import { useTranslation } from '../../lib/translations';
 import styles from '../../styles/components/modules/Modules.module.css';
 
 import { toastError } from '../base/toast/Toast';
-import { getModules, ModuleFilters, ModuleShort } from '../../lib/api/module';
+import { getModules, ModuleFilters, ModuleWithProgress } from '../../lib/api/module';
 import { useLoginContext } from '../../lib/loginContext';
 
 type Props = {
@@ -20,7 +20,7 @@ export default function Modules({ filters }: Props) {
   const { i18n } = useTranslation();
   const { user, credentialsManager } = useLoginContext();
 
-  const [modules, setModules] = useState<ModuleShort[]>([]);
+  const [modules, setModules] = useState<ModuleWithProgress[]>([]);
   const [loading, setLoading] = useState(false);
 
   // --- handler events ---

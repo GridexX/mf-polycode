@@ -3,7 +3,7 @@ import { useTheme, Box, Typography, LinearProgress } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { ModuleShort } from '../../lib/api/module';
+import { ModuleWithProgress } from '../../lib/api/module';
 import Tag from './Tag';
 
 import styles from '../../styles/components/modules/Module.module.css';
@@ -11,7 +11,7 @@ import styles from '../../styles/components/modules/Module.module.css';
 import carrot from '../../images/carrot.png';
 
 type Props = {
-  module: ModuleShort;
+  module: ModuleWithProgress;
 };
 
 const DEFAULT_IMAGE =

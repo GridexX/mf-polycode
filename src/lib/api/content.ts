@@ -241,3 +241,28 @@ export function useGetContent(
     error,
   };
 }
+/**
+ * Fetches all the contents then filters by matching the search with the name field.
+ * user parameter has no effect for now.
+ * This function should change when the api permits searching.
+ */
+export async function searchContent(
+  search: string,
+  user: string | undefined,
+  credentialsManager: CredentialsManager,
+) {
+  const { data, status } = await fetchApiWithAuth<{}, Content[]>(
+    "/content",
+    credentialsManager,
+  );
+
+  if (status !== 200) {
+    throw UnexpectedResponse;
+  }
+
+  return data.filter((content) =>
+    content.name.toLowerCase().includes(search.toLowerCase())
+  );
+}
+
+export default ContentType;

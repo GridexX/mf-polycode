@@ -6,7 +6,7 @@ import TitledModuleList from '../titledLists/TitledModuleList';
 
 import styles from '../../styles/components/home/HomeContent.module.css';
 import { Content, getContents } from '../../lib/api/content';
-import { getModules, ModuleShort } from '../../lib/api/module';
+import { getModules, ModuleWithProgress } from '../../lib/api/module';
 import { useLoginContext } from '../../lib/loginContext';
 import { useTranslation } from '../../lib/translations';
 import { toastError } from '../base/toast/Toast';
@@ -17,7 +17,7 @@ export default function HomeContent() {
   const { i18n } = useTranslation();
 
   const [newContents, setNewContents] = React.useState<Content[]>([]);
-  const [newModules, setNewModules] = React.useState<ModuleShort[]>([]);
+  const [newModules, setNewModules] = React.useState<ModuleWithProgress[]>([]);
 
   useEffect(() => {
     if (credentialsManager.credentials) {
@@ -35,7 +35,11 @@ export default function HomeContent() {
       })
         .then((c) => setNewModules(c.data))
         .catch(() => {
-          toastError(<Typography>{i18n.t('components.home.homeContent.errors.module')}</Typography>);
+          toastError(
+            <Typography>
+              {i18n.t('components.home.homeContent.errors.module')}
+            </Typography>
+          );
         });
 
       getContents(credentialsManager, {
@@ -46,7 +50,11 @@ export default function HomeContent() {
       })
         .then((c) => setNewContents(c.data))
         .catch(() => {
-          toastError(<Typography>{i18n.t('components.home.homeContent.errors.content')}</Typography>);
+          toastError(
+            <Typography>
+              {i18n.t('components.home.homeContent.errors.content')}
+            </Typography>
+          );
         });
     }
   }, [credentialsManager, i18n]);
