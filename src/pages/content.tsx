@@ -10,6 +10,7 @@ import { SortFilterType, StateFilterType } from '../lib/common/filter';
 
 import styles from '../styles/pages/Contents.module.css';
 import { useLoginContext } from '../lib/loginContext';
+import { useTranslation } from '../lib/translations';
 
 const DEFAULT_STATE: ContentFilters = {
   limit: 20,
@@ -23,6 +24,7 @@ export default function Contents() {
   const theme = useTheme();
   const router = useRouter();
   const { user } = useLoginContext();
+  const { i18n } = useTranslation();
 
   // state
   const [filters, setFilter] = useState<ContentFilters>(DEFAULT_STATE);
@@ -50,7 +52,9 @@ export default function Contents() {
       <Box className={styles.innerContainer}>
         {/* filters */}
         <Box className={styles.filters}>
-          <Typography variant="h5">Filters</Typography>
+          <Typography variant="h5">
+            {i18n.t('pages.content.index.filters')}
+          </Typography>
           <StateFilter
             value={filters.state}
             onChange={handleStateFilterChanges}
@@ -65,7 +69,7 @@ export default function Contents() {
               className={styles.resetButton}
               onClick={handleReset}
             >
-              Reset
+              {i18n.t('pages.content.index.reset')}
             </Button>
           </Box>
         </Box>

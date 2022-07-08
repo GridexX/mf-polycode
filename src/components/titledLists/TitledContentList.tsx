@@ -5,6 +5,7 @@ import Content from '../contents/Content';
 import { Content as ContentType } from '../../lib/api/content';
 
 import styles from '../../styles/components/home/HomeContentList.module.css';
+import CenteredLoader from '../base/CenteredLoader';
 
 type Props = {
   title: string;
@@ -20,13 +21,15 @@ export default function HomeContentList({ title, contents }: Props) {
         <Typography className={styles.title}>{title}</Typography>
       </Box>
       <Box className={styles.contentList}>
-        {contents && contents.length > 0
-          ? contents.slice(0, MAX_CONTENTS).map((content) => (
-              <Box className={styles.contentContainer} key={content.id}>
-                <Content content={content} />
-              </Box>
-            ))
-          : 'loading...'}
+        {contents && contents.length > 0 ? (
+          contents.slice(0, MAX_CONTENTS).map((content) => (
+            <Box className={styles.contentContainer} key={content.id}>
+              <Content content={content} />
+            </Box>
+          ))
+        ) : (
+          <CenteredLoader />
+        )}
       </Box>
     </Box>
   );

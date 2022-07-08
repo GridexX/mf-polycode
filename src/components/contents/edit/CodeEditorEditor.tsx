@@ -256,7 +256,7 @@ export default function CodeEditorEditor({
       >
         <Stack direction="row" className={stylesCommon.header}>
           <Typography>
-            {i18n.t('contentEditor.codeEditorEditor.type')}
+            {i18n.t('components.contents.edit.codeEditorEditor.type')}
           </Typography>
           {removeButton || <div />}
         </Stack>
@@ -265,7 +265,9 @@ export default function CodeEditorEditor({
         <Stack direction="column" spacing={4}>
           <Stack direction="column" spacing={2}>
             <Divider textAlign="left">
-              {i18n.t('contentEditor.codeEditorEditor.allowedLanguages')}
+              {i18n.t(
+                'components.contents.edit.codeEditorEditor.allowedLanguages'
+              )}
             </Divider>
             <FormGroup>
               {renderLanguageCheckbox('javascript')}
@@ -275,7 +277,7 @@ export default function CodeEditorEditor({
             </FormGroup>
           </Stack>
           <Divider textAlign="left">
-            {i18n.t('contentEditor.codeEditorEditor.defaultCode')}
+            {i18n.t('components.contents.edit.codeEditorEditor.defaultCode')}
           </Divider>
           <Stack direction="column" spacing={2}>
             <Box>
@@ -284,7 +286,9 @@ export default function CodeEditorEditor({
                 onChange={(event) =>
                   setCurrentLanguage(event.target.value as EditorLanguage)
                 }
-                label={i18n.t('contentEditor.codeEditorEditor.language')}
+                label={i18n.t(
+                  'components.contents.edit.codeEditorEditor.language'
+                )}
                 items={getLanguages()}
               />
             </Box>
@@ -303,26 +307,34 @@ export default function CodeEditorEditor({
             />
           </Stack>
           <Divider textAlign="left">
-            {i18n.t('contentEditor.codeEditorEditor.validators.title')}
+            {i18n.t(
+              'components.contents.edit.codeEditorEditor.validators.title'
+            )}
           </Divider>
           <Box>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell align="center">
-                    {i18n.t('contentEditor.codeEditorEditor.validators.input')}
-                  </TableCell>
-                  <TableCell align="center">
                     {i18n.t(
-                      'contentEditor.codeEditorEditor.validators.expectedOutput'
+                      'components.contents.edit.codeEditorEditor.validators.input'
                     )}
                   </TableCell>
                   <TableCell align="center">
-                    {i18n.t('contentEditor.codeEditorEditor.validators.hidden')}
+                    {i18n.t(
+                      'components.contents.edit.codeEditorEditor.validators.expectedOutput'
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    {i18n.t(
+                      'components.content.edit.codeEditorEditor.validators.hidden'
+                    )}
                   </TableCell>
                   <TableCell align="center">
                     <Button onClick={handleAddValidator} variant="outlined">
-                      {i18n.t('contentEditor.codeEditorEditor.validators.new')}
+                      {i18n.t(
+                        'components.content.edit.codeEditorEditor.validators.new'
+                      )}
                     </Button>
                   </TableCell>
                 </TableRow>

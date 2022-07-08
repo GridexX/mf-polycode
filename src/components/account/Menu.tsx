@@ -40,7 +40,7 @@ export default function Menu({ buttonSelected }: Props) {
               startIcon={<PersonIcon className={styles.icon} />}
               color={buttonSelected === 'profile' ? 'primary' : 'inherit'}
             >
-              {i18n.t('account.menu.profile')}
+              {i18n.t('components.account.menu.profile')}
             </Button>
           </Link>
           <Link href="/account/settings">
@@ -50,7 +50,7 @@ export default function Menu({ buttonSelected }: Props) {
               startIcon={<SettingsIcon className={styles.icon} />}
               color={buttonSelected === 'settings' ? 'primary' : 'inherit'}
             >
-              {i18n.t('account.menu.settings')}
+              {i18n.t('components.account.menu.settings')}
             </Button>
           </Link>
           <Link href="/account/teams">
@@ -60,7 +60,7 @@ export default function Menu({ buttonSelected }: Props) {
               startIcon={<PeopleAltIcon className={styles.icon} />}
               color={buttonSelected === 'teams' ? 'primary' : 'inherit'}
             >
-              {i18n.t('account.menu.teams')}
+              {i18n.t('components.account.menu.teams')}
             </Button>
           </Link>
           <Link href="/account/password">
@@ -70,7 +70,7 @@ export default function Menu({ buttonSelected }: Props) {
               startIcon={<LockIcon className={styles.icon} />}
               color={buttonSelected === 'password' ? 'primary' : 'inherit'}
             >
-              {i18n.t('account.menu.password')}
+              {i18n.t('components.account.menu.password')}
             </Button>
           </Link>
         </Box>

@@ -90,11 +90,15 @@ export default function Validators() {
         stderr = result.data.stderr;
         stdout = result.data.stdout;
       } else {
-        stderr = 'unexpected result from server';
+        stderr = i18n.t('components.playground.validators.runAllError');
       }
     } catch (e) {
-      toastError(<Typography>Unexpected request error</Typography>);
-      stderr = 'unexpected request error';
+      toastError(
+        <Typography>
+          {i18n.t('components.playground.validators.runAllError')}
+        </Typography>
+      );
+      stderr = i18n.t('components.playground.validators.runAllError');
     } finally {
       context.setLastOutput({
         stderr,
@@ -184,7 +188,7 @@ export default function Validators() {
           onClick={toggleExpand}
         >
           <Typography variant="h6" className={styles.autoMargin}>
-            {i18n.t('playground.validator.title')}
+            {i18n.t('components.playground.validators.title')}
           </Typography>
 
           <Box width="1em" />
@@ -194,7 +198,7 @@ export default function Validators() {
               (validatorStatus.filter((s) => s.success).length * 100) /
                 context.validators.length
             )}{' '}
-            {i18n.t('playground.validator.passed')}
+            {i18n.t('components.playground.validators.passed')}
           </Typography>
 
           <Box flexGrow={1} />
@@ -209,7 +213,7 @@ export default function Validators() {
           onClick={handleRunAllValidators}
           // disabled={!validatorStatus.some((s) => !s.latestRun)} // disable if all tests have bee run
         >
-          {i18n.t('playground.validator.runAll')}
+          {i18n.t('components.playground.validators.runAll')}
         </LoadingButton>
       </AccordionSummary>
 

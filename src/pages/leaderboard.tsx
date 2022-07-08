@@ -74,7 +74,7 @@ export default function Leaderboard() {
         color={theme.palette.text.primary}
         className={styles.title}
       >
-        {i18n.t('leaderboard.title')}
+        {i18n.t('pages.leaderboard.title')}
       </Typography>
       <Stack direction="column" spacing={6}>
         {users.length > 0 &&

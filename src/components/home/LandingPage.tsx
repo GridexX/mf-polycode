@@ -29,12 +29,12 @@ export default function LandingPage() {
       </Typography>
 
       <Typography variant="body1" className={styles.center}>
-        {i18n.t('home.manifesto')}
+        {i18n.t('components.home.landingPage.manifesto')}
       </Typography>
 
       <Link href="/sign-up" passHref>
         <Button variant="contained" size="large" className={styles.startButton}>
-          {i18n.t('home.start')}
+          {i18n.t('components.home.landingPage.start')}
         </Button>
       </Link>
     </Box>

@@ -1,11 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  FormGroup,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, FormGroup, Stack, TextField, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import React from 'react';
 import { ContainerComponent, Content } from '../../../lib/api/content';
@@ -13,6 +6,7 @@ import { useTranslation } from '../../../lib/translations';
 import ContainerEditor from './ContainerEditor';
 
 import styles from '../../../styles/components/contents/edit/ContentEditorWizard.module.css';
+import CenteredLoader from '../../base/CenteredLoader';
 
 type EditorErrors = {
   name: string;
@@ -48,14 +42,18 @@ export default function ContentEditorWizard({
     if (content.name.length === 0) {
       setEditorErrors({
         ...editorErrors,
-        name: i18n.t('contentEditor.contentEditorWizard.errors.nameEmpty'),
+        name: i18n.t(
+          'components.contents.edit.contentEditorWizard.errors.nameEmpty'
+        ),
       });
       return false;
     }
     if (content.name.length > 50) {
       setEditorErrors({
         ...editorErrors,
-        name: i18n.t('contentEditor.contentEditorWizard.errors.nameTooLong'),
+        name: i18n.t(
+          'components.contents.edit.contentEditorWizard.errors.nameTooLong'
+        ),
       });
       return false;
     }
@@ -67,7 +65,7 @@ export default function ContentEditorWizard({
       setEditorErrors({
         ...editorErrors,
         description: i18n.t(
-          'contentEditor.contentEditorWizard.errors.descriptionEmpty'
+          'components.contents.edit.contentEditorWizard.errors.descriptionEmpty'
         ),
       });
       return false;
@@ -76,7 +74,7 @@ export default function ContentEditorWizard({
       setEditorErrors({
         ...editorErrors,
         description: i18n.t(
-          'contentEditor.contentEditorWizard.errors.descriptionTooLong'
+          'components.contents.edit.contentEditorWizard.errors.descriptionTooLong'
         ),
       });
       return false;
@@ -124,9 +122,7 @@ export default function ContentEditorWizard({
           {titleText}
         </Typography>
         {isLoading ? (
-          <Box className={styles.loaderContainer}>
-            <CircularProgress />
-          </Box>
+          <CenteredLoader />
         ) : (
           <Stack direction="column" spacing={8}>
             <FormGroup>
@@ -135,7 +131,9 @@ export default function ContentEditorWizard({
                   <TextField
                     value={content.name}
                     onChange={handleNameChange}
-                    label={i18n.t('contentEditor.contentEditorWizard.name')}
+                    label={i18n.t(
+                      'components.contents.edit.contentEditorWizard.name'
+                    )}
                     variant="standard"
                     className={styles.littleTextField}
                     error={editorErrors.name.length > 0}
@@ -145,7 +143,9 @@ export default function ContentEditorWizard({
                   <TextField
                     value={content.reward}
                     onChange={handleRewardChange}
-                    label={i18n.t('contentEditor.contentEditorWizard.reward')}
+                    label={i18n.t(
+                      'components.contents.edit.contentEditorWizard.reward'
+                    )}
                     type="number"
                     variant="standard"
                     className={styles.littleTextField}
@@ -156,7 +156,7 @@ export default function ContentEditorWizard({
                   value={content.description}
                   onChange={handleDescriptionChange}
                   label={i18n.t(
-                    'contentEditor.contentEditorWizard.description'
+                    'components.contents.edit.contentEditorWizard.description'
                   )}
                   variant="standard"
                   error={editorErrors.description.length > 0}
@@ -177,7 +177,7 @@ export default function ContentEditorWizard({
               loading={isSaving}
               className={styles.saveButton}
             >
-              {i18n.t('contentEditor.contentEditorWizard.save')}
+              {i18n.t('components.contents.edit.contentEditorWizard.save')}
             </LoadingButton>
           </Stack>
         )}

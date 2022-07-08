@@ -36,17 +36,17 @@ export default function Menu({ team }: Props) {
             sx={{ color: theme.palette.primary.main }}
           >
             <MenuRow
-              label={i18n.t('team.menu.polypoints')}
+              label={i18n.t('components.team.menu.polypoints')}
               value={team.points.toString()}
               image="/images/carrot.png"
             />
             <MenuRow
-              label={i18n.t('team.menu.rank')}
+              label={i18n.t('components.team.menu.rank')}
               value={team.rank.toString()}
               image="/images/rank.png"
             />
             <MenuRow
-              label={i18n.t('team.menu.members')}
+              label={i18n.t('components.team.menu.members')}
               value={team.members.length.toString()}
             />
           </Stack>

@@ -76,11 +76,13 @@ export default function NavBar() {
               sx={{ ml: 18, display: { xs: 'none', md: 'none', lg: 'flex' } }}
             >
               <NavBarLink href="/content">
-                {i18n.t('contents.title')}
+                {i18n.t('components.navbar.navBar.content')}
               </NavBarLink>
-              <NavBarLink href="/module">{i18n.t('modules.title')}</NavBarLink>
+              <NavBarLink href="/module">
+                {i18n.t('components.navbar.navBar.modules')}
+              </NavBarLink>
               <NavBarLink href="/certification">
-                {i18n.t('components.navbar.certification')}
+                {i18n.t('components.navbar.navBar.certification')}
               </NavBarLink>
             </Stack>
 
@@ -111,7 +113,7 @@ export default function NavBar() {
               {!user && (
                 <span style={{ marginRight: '12px' }}>
                   <NavBarLink href="/sign-in">
-                    {i18n.t('components.navbar.sign-in')}
+                    {i18n.t('components.navbar.navBar.signIn')}
                   </NavBarLink>
                 </span>
               )}

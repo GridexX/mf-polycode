@@ -149,11 +149,11 @@ export default function ContainerEditor({
       >
         <Stack direction="row" className={stylesCommon.header}>
           <Typography>
-            {i18n.t('contentEditor.containerEditor.type')}
+            {i18n.t('components.contents.edit.containerEditor.type')}
           </Typography>
           <Typography sx={{ color: theme.palette.text.secondary }}>
             {format(
-              i18n.t('contentEditor.containerEditor.description'),
+              i18n.t('components.contents.edit.containerEditor.description'),
               '{0}',
               (container.data.components?.length || 0).toString(),
               '{1}',
@@ -166,7 +166,7 @@ export default function ContainerEditor({
       <AccordionDetails>
         <Stack>
           <Typography>
-            {i18n.t('contentEditor.containerEditor.orientation')}
+            {i18n.t('components.contents.edit.containerEditor.orientation')}
           </Typography>
           <RadioGroup
             defaultValue="horizontal"
@@ -174,12 +174,16 @@ export default function ContainerEditor({
           >
             <FormControlLabel
               value="horizontal"
-              label={i18n.t('contentEditor.containerEditor.horizontal')}
+              label={i18n.t(
+                'components.contents.edit.containerEditor.horizontal'
+              )}
               control={<Radio />}
             />
             <FormControlLabel
               value="vertical"
-              label={i18n.t('contentEditor.containerEditor.vertical')}
+              label={i18n.t(
+                'components.contents.edit.containerEditor.vertical'
+              )}
               control={<Radio />}
             />
           </RadioGroup>
@@ -249,7 +253,7 @@ export default function ContainerEditor({
             }
           })}
           <Button onClick={handleOpenDialog} variant="contained">
-            {i18n.t('contentEditor.componentListEditor.new')}
+            {i18n.t('components.contents.edit.componentListEditor.new')}
           </Button>
           <NewComponentDialog
             isOpen={isDialogOpen}

@@ -44,7 +44,7 @@ export default function Toolbar() {
       <Box flexGrow={1} />
 
       <Stack spacing={1} direction="row">
-        <Tooltip title={i18n.t('playground.toolbar.resetCode')}>
+        <Tooltip title={i18n.t('components.playground.toolbar.resetCode')}>
           <IconButton onClick={context.resetCode} color="primary">
             <ReplayIcon />
           </IconButton>
@@ -60,7 +60,7 @@ export default function Toolbar() {
           Run
         </Button> */}
         <Button variant="contained" startIcon={<PublishIcon />}>
-          {i18n.t('playground.toolbar.submit')}
+          {i18n.t('components.playground.toolbar.submit')}
         </Button>
       </Stack>
     </Box>

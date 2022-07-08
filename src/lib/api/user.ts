@@ -4,7 +4,9 @@ import {
   fetchApiWithAuth,
   MissingData,
   UnexpectedResponse,
-} from "./api";
+} from './api';
+
+export const UserAlreadyExists = new Error('User already exists');
 
 // Response structures (models)
 
@@ -56,25 +58,26 @@ export interface UpdateUserSettingsRequest {
 // Create functions
 
 export async function createUser(request: CreateUserRequest): Promise<User> {
-  const { data, status } = await fetchApi<{}, User>("/user", "POST", request);
+  const { data, status } = await fetchApi<{}, User>('/user', 'POST', request);
 
-  if (status === 200) {
-    if (typeof data === "undefined") throw MissingData;
+  if (status === 201) {
+    if (typeof data === 'undefined') throw MissingData;
     return data;
   }
+  if (status === 409) throw UserAlreadyExists;
   throw UnexpectedResponse;
 }
 
 export async function createUserEmail(
   credentialsManager: CredentialsManager,
   userId: string,
-  request: CreateUserEmailRequest,
+  request: CreateUserEmailRequest
 ): Promise<boolean> {
   const { status } = await fetchApiWithAuth<{}, boolean>(
     `/user/${userId}/email`,
     credentialsManager,
-    "POST",
-    request,
+    'POST',
+    request
   );
 
   if (status === 200) return true;
@@ -84,16 +87,16 @@ export async function createUserEmail(
 // Get functions
 
 export async function getUsers(
-  credentialsManager: CredentialsManager,
+  credentialsManager: CredentialsManager
 ): Promise<User[]> {
   const { data, status } = await fetchApiWithAuth<{}, User[]>(
-    "/user",
+    '/user',
     credentialsManager,
-    "GET",
+    'GET'
   );
 
   if (status === 200) {
-    if (typeof data === "undefined") throw MissingData;
+    if (typeof data === 'undefined') throw MissingData;
     return data;
   }
   throw UnexpectedResponse;
@@ -101,15 +104,15 @@ export async function getUsers(
 
 export async function getUser(
   credentialsManager: CredentialsManager,
-  userId: string,
+  userId: string
 ): Promise<User> {
   const { data, status } = await fetchApiWithAuth<{}, User>(
     `/user/${userId}`,
     credentialsManager,
-    "GET",
+    'GET'
   );
   if (status === 200) {
-    if (typeof data === "undefined") throw MissingData;
+    if (typeof data === 'undefined') throw MissingData;
     return data;
   }
   throw UnexpectedResponse;
@@ -117,15 +120,15 @@ export async function getUser(
 
 export async function getUserEmails(
   credentialsManager: CredentialsManager,
-  userId: string,
+  userId: string
 ): Promise<UserEmail[]> {
   const { data, status } = await fetchApiWithAuth<{}, UserEmail[]>(
     `/user/${userId}/email`,
     credentialsManager,
-    "GET",
+    'GET'
   );
   if (status === 200) {
-    if (typeof data === "undefined") throw MissingData;
+    if (typeof data === 'undefined') throw MissingData;
     return data;
   }
   throw UnexpectedResponse;
@@ -133,15 +136,15 @@ export async function getUserEmails(
 
 export async function getUserSettings(
   credentialsManager: CredentialsManager,
-  userId: string,
+  userId: string
 ): Promise<UserSettings> {
   const { data, status } = await fetchApiWithAuth<{}, UserSettings>(
     `/user/${userId}/settings`,
     credentialsManager,
-    "GET",
+    'GET'
   );
   if (status === 200) {
-    if (typeof data === "undefined") throw MissingData;
+    if (typeof data === 'undefined') throw MissingData;
     return data;
   }
   throw UnexpectedResponse;
@@ -152,17 +155,17 @@ export async function getUserSettings(
 export async function updateUser(
   credentialsManager: CredentialsManager,
   userId: string,
-  request: UpdateUserRequest,
+  request: UpdateUserRequest
 ): Promise<User> {
   const { data, status } = await fetchApiWithAuth<{}, User>(
     `/user/${userId}`,
     credentialsManager,
-    "PATCH",
-    request,
+    'PATCH',
+    request
   );
 
   if (status === 200) {
-    if (typeof data === "undefined") throw MissingData;
+    if (typeof data === 'undefined') throw MissingData;
     return data;
   }
   throw UnexpectedResponse;
@@ -171,16 +174,16 @@ export async function updateUser(
 export async function updateUserSettings(
   credentialsManager: CredentialsManager,
   userId: string,
-  request: UpdateUserSettingsRequest,
+  request: UpdateUserSettingsRequest
 ): Promise<UserSettings> {
   const { data, status } = await fetchApiWithAuth<{}, UserSettings>(
     `/user/${userId}/settings`,
     credentialsManager,
-    "PATCH",
-    request,
+    'PATCH',
+    request
   );
   if (status === 200) {
-    if (typeof data === "undefined") throw MissingData;
+    if (typeof data === 'undefined') throw MissingData;
     return data;
   }
   throw UnexpectedResponse;
@@ -190,12 +193,12 @@ export async function updateUserSettings(
 
 export async function deleteUser(
   credentialsManager: CredentialsManager,
-  userId: string,
+  userId: string
 ): Promise<boolean> {
   const { status } = await fetchApiWithAuth<undefined, undefined>(
     `/user/${userId}`,
     credentialsManager,
-    "DELETE",
+    'DELETE'
   );
   if (status === 200) return true;
   throw UnexpectedResponse;
@@ -204,12 +207,12 @@ export async function deleteUser(
 export async function deleteUserEmail(
   credentialsManager: CredentialsManager,
   userId: string,
-  userEmailId: string,
+  userEmailId: string
 ): Promise<boolean> {
   const { status } = await fetchApiWithAuth<undefined, undefined>(
     `/user/${userId}/emails/${userEmailId}`,
     credentialsManager,
-    "DELETE",
+    'DELETE'
   );
   if (status === 200) return true;
   throw UnexpectedResponse;
@@ -218,7 +221,7 @@ export async function deleteUserEmail(
 export async function resendEmail(emailId: string) {
   const { status } = await fetchApi(
     `/user/email/regenerate-token/${emailId}`,
-    "POST",
+    'POST'
   );
   if (status === 204) return true;
   throw UnexpectedResponse;

@@ -46,7 +46,9 @@ export default function MarkdownEditor({
         className={stylesCommon.headerContainer}
       >
         <Stack direction="row" className={stylesCommon.header}>
-          <Typography>{i18n.t('contentEditor.markdownEditor.type')}</Typography>
+          <Typography>
+            {i18n.t('components.contents.edit.markdownEditor.type')}
+          </Typography>
           {removeButton || <div />}
         </Stack>
       </AccordionSummary>
@@ -54,7 +56,7 @@ export default function MarkdownEditor({
         <Stack direction="row" className={styles.container}>
           <Stack direction="column" className={styles.columnContainer}>
             <Typography>
-              {i18n.t('contentEditor.markdownEditor.editor')}
+              {i18n.t('components.contents.edit.markdownEditor.editor')}
             </Typography>
             <TextField
               multiline
@@ -71,7 +73,7 @@ export default function MarkdownEditor({
             className={styles.columnContainer}
           >
             <Typography>
-              {i18n.t('contentEditor.markdownEditor.preview')}
+              {i18n.t('components.contents.edit.markdownEditor.preview')}
             </Typography>
             <Markdown
               content={markdown.data.markdown || ''}

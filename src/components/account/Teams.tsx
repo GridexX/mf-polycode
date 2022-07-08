@@ -6,7 +6,6 @@ import {
   IconButton,
   Divider,
   Stack,
-  CircularProgress,
 } from '@mui/material';
 import { LocalPolice, MoreVert } from '@mui/icons-material';
 
@@ -15,6 +14,7 @@ import { useTranslation } from '../../lib/translations';
 import { Team } from '../../lib/api/team';
 import { useLoginContext } from '../../lib/loginContext';
 import Polypoints from '../Polypoints';
+import CenteredLoader from '../base/CenteredLoader';
 
 const fakeData: Team[] = [
   {
@@ -97,7 +97,7 @@ export default function Teams() {
       {/* title */}
       <Box className={styles.titleContainer}>
         <Typography variant="h3" color="inherit">
-          {i18n.t('account.teams.title')}
+          {i18n.t('components.account.teams.title')}
         </Typography>
       </Box>
       {/* content container */}
@@ -109,13 +109,11 @@ export default function Teams() {
             sx={{ color: theme.palette.primary.main }}
             className={styles.teamsListTitle}
           >
-            {i18n.t('account.teams.captainOf')}
+            {i18n.t('components.account.teams.captainOf')}
           </Typography>
 
           {loading ? (
-            <Box className={styles.loaderContainer}>
-              <CircularProgress />
-            </Box>
+            <CenteredLoader />
           ) : (
             <Stack className={styles.teamsList} spacing={4}>
               {teamsCaptainOf.length === 0 ? (
@@ -124,7 +122,7 @@ export default function Teams() {
                   variant="h6"
                   sx={{ color: theme.palette.primary.main }}
                 >
-                  {i18n.t('account.teams.notCaptainOf')}
+                  {i18n.t('components.account.teams.notCaptainOf')}
                 </Typography>
               ) : (
                 teamsCaptainOf.map((team) => (
@@ -165,12 +163,10 @@ export default function Teams() {
             sx={{ color: theme.palette.primary.main }}
             className={styles.teamsListTitle}
           >
-            {i18n.t('account.teams.memberOf')}
+            {i18n.t('components.account.teams.memberOf')}
           </Typography>
           {loading ? (
-            <Box className={styles.loaderContainer}>
-              <CircularProgress />
-            </Box>
+            <CenteredLoader />
           ) : (
             <Stack className={styles.teamsList} spacing={4}>
               {teamsMemberOf.length === 0 ? (
@@ -179,7 +175,7 @@ export default function Teams() {
                   variant="h6"
                   sx={{ color: theme.palette.primary.main }}
                 >
-                  {i18n.t('account.teams.notMemberOf')}
+                  {i18n.t('components.account.teams.notMemberOf')}
                 </Typography>
               ) : (
                 teamsMemberOf.map((team) => (

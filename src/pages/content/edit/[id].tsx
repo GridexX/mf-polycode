@@ -31,7 +31,7 @@ export default function ContentEditor() {
         .catch(() =>
           toastError(
             <Typography>
-              {i18n.t('contentEditor.page.errors.serverFetchFailed')}
+              {i18n.t('pages.content.edit.id.fetchError')}
             </Typography>
           )
         )
@@ -50,14 +50,12 @@ export default function ContentEditor() {
     })
       .then(() =>
         toastSuccess(
-          <Typography>{i18n.t('contentEditor.page.saveSuccess')}</Typography>
+          <Typography>{i18n.t('pages.content.edit.id.saveSuccess')}</Typography>
         )
       )
       .catch(() =>
         toastError(
-          <Typography>
-            {i18n.t('contentEditor.page.errors.serverSaveFailed')}
-          </Typography>
+          <Typography>{i18n.t('pages.content.edit.id.saveError')}</Typography>
         )
       )
       .finally(() => setSaveLoading(false));
@@ -72,7 +70,7 @@ export default function ContentEditor() {
       onSave={handleSave}
       isLoading={fetchLoading}
       isSaving={saveLoading}
-      titleText={i18n.t('contentEditor.page.titleEdit')}
+      titleText={i18n.t('pages.content.edit.id.title')}
     />
   );
 }

@@ -32,13 +32,15 @@ export default function ContentEditor() {
     createContent(credentialsManager, content)
       .then(() =>
         toastSuccess(
-          <Typography>{i18n.t('contentEditor.page.saveSuccess')}</Typography>
+          <Typography>
+            {i18n.t('pages.content.edit.index.saveSuccess')}
+          </Typography>
         )
       )
       .catch(() =>
         toastError(
           <Typography>
-            {i18n.t('contentEditor.page.errors.serverSaveFailed')}
+            {i18n.t('pages.content.edit.index.saveError')}
           </Typography>
         )
       )
@@ -54,7 +56,7 @@ export default function ContentEditor() {
       onSave={handleSave}
       isLoading={false}
       isSaving={saveLoading}
-      titleText={i18n.t('contentEditor.page.titleNew')}
+      titleText={i18n.t('pages.content.edit.index.title')}
     />
   );
 }

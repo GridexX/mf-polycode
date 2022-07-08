@@ -10,6 +10,7 @@ import {
 
 import styles from '../../styles/components/filters/Filter.module.css';
 import sortStyles from '../../styles/components/filters/SortFilter.module.css';
+import { useTranslation } from '../../lib/translations';
 
 import { SortFilterType } from '../../lib/common/filter';
 
@@ -21,6 +22,7 @@ type Props = {
 export default function SortFilter({ value, onChange }: Props) {
   // import mui theme
   const theme = useTheme();
+  const { i18n } = useTranslation();
 
   return (
     <Box
@@ -30,7 +32,9 @@ export default function SortFilter({ value, onChange }: Props) {
       <Box className={sortStyles.innerContainer}>
         {/* title */}
         <Box className={sortStyles.titleContainer}>
-          <Typography className={sortStyles.title}>Sort</Typography>
+          <Typography className={sortStyles.title}>
+            {i18n.t('components.filters.sortFilter.title')}
+          </Typography>
         </Box>
 
         {/* radio group */}
@@ -44,19 +48,19 @@ export default function SortFilter({ value, onChange }: Props) {
             className={sortStyles.formGroupLabel}
             value="name"
             control={<Radio />}
-            label="Name"
+            label={i18n.t('components.filters.sortFilter.name')}
           />
           <FormControlLabel
             className={sortStyles.formGroupLabel}
             value="date"
             control={<Radio />}
-            label="Date"
+            label={i18n.t('components.filters.sortFilter.date')}
           />
           <FormControlLabel
             className={sortStyles.formGroupLabel}
             value="completion"
             control={<Radio />}
-            label="Completion"
+            label={i18n.t('components.filters.sortFilter.completion')}
           />
         </RadioGroup>
       </Box>

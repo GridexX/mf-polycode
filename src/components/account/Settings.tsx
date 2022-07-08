@@ -85,7 +85,7 @@ export default function Settings() {
       .catch(() =>
         toastError(
           <Typography>
-            {i18n.t('account.settings.errors.serverFetchFailed')}
+            {i18n.t('components.account.settings.serverFetchFailed')}
           </Typography>
         )
       )
@@ -97,14 +97,14 @@ export default function Settings() {
     if (editorState.username.length < 3) {
       setEditorErrors({
         ...editorErrors,
-        username: i18n.t('account.settings.errors.usernameTooShort'),
+        username: i18n.t('components.account.settings.usernameTooShort'),
       });
       return false;
     }
     if (editorState.username.length > 20) {
       setEditorErrors({
         ...editorErrors,
-        username: i18n.t('account.settings.errors.usernameTooLong'),
+        username: i18n.t('components.account.settings.usernameTooLong'),
       });
       return false;
     }
@@ -118,7 +118,7 @@ export default function Settings() {
   const checkEmails = (index: number) => {
     if (editorState.emails[index]?.email.length < 3) {
       const newEmails = [...editorErrors.emails];
-      newEmails[index] = i18n.t('account.settings.errors.emailTooShort');
+      newEmails[index] = i18n.t('components.account.settings.emailTooShort');
       setEditorErrors({
         ...editorErrors,
         emails: newEmails,
@@ -127,7 +127,7 @@ export default function Settings() {
     }
     if (editorState.emails[index]?.email.length > 50) {
       const newEmails = [...editorErrors.emails];
-      newEmails[index] = i18n.t('account.settings.errors.emailTooLong');
+      newEmails[index] = i18n.t('components.account.settings.emailTooLong');
       setEditorErrors({
         ...editorErrors,
         emails: newEmails,
@@ -136,7 +136,7 @@ export default function Settings() {
     }
     if (editorState.emails[index]?.email.indexOf('@') === -1) {
       const newEmails = [...editorErrors.emails];
-      newEmails[index] = i18n.t('account.settings.errors.emailInvalid');
+      newEmails[index] = i18n.t('components.account.settings.emailInvalid');
       setEditorErrors({
         ...editorErrors,
         emails: newEmails,
@@ -156,7 +156,7 @@ export default function Settings() {
     if (editorState.biography.length > 500) {
       setEditorErrors({
         ...editorErrors,
-        biography: i18n.t('account.settings.errors.biographyTooLong'),
+        biography: i18n.t('components.account.settings.biographyTooLong'),
       });
       return false;
     }
@@ -253,13 +253,15 @@ export default function Settings() {
           .then(() => {
             refreshUser();
             toastSuccess(
-              <Typography>{i18n.t('account.settings.saveSuccess')}</Typography>
+              <Typography>
+                {i18n.t('components.account.settings.saveSuccess')}
+              </Typography>
             );
           })
           .catch(() =>
             toastError(
               <Typography>
-                {i18n.t('account.settings.errors.serverSaveFailed')}
+                {i18n.t('components.account.settings.serverSaveFailed')}
               </Typography>
             )
           )
@@ -279,7 +281,7 @@ export default function Settings() {
       {/* panel title */}
       <Box className={styles.titleContainer}>
         <Typography variant="h3" color="inherit">
-          {i18n.t('account.settings.titlePage')}
+          {i18n.t('components.account.settings.titlePage')}
         </Typography>
       </Box>
       {/* content container */}
@@ -291,7 +293,7 @@ export default function Settings() {
             variant="h4"
             sx={{ color: theme.palette.primary.main }}
           >
-            {i18n.t('account.settings.information')}
+            {i18n.t('components.account.settings.information')}
           </Typography>
 
           {/* Username */}
@@ -301,11 +303,11 @@ export default function Settings() {
               variant="h6"
               sx={{ color: theme.palette.primary.main }}
             >
-              {i18n.t('account.settings.username')}
+              {i18n.t('components.account.settings.username')}
             </Typography>
             <Box className={styles.inputContainer}>
               <TextInput
-                label={i18n.t('account.settings.username')}
+                label={i18n.t('components.account.settings.username')}
                 value={editorState.username}
                 onChange={handleUsernameChange}
                 error={editorErrors.username !== ''}
@@ -321,11 +323,11 @@ export default function Settings() {
               variant="h6"
               sx={{ color: theme.palette.primary.main }}
             >
-              {i18n.t('account.settings.emails')}
+              {i18n.t('components.account.settings.emails')}
             </Typography>
             <Box className={styles.emailsContainer}>
               <TextInput
-                label={i18n.t('account.settings.primaryEmail')}
+                label={i18n.t('components.account.settings.primaryEmail')}
                 value={editorState.emails[0]?.email || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleEmailChange(0, e)
@@ -334,7 +336,7 @@ export default function Settings() {
                 helperText={editorErrors.emails[0]}
               />
               <TextInput
-                label={i18n.t('account.settings.secondaryEmail')}
+                label={i18n.t('components.account.settings.secondaryEmail')}
                 value={editorState.emails[1]?.email || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleEmailChange(1, e)
@@ -351,11 +353,11 @@ export default function Settings() {
               variant="h6"
               sx={{ color: theme.palette.primary.main }}
             >
-              {i18n.t('account.settings.preferedLanguage')}
+              {i18n.t('components.account.settings.preferedLanguage')}
             </Typography>
             <Box className={styles.inputContainer}>
               <CustomSelect
-                label={i18n.t('account.settings.preferedLanguage')}
+                label={i18n.t('components.account.settings.preferedLanguage')}
                 items={[
                   { name: 'Java', value: 'java' },
                   { name: 'JavaScript', value: 'javascript' },
@@ -375,7 +377,7 @@ export default function Settings() {
               variant="h6"
               sx={{ color: theme.palette.primary.main }}
             >
-              {i18n.t('account.settings.biography')}
+              {i18n.t('components.account.settings.biography')}
             </Typography>
 
             {/* Bio content */}
@@ -401,14 +403,14 @@ export default function Settings() {
             onClick={handleSave}
             loading={loading}
           >
-            {i18n.t('account.settings.saveButton').toUpperCase()}
+            {i18n.t('components.account.settings.saveButton').toUpperCase()}
           </LoadingButton>
           <Button
             variant="outlined"
             className={styles.resetButton}
             onClick={handleReset}
           >
-            {i18n.t('account.settings.resetButton')}
+            {i18n.t('components.account.settings.resetButton')}
           </Button>
         </Stack>
       </Box>

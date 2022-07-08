@@ -59,7 +59,7 @@ export default function Modules() {
       <Box className={styles.innerContainer}>
         {/* filters */}
         <Box className={styles.filters}>
-          <Typography variant="h5">{i18n.t('modules.filters')}</Typography>
+          <Typography variant="h5">{i18n.t('pages.module.filters')}</Typography>
           <TagFilter onChange={handleTagFilterChanges} value={filters.tags} />
           <SortFilter
             onChange={handleSortFiltersChanges}
@@ -71,7 +71,7 @@ export default function Modules() {
               className={styles.resetButton}
               onClick={handleReset}
             >
-              {i18n.t('modules.resetButton')}
+              {i18n.t('pages.module.resetButton')}
             </Button>
           </Box>
         </Box>

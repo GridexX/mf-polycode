@@ -10,6 +10,7 @@ import {
 
 import styles from '../../styles/components/filters/Filter.module.css';
 import stateStyles from '../../styles/components/filters/StateFilter.module.css';
+import { useTranslation } from '../../lib/translations';
 
 import { StateFilterType } from '../../lib/common/filter';
 
@@ -21,6 +22,7 @@ interface StateFilterProps {
 export default function StateFilter({ value, onChange }: StateFilterProps) {
   // import mui theme
   const theme = useTheme();
+  const { i18n } = useTranslation();
 
   return (
     <Box
@@ -30,7 +32,9 @@ export default function StateFilter({ value, onChange }: StateFilterProps) {
       <Box className={stateStyles.innerContainer}>
         {/* title */}
         <Box className={stateStyles.titleContainer}>
-          <Typography className={stateStyles.title}>State</Typography>
+          <Typography className={stateStyles.title}>
+            {i18n.t('components.filters.stateFilter.title')}
+          </Typography>
         </Box>
 
         {/* checkbox group */}

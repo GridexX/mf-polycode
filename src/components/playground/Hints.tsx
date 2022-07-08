@@ -53,7 +53,7 @@ export default function Hints() {
           } catch (e) {
             toastError(
               <Typography>
-                {i18n.t('playground.hints.error.fetch')}
+                {i18n.t('component.playground.hints.fetchError')}
                 {id}
               </Typography>
             );
@@ -87,7 +87,7 @@ export default function Hints() {
     } catch (e) {
       toastError(
         <Typography>
-          {i18n.t('playground.hint.error.buy')}
+          {i18n.t('components.playground.hint.buyError')}
           {id}
         </Typography>
       );
@@ -106,7 +106,9 @@ export default function Hints() {
           </IconButton>
         }
       >
-        <Typography variant="h6">{i18n.t('playground.hints.title')}</Typography>
+        <Typography variant="h6">
+          {i18n.t('components.playground.hints.title')}
+        </Typography>
         <Box flexGrow={1} />
       </AccordionSummary>
 
@@ -116,7 +118,7 @@ export default function Hints() {
           return (
             <Box key={h.id}>
               <Typography>
-                {i18n.t('playground.hint.item')}
+                {i18n.t('components.playground.hint.item')}
                 {index + 1}: {h.data.text}
               </Typography>
             </Box>
@@ -132,7 +134,8 @@ export default function Hints() {
                 handleBuyHint(nextHintToBuyIndex);
               }}
             >
-              {i18n.t('playground.hints.buy')} {hints[nextHintToBuyIndex]?.cost}
+              {i18n.t('components.playground.hints.buy')}{' '}
+              {hints[nextHintToBuyIndex]?.cost}
               <Box className={styles.polypoint}>
                 <Image width={100} height={100} src="/images/carrot.png" />
               </Box>

@@ -6,8 +6,11 @@ import TitledModuleList from '../titledLists/TitledModuleList';
 
 import styles from '../../styles/components/home/HomeContent.module.css';
 import { Content } from '../../lib/api/content';
+import { useTranslation } from '../../lib/translations';
 
 export default function HomeContent() {
+  const { i18n } = useTranslation();
+
   const fakeComponents = {
     type: 'container',
     data: {
@@ -146,16 +149,16 @@ export default function HomeContent() {
   return (
     <Box className={styles.container}>
       <TitledContentList
-        title="Last Viewed"
+        title={i18n.t('components.home.homeContent.lastViewed')}
         contents={[fakeContents[0] as Content]}
       />
       <TitledContentList
-        title="New Contents"
+        title={i18n.t('components.home.homeContent.newContents')}
         contents={fakeContents.slice(0, 3) as Content[]}
       />
       <TitledModuleList title="New Modules" modules={fakeModules} />
       <TitledContentList
-        title="Preferred Contents"
+        title={i18n.t('components.home.homeContent.newContents')}
         contents={fakeContents.slice(0, 6) as Content[]}
       />
     </Box>

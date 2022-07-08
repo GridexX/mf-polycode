@@ -17,14 +17,14 @@ import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from '../lib/translations';
 import polybunny from '../images/polybunny-do.png';
 import { useLoginContext } from '../lib/loginContext';
-import { createUser } from '../lib/api/user';
+import { createUser, UserAlreadyExists } from '../lib/api/user';
 import { toastError } from '../components/base/toast/Toast';
 
 import styles from '../styles/pages/SignIn&SignUp.module.css';
+import { login } from '../lib/api/api';
 
 export default function SignIn() {
-  const { user } = useLoginContext();
-
+  const { user, credentialsManager } = useLoginContext();
   const { i18n } = useTranslation();
 
   // import Next router
@@ -65,7 +65,7 @@ export default function SignIn() {
       if (formErrorsState.confirmPassword.length === 0)
         setFormErrorsState((previous) => ({
           ...previous,
-          confirmPassword: i18n.t('auth.errors.passwordsMismatch'),
+          confirmPassword: i18n.t('pages.signUp.passwordsMismatch'),
         }));
     } else
       setFormErrorsState((previous) => ({ ...previous, confirmPassword: '' }));
@@ -99,7 +99,6 @@ export default function SignIn() {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     // TODO : check password security
-
     setFormState((previous) => ({ ...previous, password: event.target.value }));
   };
 
@@ -147,7 +146,7 @@ export default function SignIn() {
     if (formState.password.length === 0) {
       setFormErrorsState((previous) => ({
         ...previous,
-        password: i18n.t('auth.errors.passwordEmpty'),
+        password: i18n.t('pages.signUp.passwordEmpty'),
       }));
 
       error = true;
@@ -156,7 +155,7 @@ export default function SignIn() {
     if (formState.email.length === 0) {
       setFormErrorsState((previous) => ({
         ...previous,
-        email: i18n.t('auth.errors.emailEmpty'),
+        email: i18n.t('pages.signUp.emailEmpty'),
       }));
 
       error = true;
@@ -165,28 +164,29 @@ export default function SignIn() {
     if (formState.username.length === 0) {
       setFormErrorsState((previous) => ({
         ...previous,
-        username: i18n.t('auth.errors.usernameEmpty'),
+        username: i18n.t('pages.signUp.usernameEmpty'),
       }));
 
       error = true;
     }
+
     if (error) {
       toastError(
-        <Typography>{i18n.t('auth.errors.errorInFields')}</Typography>
+        <Typography>{i18n.t('pages.signUp.errorInFields')}</Typography>
       );
       return;
     }
 
     if (!formState.acceptTos) {
       toastError(
-        <Typography>{i18n.t('auth.errors.mustAcceptTOS')}</Typography>
+        <Typography>{i18n.t('pages.signUp.mustAcceptTOS')}</Typography>
       );
       return;
     }
 
     if (!formState.overThirteen) {
       toastError(
-        <Typography>{i18n.t('auth.errors.mustBeOverThirteen')}</Typography>
+        <Typography>{i18n.t('pages.signUp.mustBeOverThirteen')}</Typography>
       );
       return;
     }
@@ -200,17 +200,24 @@ export default function SignIn() {
     })
       .then(() => {
         // go to home
-
-        console.log('user created');
-        router.push('/');
+        login(formState.email, formState.password, credentialsManager)
+          .then(() => router.push('/'))
+          .catch(() =>
+            toastError(
+              <Typography>{i18n.t('pages.signUp.signInError')}</Typography>
+            )
+          );
       })
-      .catch((reason) => {
-        // handle error
-        toastError(
-          <Typography>
-            {i18n.t('auth.errors.unexpectedError')} : {JSON.stringify(reason)}
-          </Typography>
-        );
+      .catch((reason: Error) => {
+        if (reason === UserAlreadyExists) {
+          toastError(
+            <Typography>{i18n.t('pages.signUp.userAlreadyExists')}</Typography>
+          );
+        } else {
+          toastError(
+            <Typography>{i18n.t('pages.signUp.unexpectedError')}</Typography>
+          );
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -240,7 +247,7 @@ export default function SignIn() {
             <TextField
               type="text"
               onChange={handleUsernameChange}
-              label={i18n.t('auth.username')}
+              label={i18n.t('pages.signUp.username')}
               variant="standard"
               error={formErrorsState.username.length > 0}
               helperText={formErrorsState.username}
@@ -248,7 +255,7 @@ export default function SignIn() {
             <TextField
               type="email"
               onChange={handleEmailChange}
-              label={i18n.t('auth.email')}
+              label={i18n.t('pages.signUp.email')}
               variant="standard"
               error={formErrorsState.email.length > 0}
               helperText={formErrorsState.email}
@@ -257,7 +264,7 @@ export default function SignIn() {
             <TextField
               type="password"
               onChange={handlePasswordChange}
-              label={i18n.t('auth.password')}
+              label={i18n.t('pages.signUp.password')}
               variant="standard"
               error={formErrorsState.password.length > 0}
               helperText={formErrorsState.password}
@@ -266,7 +273,7 @@ export default function SignIn() {
             <TextField
               type="password"
               onChange={handleConfirmPasswordChange}
-              label={i18n.t('auth.confirmPassword')}
+              label={i18n.t('pages.signUp.confirmPassword')}
               variant="standard"
               error={formErrorsState.confirmPassword.length > 0}
               helperText={formErrorsState.confirmPassword}
@@ -279,7 +286,7 @@ export default function SignIn() {
                   checked={formState.overThirteen}
                 />
               }
-              label={i18n.t('auth.overThirteen')}
+              label={i18n.t('pages.signUp.overThirteen')}
             />
             <FormControlLabel
               control={
@@ -290,9 +297,9 @@ export default function SignIn() {
               }
               label={
                 <Typography>
-                  {i18n.t('auth.readTerms')}{' '}
+                  {i18n.t('pages.signUp.readTerms')}{' '}
                   <Link href="/terms" passHref>
-                    <MuiLink>{i18n.t('auth.termsOfService')}</MuiLink>
+                    <MuiLink>{i18n.t('pages.signUp.termsOfService')}</MuiLink>
                   </Link>
                 </Typography>
               }
@@ -305,13 +312,13 @@ export default function SignIn() {
             loading={loading}
             type="submit"
           >
-            {i18n.t('auth.signUp')}
+            {i18n.t('pages.signUp.signUp')}
           </LoadingButton>
 
           <Typography variant="body1">
-            {i18n.t('auth.haveAccountQuestion')}{' '}
+            {i18n.t('pages.signUp.haveAccountQuestion')}{' '}
             <Link href="/sign-in" passHref>
-              <MuiLink>{i18n.t('auth.signIn')}</MuiLink>
+              <MuiLink>{i18n.t('pages.signUp.signIn')}</MuiLink>
             </Link>
           </Typography>
         </form>

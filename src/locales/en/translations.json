@@ -1,81 +1,50 @@
 {
-  "auth": {
-    "email": "email",
-    "password": "password",
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "logout": "Logout",
-    "forgotPassword": "Forgot Password",
-    "resetPassword": "Reset Password",
-    "changePassword": "Change Password",
-    "noAccountQuestion": "Don't have an account?",
-    "haveAccountQuestion": "Already have an account?",
-    "username": "Username",
-    "confirmPassword": "Confirm Password",
-    "overThirteen": "I am over 13 years old",
-    "readTerms": "I have read and agree to the",
-    "termsOfService": "Terms of Service",
-    "errors": {
-      "passwordsMismatch": "Passwords don't match",
-      "passwordEmpty": "Password is empty",
-      "invalidCreditentials": "Invalid credentials",
-      "unexpectedError": "Unexpected error",
-      "emailEmpty": "Email is empty",
-      "usernameEmpty": "Username is empty",
-      "errorInFields": "There is at least one error in the fields",
-      "mustAcceptTOS": "You must accept the Terms of Service",
-      "mustBeOverThirteen": "You must be over 13 years old"
-    }
-  },
-  "account": {
-    "menu": {
-      "profile": "Profile",
-      "settings": "Settings",
-      "teams": "Teams",
-      "password": "Password"
-    },
-    "password": {
-      "titlePage": "Change Password",
-      "oldPassword": "Old Password",
-      "newPassword": "New Password",
-      "passwordLabel": "password",
-      "passwordConfirmationLabel": "confirmation",
-      "saveButton": "Save",
-      "resetButton": "Reset",
-      "errors": {
+  "components": {
+    "account": {
+      "menu": {
+        "profile": "Profile",
+        "settings": "Settings",
+        "teams": "Teams",
+        "password": "Password"
+      },
+      "password": {
+        "titlePage": "Change Password",
+        "oldPassword": "Old Password",
+        "newPassword": "New Password",
+        "passwordLabel": "password",
+        "passwordConfirmationLabel": "confirmation",
+        "saveButton": "Save",
+        "resetButton": "Reset",
         "someFieldsEmpty": "Some fields are empty",
         "passwordsMismatch": "Passwords don't match",
         "passwordRulesNotRespected": "Must have at least 8 characters"
-      }
-    },
-    "profile": {
-      "title": "Profile",
-      "information": "Information",
-      "username": "Username",
-      "emails": "E-mails",
-      "preferredLanguage": "Preferred Language",
-      "score": "Score",
-      "polypoints": "Polypoints",
-      "rank": "Rank",
-      "biography": "Biography",
-      "errors": {
+      },
+      "profile": {
+        "title": "Profile",
+        "information": "Information",
+        "username": "Username",
+        "emails": "E-mails",
+        "preferredLanguage": "Preferred Language",
+        "score": "Score",
+        "polypoints": "Polypoints",
+        "rank": "Rank",
+        "biography": "Biography",
         "unknownRank": "Unknown",
-        "serverFetchFailed": "Failed to fetch settings from server"
-      }
-    },
-    "settings": {
-      "titlePage": "Settings",
-      "information": "Information",
-      "username": "Username",
-      "emails": "Emails",
-      "primaryEmail": "Primary email",
-      "secondaryEmail": "Secondary email",
-      "preferedLanguage": "Prefered Language",
-      "biography": "Biography",
-      "saveButton": "Save",
-      "resetButton": "Reset",
-      "saveSuccess": "Settings saved successfully",
-      "errors": {
+        "serverFetchFailed": "Failed to fetch settings from server",
+        "noBiography": "No biography"
+      },
+      "settings": {
+        "titlePage": "Settings",
+        "information": "Information",
+        "username": "Username",
+        "emails": "Emails",
+        "primaryEmail": "Primary email",
+        "secondaryEmail": "Secondary email",
+        "preferedLanguage": "Prefered Language",
+        "biography": "Biography",
+        "saveButton": "Save",
+        "resetButton": "Reset",
+        "saveSuccess": "Settings saved successfully",
         "usernameTooShort": "Username must be at least 3 characters long",
         "usernameTooLong": "Username must be at most 20 characters long",
         "emailTooShort": "Email must be at least 3 characters long",
@@ -84,178 +53,244 @@
         "biographyTooLong": "Biography must be at most 500 characters long",
         "serverFetchFailed": "Failed to fetch data from server",
         "serverSaveFailed": "Failed to save data to server"
+      },
+      "teams": {
+        "title": "Teams",
+        "captainOf": "Captain of",
+        "memberOf": "Member of",
+        "notCaptainOf": "You are not captain of any team",
+        "notMemberOf": "You are not member of any team"
       }
     },
-    "teams": {
-      "title": "Teams",
-      "captainOf": "Captain of",
-      "memberOf": "Member of",
-      "notCaptainOf": "You are not captain of any team",
-      "notMemberOf": "You are not member of any team"
-    }
-  },
-  "contentEditor": {
-    "componentDialogButton": {
-      "container": "Container",
-      "editor": "Editor",
-      "markdown": "Markdown",
-      "quiz": "Quiz"
-    },
-    "componentListEditor": {
-      "new": "+ NEW"
-    },
-    "containerEditor": {
-      "type": "Container",
-      "description": "Containing {0} component{1}",
-      "orientation": "Orientation",
-      "horizontal": "Horizontal",
-      "vertical": "Vertical",
-      "components": "Components",
-      "noComponents": "No components"
-    },
-    "contentEditorWizard": {
-      "description": "Description",
-      "name": "Name",
-      "save": "Save",
-      "reward": "Reward",
-      "errors": {
-        "nameEmpty": "Name is empty",
-        "nameTooLong": "Name must be at most 50 characters long",
-        "descriptionEmpty": "Description is empty",
-        "descriptionTooLong": "Description must be at most 500 characters long"
+    "contents": {
+      "edit": {
+        "codeEditorEditor": {
+          "type": "Editor",
+          "language": "Language",
+          "allowedLanguages": "Allowed languages",
+          "defaultCode": "Default code",
+          "validators": {
+            "title": "Validators",
+            "input": "Input",
+            "expectedOutput": "Expected output",
+            "hidden": "Hidden",
+            "new": "+ New"
+          }
+        },
+        "componentDialogButton": {
+          "container": "Container",
+          "editor": "Editor",
+          "markdown": "Markdown",
+          "quiz": "Quiz"
+        },
+        "containerEditor": {
+          "type": "Container",
+          "description": "Containing {0} component{1}",
+          "orientation": "Orientation",
+          "horizontal": "Horizontal",
+          "vertical": "Vertical",
+          "components": "Components",
+          "noComponents": "No components"
+        },
+        "contentEditorWizard": {
+          "description": "Description",
+          "name": "Name",
+          "save": "Save",
+          "reward": "Reward",
+          "errors": {
+            "nameEmpty": "Name is empty",
+            "nameTooLong": "Name must be at most 50 characters long",
+            "descriptionEmpty": "Description is empty",
+            "descriptionTooLong": "Description must be at most 500 characters long"
+          }
+        },
+        "markdownEditor": {
+          "type": "Markdown",
+          "editor": "Editor",
+          "preview": "Preview"
+        },
+        "newComponentDialog": {
+          "title": "New Component",
+          "cancel": "Cancel"
+        }
+      },
+      "contents": {
+        "title": "Contents",
+        "fetchError": "Failed to fetch content from server"
       }
     },
-    "codeEditorEditor": {
-      "type": "Editor",
-      "language": "Language",
-      "allowedLanguages": "Allowed languages",
-      "defaultCode": "Default code",
-      "validators": {
-        "title": "Validators",
-        "input": "Input",
-        "expectedOutput": "Expected output",
-        "hidden": "Hidden",
-        "new": "+ New"
+    "filters": {
+      "sortFilter": {
+        "title": "Sort",
+        "name": "Name",
+        "date": "Date",
+        "completion": "Completion"
+      },
+      "stateFilter": {
+        "title": "State",
+        "done": "Done",
+        "started": "Started"
+      },
+      "tagFilter": {
+        "title": "Tags"
       }
     },
-    "markdownEditor": {
-      "type": "Markdown",
-      "editor": "Editor",
-      "preview": "Preview"
-    },
-    "newComponentDialog": {
-      "title": "New Component",
-      "cancel": "Cancel"
-    },
-    "page": {
-      "titleNew": "New content",
-      "titleEdit": "Edit content",
-      "saveSuccess": "Content saved successfully",
-      "errors": {
-        "serverFetchFailed": "Failed to fetch data from server",
-        "serverSaveFailed": "Failed to save data to server"
-      }
-    }
-  },
-  "team": {
-    "editor": {
-      "title": "Team Editor",
-      "errors": {
-        "nameTooLong": "Name must be at most 20 characters long",
-        "nameTooShort": "Name must be at least 3 characters long",
-        "descriptionTooLong": "Description must be at most 500 characters long",
-        "descriptionTooShort": "Description must be at least 3 characters long"
+    "home": {
+      "heroTale": {
+        "tryNow": "TRY NOW"
+      },
+      "homeContent": {
+        "lastViewed": "Last Viewed",
+        "newContents": "New contents",
+        "preferredContents": "Preferred Contents"
+      },
+      "landingPage": {
+        "manifesto": "Prepare yourself for coding interviews or learn new programming languages in minutes !",
+        "start": "START TODAY"
       }
     },
-    "menu": {
-      "polypoints": "Polypoints",
-      "rank": "Rank",
-      "members": "Members"
+    "modules": {
+      "heroTale": {
+        "resumeButton": "RESUME"
+      },
+      "moduleList": {
+        "notFound": "No exercises found"
+      },
+      "modules": {
+        "title": "Modules"
+      }
     },
-    "content": {
-      "name": "Name",
-      "description": "Description",
-      "members": "Members",
-      "saveButton": "Save",
-      "resetButton": "Reset"
-    }
-  },
-  "leaderboard": {
-    "title": "Leaderboard"
-  },
-  "components": {
     "navbar": {
-      "exercises": "Exercises",
-      "modules": "Modules",
-      "certification": "Certification",
-      "sign-in": "Sign in",
       "menu": {
         "profile": "Profile",
         "leaderboard": "Leaderboard",
         "settings": "Settings",
         "logout": "Logout"
       },
-      "modal": {
-        "sentMail": "We sent an email to",
-        "sentMailSuite": "for verification, please click the link in the mail.",
-        "didNotReceive": "Didn't receive the email?",
-        "resend": "RESEND EMAIL",
-        "title": "Email not verified",
-        "resendSuccess": "Email sent successfully",
-        "resendError": "Failed to send email"
+      "navBar": {
+        "contents": "Contents",
+        "modules": "Modules",
+        "certification": "Certification",
+        "signIn": "Sign In"
+      }
+    },
+    "playground": {
+      "hints": {
+        "title": "Hints",
+        "item": "Hint #",
+        "buy": "buy another hint for",
+        "fetchError": "There was an error when retrieving hint #",
+        "buyError": "There was an error when buying hint #"
+      },
+      "output": {
+        "console": "Console",
+        "debug": "Debug"
+      },
+      "playground": {
+        "notFound": "Content not found"
+      },
+      "toolbar": {
+        "submit": "Submit",
+        "resetCode": "Reset code"
+      },
+      "validators": {
+        "#": "#",
+        "hidden": "(hidden test)",
+        "run": "Run",
+        "input": "Input :",
+        "expected": "Expected :",
+        "title": "Tests",
+        "passed": "% passed",
+        "runAll": "Run all",
+        "runAllError": "Unexpected result from the server"
+      }
+    },
+    "team": {
+      "menu": {
+        "polypoints": "Polypoints",
+        "rank": "Rank",
+        "members": "Members"
+      },
+      "teamEditPanel": {
+        "title": "Team Editor",
+        "information": "Information",
+        "contentName": "Name",
+        "contentDescription": "Description",
+        "contentMembers": "Members",
+        "saveButton": "SAVE",
+        "resetButton": "Reset",
+        "nameTooLong": "Name must be at most 20 characters long",
+        "nameTooShort": "Name must be at least 3 characters long",
+        "descriptionTooLong": "Description must be at most 500 characters long",
+        "descriptionTooShort": "Description must be at least 3 characters long"
       }
     }
   },
-  "contents": {
-    "notFound": "No exercises found",
-    "title": "Exercises"
-  },
-  "modules": {
-    "title": "Modules",
-    "filters": "Filters",
-    "resetButton": "Reset",
-    "notFound": "No modules found",
-    "heroTale": {
-      "resumeButton": "RESUME"
-    }
-  },
-  "playground": {
-    "hints": {
-      "title": "Hints",
-      "item": "Hint #",
-      "buy": "buy another hint for",
-      "error": {
-        "fetch": "There was an error when retrieving hint #",
-        "buy": "There was an error when buying hint #"
+  "pages": {
+    "content": {
+      "edit": {
+        "id": {
+          "title": "Edit content",
+          "fetchError": "Failed to fetch content from server",
+          "saveError": "Failed to update content on server",
+          "saveSuccess": "Content updated successfully"
+        },
+        "index": {
+          "title": "New content",
+          "saveError": "Failed to create content on server",
+          "saveSuccess": "Content created successfully"
+        }
+      },
+      "index": {
+        "filters": "Filters",
+        "reset": "Reset"
       }
     },
-    "output": {
-      "console": "Console",
-      "debug": "Debug"
+    "leaderboard": {
+      "title": "Leaderboard"
     },
-    "error": {
-      "notFound": "Content not found"
+    "module": {
+      "path": {
+        "modulesHere": "Display module here"
+      },
+      "index": {
+        "filters": "Filters",
+        "resetButton": "Reset"
+      }
     },
-    "toolbar": {
-      "submit": "Submit",
-      "resetCode": "Reset code"
+    "signIn": {
+      "email": "Email",
+      "password": "Password",
+      "signIn": "Sign in",
+      "signUp": "Sign up",
+      "noAccountQuestion": "Don't have an account?",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email is invalid",
+      "passwordRequired": "Password is required",
+      "invalidCreditentials": "Invalid credentials",
+      "unexpectedError": "Unexpected error"
     },
-    "validator": {
-      "#": "#",
-      "hidden": "(hidden test)",
-      "run": "Run",
-      "input": "Input :",
-      "expected": "Expected :",
-      "title": "Tests",
-      "passed": "% passed",
-      "runAll": "Run all"
+    "signUp": {
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "overThirteen": "I am over 13 years old",
+      "readTerms": "I have read and agree to the",
+      "termsOfService": "Terms of Service",
+      "signIn": "Sign in",
+      "signUp": "Sign up",
+      "haveAccountQuestion": "Already have an account?",
+      "emailEmpty": "Email is empty",
+      "usernameEmpty": "Username is empty",
+      "passwordEmpty": "Password is empty",
+      "passwordsMismatch": "Passwords don't match",
+      "mustAcceptTOS": "You must accept the Terms of Service",
+      "errorInFields": "There is at least one error in the fields",
+      "mustBeOverThirteen": "You must be over 13 years old",
+      "userAlreadyExists": "User already exists",
+      "signUpError": "Unable to sign up",
+      "unexpectedError": "Unexpected error"
     }
-  },
-  "home": {
-    "manifesto": "Prepare yourself for coding interviews or learn new programming languages in minutes !",
-    "start": "START TODAY"
-  },
-  "error": {
-    "fetch": "There was an error when retrieving data from server"
   }
 }

@@ -10,6 +10,7 @@ import {
 
 import styles from '../../styles/components/filters/Filter.module.css';
 import stateStyles from '../../styles/components/filters/TagFilter.module.css';
+import { useTranslation } from '../../lib/translations';
 
 import { TagFilterType } from '../../lib/common/filter';
 
@@ -24,6 +25,7 @@ export default function TagFilter({
 }: TagFilterProps) {
   // import mui theme
   const theme = useTheme();
+  const { i18n } = useTranslation();
 
   return (
     <Box
@@ -33,7 +35,9 @@ export default function TagFilter({
       <Box className={stateStyles.innerContainer}>
         {/* title */}
         <Box className={stateStyles.titleContainer}>
-          <Typography className={stateStyles.title}>Tags</Typography>
+          <Typography className={stateStyles.title}>
+            {i18n.t('components.filters.tagFilter.title')}
+          </Typography>
         </Box>
 
         {/* checkbox group */}

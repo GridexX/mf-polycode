@@ -5,12 +5,15 @@ import Link from 'next/link';
 import { ModuleShort } from '../../lib/api/module';
 
 import styles from '../../styles/components/home/HeroTale.module.css';
+import { useTranslation } from '../../lib/translations';
 
 type Props = {
   module: ModuleShort;
 };
 
 export default function HeroTale({ module }: Props) {
+  const { i18n } = useTranslation();
+
   return (
     <Box
       className={styles.container}
@@ -30,7 +33,7 @@ export default function HeroTale({ module }: Props) {
         <Box className={styles.buttonContainer}>
           <Link href={`/module/${module.id}`}>
             <Button variant="contained" className={styles.button}>
-              Try Now
+              {i18n.t('components.home.heroTale.tryNow')}
             </Button>
           </Link>
         </Box>

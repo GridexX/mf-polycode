@@ -20,65 +20,109 @@ import { useLoginContext } from '../lib/loginContext';
 import { toastError } from '../components/base/toast/Toast';
 import { login, InvalidCredentialsError } from '../lib/api/api';
 
+interface EditorState {
+  email: string;
+  password: string;
+}
+
+interface EditorErrors {
+  email: string;
+  password: string;
+}
+
 export default function SignIn() {
   const { user, credentialsManager } = useLoginContext();
-
   const theme = useTheme();
-
   const { i18n } = useTranslation();
-
-  // import Next router
   const router = useRouter();
-
-  // form state
-
-  const [state, setState] = useState({ email: '', password: '' });
-
-  // progress indicator
+  const [editorState, setEditorState] = useState<EditorState>({
+    email: '',
+    password: '',
+  });
+  const [editorErrors, setEditorErrors] = useState<EditorErrors>({
+    email: '',
+    password: '',
+  });
   const [loading, setLoading] = useState(false);
 
   // if the user is logged in, redirect to the home page
-
   if (user) router.push('/');
 
-  // --- Event handlers ---
+  // --- check ---
+
+  const checkEmail = () => {
+    if (!editorState.email) {
+      setEditorErrors({
+        ...editorErrors,
+        email: i18n.t('pages.signIn.emailRequired'),
+      });
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editorState.email)) {
+      setEditorErrors({
+        ...editorErrors,
+        email: i18n.t('pages.signIn.emailInvalid'),
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const checkPassword = () => {
+    if (!editorState.password) {
+      setEditorErrors({
+        ...editorErrors,
+        password: i18n.t('pages.signIn.passwordRequired'),
+      });
+      return false;
+    }
+    return true;
+  };
+
+  // --- handlers ---
 
   const handleEmailChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setState({ ...state, email: event.target.value });
+    setEditorState({ ...editorState, email: event.target.value });
   };
 
   const handlePasswordChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setState({ ...state, password: event.target.value });
+    setEditorState({ ...editorState, password: event.target.value });
   };
 
   const handleLogin = () => {
-    setLoading(true);
-
-    login(state.email, state.password, credentialsManager)
-      .then(() => {
-        // redirect to the last page
-        router.back();
-      })
-      .catch((reason) => {
-        // handle error
-        if (reason === InvalidCredentialsError) {
-          toastError(
-            <Typography>{i18n.t('signIn.invalidCredentials')}</Typography>
-          );
-        } else {
-          toastError(
-            <Typography>{i18n.t('signIn.unexpectedError')}</Typography>
-          );
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (checkEmail() && checkPassword()) {
+      setEditorErrors({ email: '', password: '' });
+      setLoading(true);
+      login(editorState.email, editorState.password, credentialsManager)
+        .then(() => {
+          // redirect to the last page
+          router.back();
+        })
+        .catch((reason) => {
+          // handle error
+          if (reason === InvalidCredentialsError) {
+            toastError(
+              <Typography>
+                {i18n.t('pages.signIn.invalidCreditentials')}
+              </Typography>
+            );
+          } else {
+            toastError(
+              <Typography>{i18n.t('pages.signIn.unexpectedError')}</Typography>
+            );
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
+
+  // --- render ---
 
   return (
     <Box className={styles.container}>
@@ -104,15 +148,19 @@ export default function SignIn() {
             <TextField
               type="email"
               onChange={handleEmailChange}
-              label={i18n.t('auth.email')}
+              label={i18n.t('pages.signIn.email')}
               variant="standard"
+              error={editorErrors.email !== ''}
+              helperText={editorErrors.email}
             />
 
             <TextField
               type="password"
               onChange={handlePasswordChange}
-              label={i18n.t('auth.password')}
+              label={i18n.t('pages.signIn.password')}
               variant="standard"
+              error={editorErrors.password !== ''}
+              helperText={editorErrors.password}
             />
           </Stack>
           <LoadingButton
@@ -122,13 +170,13 @@ export default function SignIn() {
             loading={loading}
             type="submit"
           >
-            {i18n.t('auth.signIn')}
+            {i18n.t('pages.signIn.signIn')}
           </LoadingButton>
 
           <Typography variant="body1">
-            {i18n.t('auth.noAccountQuestion')}{' '}
+            {i18n.t('pages.signIn.noAccountQuestion')}{' '}
             <Link href="/sign-up" passHref>
-              <MuiLink>{i18n.t('auth.signUp')}</MuiLink>
+              <MuiLink>{i18n.t('pages.signIn.signUp')}</MuiLink>
             </Link>
           </Typography>
         </form>

@@ -19,3 +19,13 @@
 .contentContainer {
   margin-right: 10px;
 }
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  height: 100%;
+}

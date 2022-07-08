@@ -105,14 +105,14 @@ export default function TeamEditorPanel() {
     if (editorState.name.length < 3) {
       setEditorErrors({
         ...editorErrors,
-        name: i18n.t('team.editor.errors.nameTooShort'),
+        name: i18n.t('components.team.teamEditPanel.nameTooShort'),
       });
       return false;
     }
     if (editorState.name.length > 20) {
       setEditorErrors({
         ...editorErrors,
-        name: i18n.t('team.editor.errors.nameTooLong'),
+        name: i18n.t('components.team.teamEditPanel.nameTooLong'),
       });
       return false;
     }
@@ -127,7 +127,7 @@ export default function TeamEditorPanel() {
     if (editorState.description.length > 500) {
       setEditorErrors({
         ...editorErrors,
-        description: i18n.t('team.editor.errors.descriptionTooLong'),
+        description: i18n.t('components.team.teamEditPanel.descriptionTooLong'),
       });
       return false;
     }
@@ -179,7 +179,7 @@ export default function TeamEditorPanel() {
       {/* panel title */}
       <Box className={styles.titleContainer}>
         <Typography variant="h3" color={theme.palette.text.primary}>
-          {i18n.t('team.editor.title')}
+          {i18n.t('components.team.teamEditPanel.title')}
         </Typography>
       </Box>
       {/* content container */}
@@ -191,7 +191,7 @@ export default function TeamEditorPanel() {
             variant="h4"
             sx={{ color: theme.palette.primary.main }}
           >
-            {i18n.t('account.settings.information')}
+            {i18n.t('components.team.teamEditPanel.information')}
           </Typography>
 
           <Box className={styles.fieldContainer}>
@@ -200,11 +200,11 @@ export default function TeamEditorPanel() {
               variant="h6"
               sx={{ color: theme.palette.primary.main }}
             >
-              {i18n.t('team.content.name')}
+              {i18n.t('components.team.teamEditPanel.contentName')}
             </Typography>
             <Box className={styles.inputContainer}>
               <TextInput
-                label={i18n.t('team.content.name')}
+                label={i18n.t('components.team.teamEditPanel.contentName')}
                 value={editorState.name}
                 onChange={handleNameChange}
                 error={editorErrors.name !== ''}
@@ -219,7 +219,7 @@ export default function TeamEditorPanel() {
               variant="h6"
               sx={{ color: theme.palette.primary.main }}
             >
-              {i18n.t('team.content.description')}
+              {i18n.t('components.team.teamEditPanel.contentDescription')}
             </Typography>
 
             {/* Bio content */}
@@ -242,7 +242,7 @@ export default function TeamEditorPanel() {
                 variant="h4"
                 sx={{ color: theme.palette.primary.main }}
               >
-                {i18n.t('team.content.members')}
+                {i18n.t('component.team.teamEditPanel.contentMembers')}
               </Typography>
               {(editorState.members?.length ?? 0) > 0 &&
                 editorState.members?.map((member) => (
@@ -267,14 +267,14 @@ export default function TeamEditorPanel() {
             onClick={handleSave}
             loading={loading}
           >
-            {i18n.t('account.settings.saveButton').toUpperCase()}
+            {i18n.t('components.team.teamEditPanel.saveButton').toUpperCase()}
           </LoadingButton>
           <Button
             variant="outlined"
             className={styles.resetButton}
             onClick={handleReset}
           >
-            {i18n.t('account.settings.resetButton')}
+            {i18n.t('components.team.teamEditPanel.resetButton')}
           </Button>
         </Stack>
       </Box>

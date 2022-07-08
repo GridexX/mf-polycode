@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { useTranslation } from '../../lib/translations';
 
@@ -10,6 +10,7 @@ import carrotImage from '../../images/carrot.png';
 import { useLoginContext } from '../../lib/loginContext';
 import { getUserEmails, getUserSettings, UserEmail } from '../../lib/api/user';
 import { toastError } from '../base/toast/Toast';
+import CenteredLoader from '../base/CenteredLoader';
 
 export interface ProfileState {
   username: string;
@@ -56,7 +57,7 @@ export default function Profile() {
         .catch(() => {
           toastError(
             <Typography>
-              {i18n.t('account.profile.errors.serverFetchFailed')}
+              {i18n.t('components.account.profile.serverFetchFailed')}
             </Typography>
           );
         })
@@ -72,15 +73,13 @@ export default function Profile() {
       {/* Panel title */}
       <Box className={styles.titleContainer}>
         <Typography variant="h3" color="inherit">
-          {i18n.t('account.profile.title')}
+          {i18n.t('components.account.profile.title')}
         </Typography>
       </Box>
       {/* Content container */}
       <Box className={styles.contentContainer}>
         {loading ? (
-          <Box>
-            <CircularProgress />
-          </Box>
+          <CenteredLoader />
         ) : (
           <Box>
             {/* Information */}
@@ -90,7 +89,7 @@ export default function Profile() {
                 variant="h4"
                 sx={{ color: theme.palette.primary.main }}
               >
-                {i18n.t('account.profile.information')}
+                {i18n.t('components.account.profile.information')}
               </Typography>
 
               {/* Username */}
@@ -100,7 +99,7 @@ export default function Profile() {
                   variant="h6"
                   sx={{ color: theme.palette.primary.main }}
                 >
-                  {i18n.t('account.profile.username')}
+                  {i18n.t('components.account.profile.username')}
                 </Typography>
                 <Box className={styles.fieldValue}>
                   <Typography color="inherit">
@@ -115,7 +114,7 @@ export default function Profile() {
                   variant="h6"
                   sx={{ color: theme.palette.primary.main }}
                 >
-                  {i18n.t('account.profile.emails')}
+                  {i18n.t('components.account.profile.emails')}
                 </Typography>
                 <Box className={styles.fieldValue}>
                   {profileState.emails && profileState.emails.length > 0
@@ -138,7 +137,7 @@ export default function Profile() {
                   variant="h6"
                   sx={{ color: theme.palette.primary.main }}
                 >
-                  {i18n.t('account.profile.preferredLanguage')}
+                  {i18n.t('components.account.profile.preferredLanguage')}
                 </Typography>
                 <Box className={styles.fieldValue}>
                   <Typography color="inherit">
@@ -155,7 +154,7 @@ export default function Profile() {
                 variant="h4"
                 sx={{ color: theme.palette.primary.main }}
               >
-                {i18n.t('account.profile.score')}
+                {i18n.t('components.account.profile.score')}
               </Typography>
 
               {/* Score content */}
@@ -167,7 +166,7 @@ export default function Profile() {
                     variant="h6"
                     sx={{ color: theme.palette.primary.main }}
                   >
-                    {i18n.t('account.profile.polypoints')}
+                    {i18n.t('components.account.profile.polypoints')}
                   </Typography>
                   <Box className={styles.atomicContentContainer}>
                     <Typography color="inherit">
@@ -185,7 +184,7 @@ export default function Profile() {
                     variant="h6"
                     sx={{ color: theme.palette.primary.main }}
                   >
-                    {i18n.t('account.profile.rank')}
+                    {i18n.t('components.account.profile.rank')}
                   </Typography>
                   <Box className={styles.atomicContentContainer}>
                     <Typography
@@ -200,7 +199,7 @@ export default function Profile() {
                       }
                     >
                       {profileState.rank === 0
-                        ? i18n.t('account.profile.errors.unknownRank')
+                        ? i18n.t('components.account.profile.unknownRank')
                         : `#${profileState.rank}`}
                     </Typography>
                     <Box className={styles.scoreContentImageContainer}>
@@ -218,7 +217,7 @@ export default function Profile() {
                 variant="h4"
                 sx={{ color: theme.palette.primary.main }}
               >
-                {i18n.t('account.profile.biography')}
+                {i18n.t('components.account.profile.biography')}
               </Typography>
 
               {/* Bio content */}
@@ -226,7 +225,7 @@ export default function Profile() {
                 <Typography color="inherit">
                   {profileState.biography.length > 0
                     ? profileState.biography
-                    : 'No biography'}
+                    : i18n.t('components.account.profile.noBiography')}
                 </Typography>
               </Box>
             </Box>

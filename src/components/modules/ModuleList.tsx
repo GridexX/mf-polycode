@@ -21,7 +21,9 @@ export default function ModuleList({ modules }: Props) {
           <Module key={module.name} module={module} />
         ))
       ) : (
-        <Typography className={styles.message}>{i18n.t('modules.notFound')}</Typography>
+        <Typography className={styles.message}>
+          {i18n.t('components.modules.moduleList.notFound')}
+        </Typography>
       )}
     </Box>
   );

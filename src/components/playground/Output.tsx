@@ -113,7 +113,7 @@ export default function Output() {
         className={styles.buttonGroup}
       >
         <ToggleButton disableRipple value="stdout">
-          {i18n.t('playground.output.console')}
+          {i18n.t('components.playground.output.console')}
         </ToggleButton>
         <ToggleButton disableRipple value="stderr">
           <Badge
@@ -122,7 +122,7 @@ export default function Output() {
             invisible={errorSeen}
             // overlap="circular"
           >
-            {i18n.t('playground.output.debug')}
+            {i18n.t('components.playground.output.debug')}
           </Badge>
         </ToggleButton>
         {/* <ToggleButton disableRipple value="stdin">

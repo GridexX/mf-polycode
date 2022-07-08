@@ -29,7 +29,7 @@ export default function NewComponentDialog({
   return (
     <Dialog open={isOpen}>
       <DialogTitle>
-        {i18n.t('contentEditor.newComponentDialog.title')}
+        {i18n.t('components.contents.edit.newComponentDialog.title')}
       </DialogTitle>
       <DialogContent className={styles.container}>
         <Stack direction="column" spacing={4} className={styles.column}>
@@ -54,7 +54,7 @@ export default function NewComponentDialog({
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onChoose(undefined)}>
-          {i18n.t('contentEditor.newComponentDialog.cancel')}
+          {i18n.t('components.contents.edit.newComponentDialog.cancel')}
         </Button>
       </DialogActions>
     </Dialog>

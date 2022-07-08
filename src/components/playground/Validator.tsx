@@ -105,13 +105,13 @@ export default function Validator({
           onClick={toggleExpanded}
         >
           <Typography className={styles.autoMargin}>
-            {i18n.t('playground.validator.#')}
+            {i18n.t('components.playground.validator.#')}
             {id + 1}
           </Typography>
           <Box width="1rem" />
           {data.isHidden && (
             <Typography className={styles.autoMargin} color="text.secondary">
-              {i18n.t('playground.validator.hidden')}
+              {i18n.t('components.playground.validator.hidden')}
             </Typography>
           )}
 
@@ -132,15 +132,19 @@ export default function Validator({
           onClick={handleRun}
           id={buttonId}
         >
-          {i18n.t('playground.validator.run')}
+          {i18n.t('components.playground.validator.run')}
         </LoadingButton>
       </AccordionSummary>
       {!data.isHidden && (
         <AccordionDetails>
           <Box className={styles.description}>
-            <Typography>{i18n.t('playground.validator.input')}</Typography>
+            <Typography>
+              {i18n.t('components.playground.validator.input')}
+            </Typography>
             <pre className={styles.outputPre}>{data.input?.stdin}</pre>
-            <Typography>{i18n.t('playground.validator.expected')}</Typography>
+            <Typography>
+              {i18n.t('components.playground.validator.expected')}
+            </Typography>
             <pre className={styles.outputPre}>{data.expected?.stdout}</pre>
           </Box>
         </AccordionDetails>

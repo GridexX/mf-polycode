@@ -31,7 +31,9 @@ export default function ComponentDialogButton({
           <>
             <DashboardIcon sx={{ fontSize: '4rem' }} />
             <Typography>
-              {i18n.t('contentEditor.componentDialogButton.container')}
+              {i18n.t(
+                'components.contents.edit.componentDialogButton.container'
+              )}
             </Typography>
           </>
         );
@@ -40,7 +42,7 @@ export default function ComponentDialogButton({
           <>
             <CodeIcon sx={{ fontSize: '4rem' }} />
             <Typography>
-              {i18n.t('contentEditor.componentDialogButton.editor')}
+              {i18n.t('components.contents.edit.componentDialogButton.editor')}
             </Typography>
           </>
         );
@@ -49,7 +51,7 @@ export default function ComponentDialogButton({
           <>
             <SubjectIcon sx={{ fontSize: '4rem' }} />
             <Typography>
-              {i18n.t('contentEditor.componentDialogButton.markdown')}
+              {i18n.t('components.contents.edit.componentDialogButton.markdown')}
             </Typography>
           </>
         );

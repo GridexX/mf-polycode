@@ -34,7 +34,9 @@ export default function Password() {
       if (formErrorsState.password.length === 0) {
         setFormErrorsState((previous) => ({
           ...previous,
-          password: i18n.t('account.password.errors.passwordRulesNotRespected'),
+          password: i18n.t(
+            'components.account.password.passwordRulesNotRespected'
+          ),
         }));
       }
     } else {
@@ -51,7 +53,9 @@ export default function Password() {
       if (formErrorsState.confirmPassword.length === 0) {
         setFormErrorsState((previous) => ({
           ...previous,
-          confirmPassword: i18n.t('account.password.errors.passwordsMismatch'),
+          confirmPassword: i18n.t(
+            'components.account.password.passwordsMismatch'
+          ),
         }));
       }
     } else {
@@ -106,7 +110,7 @@ export default function Password() {
       formState.confirmPassword === '' ||
       formState.oldPassword === ''
     ) {
-      toast.error(i18n.t('account.password.errors.someFieldsEmpty'));
+      toast.error(i18n.t('components.account.password.someFieldsEmpty'));
     }
 
     if (
@@ -152,7 +156,7 @@ export default function Password() {
       {/* window title */}
       <Box className={styles.titleContainer}>
         <Typography variant="h3">
-          {i18n.t('account.password.titlePage')}
+          {i18n.t('components.account.password.titlePage')}
         </Typography>
       </Box>
       {/* content container */}
@@ -164,14 +168,14 @@ export default function Password() {
             className={styles.oldPasswordLabel}
             sx={{ color: theme.palette.primary.main }}
           >
-            {i18n.t('account.password.oldPassword')}
+            {i18n.t('components.account.password.oldPassword')}
           </Typography>
 
           <Box className={styles.inputContainer}>
             <TextInput
               onChange={handleOldPasswordChange}
               type="password"
-              label={i18n.t('account.password.passwordLabel')}
+              label={i18n.t('components.account.password.passwordLabel')}
               value={formState.oldPassword}
             />
           </Box>
@@ -183,7 +187,7 @@ export default function Password() {
             className={styles.newPasswordLabel}
             sx={{ color: theme.palette.primary.main }}
           >
-            {i18n.t('account.password.newPassword')}
+            {i18n.t('components.account.password.newPassword')}
           </Typography>
 
           <Box className={styles.inputContainer}>
@@ -191,7 +195,7 @@ export default function Password() {
               <TextInput
                 type="password"
                 onChange={handlePasswordChange}
-                label={i18n.t('account.password.passwordLabel')}
+                label={i18n.t('components.account.password.passwordLabel')}
                 value={formState.password}
                 error={formErrorsState.password.length > 0}
                 helperText={formErrorsState.password}
@@ -200,7 +204,9 @@ export default function Password() {
               <TextInput
                 type="password"
                 onChange={handlePasswordConfirmationChange}
-                label={i18n.t('account.password.passwordConfirmationLabel')}
+                label={i18n.t(
+                  'components.account.password.passwordConfirmationLabel'
+                )}
                 value={formState.confirmPassword}
                 error={formErrorsState.confirmPassword.length > 0}
                 helperText={formErrorsState.confirmPassword}
@@ -218,14 +224,14 @@ export default function Password() {
             onClick={handleSave}
             loading={loading}
           >
-            {i18n.t('account.password.saveButton').toUpperCase()}
+            {i18n.t('components.account.password.saveButton').toUpperCase()}
           </LoadingButton>
           <Button
             variant="outlined"
             className={styles.resetButton}
             onClick={handleCancel}
           >
-            {i18n.t('account.password.resetButton')}
+            {i18n.t('components.account.password.resetButton')}
           </Button>
         </Stack>
       </Box>

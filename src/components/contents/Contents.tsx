@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, CircularProgress } from '@mui/material';
+import { Box, Typography, CircularProgress, useTheme } from '@mui/material';
 
 import { toastError } from '../base/toast/Toast';
 
@@ -16,7 +16,9 @@ type Props = {
 };
 
 export default function Contents({ filters }: Props) {
+  // import mui theme
   const { user, credentialsManager } = useLoginContext();
+  const theme = useTheme();
   const { i18n } = useTranslation();
 
   const [contents, setContents] = useState<Content[]>([]);
@@ -31,7 +33,7 @@ export default function Contents({ filters }: Props) {
         .catch((e) =>
           toastError(
             <Typography>
-              {i18n.t('error.fetch')} : {e.message}
+              {i18n.t('components.contents.contents.fetchError')} : {e.message}
             </Typography>
           )
         )
@@ -41,9 +43,8 @@ export default function Contents({ filters }: Props) {
 
   return (
     <Box className={styles.container}>
-      {/* title */}
-      <Typography variant="h3" color="primary">
-        {i18n.t('contents.title')}
+      <Typography variant="h3" sx={{ color: theme.palette.primary.main }}>
+        {i18n.t('components.contents.contents.title')}
       </Typography>
 
       {/* list of contents */}

@@ -58,7 +58,7 @@ export default function HeroTale({ module }: Props) {
         <Box className={styles.buttonContainer}>
           <Link href={`/module/${module.id}`}>
             <Button variant="contained" className={styles.button}>
-              {i18n.t('modules.heroTale.resumeButton')}
+              {i18n.t('components.modules.heroTale.resumeButton')}
             </Button>
           </Link>
         </Box>

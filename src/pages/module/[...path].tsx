@@ -1,3 +1,4 @@
+import I18n from 'i18n-js';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Playground from '../../components/playground/Playground';
@@ -15,7 +16,7 @@ export default function Module() {
 
   return (
     <div>
-      <h1>Display module here</h1>
+      <h1>{I18n.t('pages.module.path.modulesHere')}</h1>
     </div>
   );
 }

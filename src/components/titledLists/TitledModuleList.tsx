@@ -5,6 +5,7 @@ import Module from '../modules/Module';
 import { ModuleShort } from '../../lib/api/module';
 
 import styles from '../../styles/components/home/HomeModuleList.module.css';
+import CenteredLoader from '../base/CenteredLoader';
 
 type Props = {
   title: string;
@@ -20,13 +21,15 @@ export default function HomeModuleList({ title, modules }: Props) {
         <Typography className={styles.title}>{title}</Typography>
       </Box>
       <Box className={styles.moduleList}>
-        {modules && modules.length > 0
-          ? modules.slice(0, MAX_MODULES).map((module) => (
-              <Box key={module.id}>
-                <Module module={module} />
-              </Box>
-            ))
-          : 'loading...'}
+        {modules && modules.length > 0 ? (
+          modules.slice(0, MAX_MODULES).map((module) => (
+            <Box key={module.id}>
+              <Module module={module} />
+            </Box>
+          ))
+        ) : (
+          <CenteredLoader />
+        )}
       </Box>
     </Box>
   );
