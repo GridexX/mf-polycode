@@ -226,3 +226,13 @@ export async function resendEmail(emailId: string) {
   if (status === 204) return true;
   throw UnexpectedResponse;
 }
+
+// validates the user's email, the code is sent to the user's email 
+export async function validateEmail(code:string){
+  const { status } = await fetchApi(
+    `/user/email/validate/${code}`,
+    "POST",
+  );
+  if (status === 204) return true;
+  throw UnexpectedResponse;
+}

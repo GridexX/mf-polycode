@@ -146,7 +146,7 @@
         "lastViewed": "Last Viewed",
         "newContents": "New contents",
         "newModules": "New modules",
-        "empty":{
+        "empty": {
           "contents": "No contents to show",
           "modules": "No modules to show"
         },
@@ -327,6 +327,15 @@
       "userAlreadyExists": "User already exists",
       "signUpError": "Unable to sign up",
       "unexpectedError": "Unexpected error"
+    },
+    "email": {
+      "verification": {
+        "progress": "Verification in progress",
+        "success": "Email verified successfully",
+        "failed": "Failed to verify email",
+        "home": "Go to home page",
+        "signIn": "Sign in"
+      }
     }
   },
   "error": {
