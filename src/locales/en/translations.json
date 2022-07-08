@@ -142,7 +142,15 @@
       "homeContent": {
         "lastViewed": "Last Viewed",
         "newContents": "New contents",
-        "preferredContents": "Preferred Contents"
+        "newModules": "New modules",
+        "empty":{
+          "contents": "No contents to show",
+          "modules": "No modules to show"
+        },
+        "errors": {
+          "module": "Failed to fetch modules from server",
+          "content": "Failed to fetch content from server"
+        }
       },
       "landingPage": {
         "manifesto": "Prepare yourself for coding interviews or learn new programming languages in minutes !",
@@ -292,5 +300,8 @@
       "signUpError": "Unable to sign up",
       "unexpectedError": "Unexpected error"
     }
+  },
+  "error": {
+    "fetch": "There was an error when retrieving data from server"
   }
 }

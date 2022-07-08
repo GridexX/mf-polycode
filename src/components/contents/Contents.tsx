@@ -18,6 +18,7 @@ type Props = {
 export default function Contents({ filters }: Props) {
   // import mui theme
   const { user, credentialsManager } = useLoginContext();
+
   const theme = useTheme();
   const { i18n } = useTranslation();
 
