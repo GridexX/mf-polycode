@@ -66,14 +66,14 @@ export default function Module({ module }: Props) {
               {/* number of percentage */}
               <Box className={styles.percentageProgressContainer}>
                 <Typography className={styles.percentageProgress}>
-                  {module.progress || 0}%
+                  {module.progress || 0 || 0}%
                 </Typography>
               </Box>
               {/* progress bar */}
               <Box>
                 <LinearProgress
                   variant="determinate"
-                  value={module.progress}
+                  value={module.progress || 0}
                   className={styles.progress}
                 />
               </Box>

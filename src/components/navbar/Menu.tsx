@@ -71,9 +71,14 @@ export default function Menu({ handleMenu }: Props) {
               {i18n.t('components.navbar.menu.leaderboard')}
             </Typography>
           </Link>
-          <Link href="/account/settings">
+          <Link href="/module">
             <Typography className={styles.linkItem} variant="h1">
-              {i18n.t('components.navbar.menu.settings')}
+              {i18n.t('components.navbar.menu.modules')}
+            </Typography>
+          </Link>
+          <Link href="/content">
+            <Typography className={styles.linkItem} variant="h1">
+              {i18n.t('components.navbar.menu.exercises')}
             </Typography>
           </Link>
         </Stack>

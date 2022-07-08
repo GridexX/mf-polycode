@@ -69,14 +69,14 @@ export default function HeroTale({ module }: Props) {
           <Box className={styles.linearProgressContainer}>
             <LinearProgress
               variant="determinate"
-              value={module.progress}
+              value={module.progress || 0}
               className={styles.progress}
             />
           </Box>
           {/* percentage */}
           <Box className={styles.percentageProgressContainer}>
             <Typography className={styles.percentageProgress}>
-              {module.progress}%
+              {module.progress || 0}%
             </Typography>
           </Box>
         </Box>

@@ -200,7 +200,8 @@
       "menu": {
         "profile": "Profile",
         "leaderboard": "Leaderboard",
-        "settings": "Settings",
+        "modules": "Modules",
+        "exercises": "Exercises",
         "logout": "Logout"
       },
       "navBar": {
