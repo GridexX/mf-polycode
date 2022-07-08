@@ -6,7 +6,7 @@ import TitledModuleList from '../titledLists/TitledModuleList';
 
 import styles from '../../styles/components/home/HomeContent.module.css';
 import { Content, getContents } from '../../lib/api/content';
-import { getModules, ModuleWithProgress } from '../../lib/api/module';
+import { getModules, Module } from '../../lib/api/module';
 import { useLoginContext } from '../../lib/loginContext';
 import { useTranslation } from '../../lib/translations';
 import { toastError } from '../base/toast/Toast';
@@ -17,7 +17,7 @@ export default function HomeContent() {
   const { i18n } = useTranslation();
 
   const [newContents, setNewContents] = React.useState<Content[]>([]);
-  const [newModules, setNewModules] = React.useState<ModuleWithProgress[]>([]);
+  const [newModules, setNewModules] = React.useState<Module[]>([]);
 
   useEffect(() => {
     if (credentialsManager.credentials) {

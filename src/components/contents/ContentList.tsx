@@ -23,8 +23,8 @@ export default function ContentList({ contents }: Props) {
           </Box>
         ))
       ) : (
-        <Typography className={styles.message}>
-          {i18n.t('components.contents.notFound')}
+        <Typography className={styles.notFoundMessage}>
+          {i18n.t('components.contents.contentList.notFound')}
         </Typography>
       )}
     </Box>

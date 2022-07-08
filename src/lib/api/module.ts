@@ -2,45 +2,54 @@ import {
   CredentialsManager,
   fetchApiWithAuth,
   UnexpectedResponse,
-} from "./api";
-import { SortFilterType, TagFilterType } from "../common/filter";
-import { Content } from "./content";
+} from './api';
+import { SortFilterType, TagFilterType } from '../common/filter';
+import { Content } from './content';
 
-export const MissingModuleId = new Error("Missing module id");
+export const MissingModuleId = new Error('Missing module id');
 
-export interface ModuleWithProgress {
+type ModuleType = 'challenge' | 'practice' | 'certification' | 'submodule';
+
+export interface Module {
   id: string;
   name: string;
-  tags: string[];
   description: string;
+  tags: string[];
+  type: ModuleType;
   progress: number;
   reward: number;
   image?: string;
-}
-
-// info about a submodule
-export interface Submodule {
-  id: string;
-  name: string;
-  description: string;
-  type: string;
-  reward: number;
-  tags: string[];
-  modules: Submodule[];
+  modules: Module[];
   contents: Content[];
 }
 
 // module without user progress
-export interface Module {
+export interface EditionModule {
   id?: string;
   name: string;
   description: string;
   type: string;
   reward: number;
   tags: string[];
-  modules: Submodule[];
+  modules: Module[];
   contents: Content[];
 }
+
+export const DEFAULT_IMAGE =
+  'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg';
+
+export const defaultModule = {
+  id: '',
+  name: '',
+  description: '',
+  tags: [],
+  type: 'challenge' as ModuleType,
+  progress: 0,
+  reward: 0,
+  image: DEFAULT_IMAGE,
+  modules: [],
+  contents: [],
+};
 
 export interface ModuleFilters {
   limit: number;
@@ -57,7 +66,7 @@ function buildQuery(filters: ModuleFilters): string {
     return prev;
   }, [] as string[]);
 
-  url += `&tags=[${tags.join(",")}]`;
+  url += `&tags=[${tags.join(',')}]`;
   url += `&sort=${filters.sort}`;
 
   return url;
@@ -65,13 +74,13 @@ function buildQuery(filters: ModuleFilters): string {
 
 export function getModules(
   credentialsManager: CredentialsManager,
-  filters?: ModuleFilters,
+  filters?: ModuleFilters
 ) {
-  const endpoint = filters ? buildQuery(filters) : "/module";
+  const endpoint = filters ? buildQuery(filters) : '/module';
 
-  return fetchApiWithAuth<{ total: number }, ModuleWithProgress[]>(
+  return fetchApiWithAuth<{ total: number }, Module[]>(
     endpoint,
-    credentialsManager,
+    credentialsManager
   );
 }
 
@@ -83,11 +92,11 @@ export function getModules(
 export async function searchModule(
   search: string,
   user: string | undefined,
-  credentialsManager: CredentialsManager,
+  credentialsManager: CredentialsManager
 ) {
-  const { data, status } = await fetchApiWithAuth<{}, Submodule[]>(
-    "/module",
-    credentialsManager,
+  const { data, status } = await fetchApiWithAuth<{}, Module[]>(
+    '/module',
+    credentialsManager
   );
 
   if (status !== 200) {
@@ -101,11 +110,11 @@ export async function searchModule(
 
 export async function getModule(
   id: string,
-  credentialsManager: CredentialsManager,
+  credentialsManager: CredentialsManager
 ) {
   const { data, status } = await fetchApiWithAuth<{}, Module>(
     `/module/${id}`,
-    credentialsManager,
+    credentialsManager
   );
 
   if (status !== 200) {
@@ -115,7 +124,7 @@ export async function getModule(
   return data;
 }
 
-function formatModule(module: Module) {
+function formatModule(module: EditionModule) {
   return {
     name: module.name,
     description: module.description,
@@ -129,16 +138,16 @@ function formatModule(module: Module) {
 }
 
 export async function createModule(
-  module: Module,
-  credentialsManager: CredentialsManager,
+  module: EditionModule,
+  credentialsManager: CredentialsManager
 ) {
   const moduleToSend = formatModule(module);
 
-  const { data, status } = await fetchApiWithAuth<{}, Module>(
-    "/module",
+  const { data, status } = await fetchApiWithAuth<{}, EditionModule>(
+    '/module',
     credentialsManager,
-    "POST",
-    moduleToSend,
+    'POST',
+    moduleToSend
   );
 
   if (status !== 201) {
@@ -149,8 +158,8 @@ export async function createModule(
 }
 
 export async function updateModule(
-  module: Module,
-  credentialsManager: CredentialsManager,
+  module: EditionModule,
+  credentialsManager: CredentialsManager
 ) {
   if (!module.id) {
     throw MissingModuleId;
@@ -158,11 +167,11 @@ export async function updateModule(
 
   const moduleToSend = formatModule(module);
 
-  const { data, status } = await fetchApiWithAuth<{}, Module>(
+  const { data, status } = await fetchApiWithAuth<{}, EditionModule>(
     `/module/${module.id}`,
     credentialsManager,
-    "PATCH",
-    moduleToSend,
+    'PATCH',
+    moduleToSend
   );
 
   if (status !== 200) {

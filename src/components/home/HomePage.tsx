@@ -5,7 +5,7 @@ import HeroTale from './HeroTale';
 import HomeContent from './HomeContent';
 
 import styles from '../../styles/pages/Home.module.css';
-import { getModules, ModuleWithProgress } from '../../lib/api/module';
+import { getModules, Module } from '../../lib/api/module';
 import { useLoginContext } from '../../lib/loginContext';
 import { toastError } from '../base/toast/Toast';
 import { useTranslation } from '../../lib/translations';
@@ -15,7 +15,7 @@ export default function Home() {
 
   const { i18n } = useTranslation();
 
-  const [modules, setModules] = useState<ModuleWithProgress[]>([]);
+  const [modules, setModules] = useState<Module[]>([]);
 
   useEffect(() => {
     if (credentialsManager.credentials) {

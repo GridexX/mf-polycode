@@ -3,7 +3,7 @@ import { useTheme, Box, Typography, LinearProgress } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { ModuleWithProgress } from '../../lib/api/module';
+import { Module as ModuleType, DEFAULT_IMAGE } from '../../lib/api/module';
 import Tag from './Tag';
 
 import styles from '../../styles/components/modules/Module.module.css';
@@ -11,11 +11,8 @@ import styles from '../../styles/components/modules/Module.module.css';
 import carrot from '../../images/carrot.png';
 
 type Props = {
-  module: ModuleWithProgress;
+  module: ModuleType;
 };
-
-const DEFAULT_IMAGE =
-  'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg';
 
 export default function Module({ module }: Props) {
   // import mui theme

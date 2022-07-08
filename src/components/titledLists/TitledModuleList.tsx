@@ -2,14 +2,14 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 import Module from '../modules/Module';
-import { ModuleWithProgress } from '../../lib/api/module';
+import { Module as ModuleType } from '../../lib/api/module';
 
 import styles from '../../styles/components/home/HomeModuleList.module.css';
 import { useTranslation } from '../../lib/translations';
 
 type Props = {
   title: string;
-  modules: ModuleWithProgress[];
+  modules: ModuleType[];
 };
 
 const MAX_MODULES = 3;

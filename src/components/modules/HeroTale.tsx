@@ -9,13 +9,13 @@ import {
 import Link from 'next/link';
 
 import { useTranslation } from '../../lib/translations';
-import { ModuleWithProgress } from '../../lib/api/module';
+import { Module } from '../../lib/api/module';
 import Polypoints from '../Polypoints';
 
 import styles from '../../styles/components/modules/HeroTale.module.css';
 
 type Props = {
-  module: ModuleWithProgress;
+  module: Module;
 };
 
 export default function HeroTale({ module }: Props) {
@@ -58,7 +58,7 @@ export default function HeroTale({ module }: Props) {
         <Box className={styles.buttonContainer}>
           <Link href={`/module/${module.id}`}>
             <Button variant="contained" className={styles.button}>
-              {i18n.t('components.modules.heroTale.resumeButton')}
+              {i18n.t('components.modules.moduleDetails.heroTale.resumeButton')}
             </Button>
           </Link>
         </Box>

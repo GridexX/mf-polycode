@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme, Box, Typography, CircularProgress } from '@mui/material';
+import { useTheme, Box, Typography } from '@mui/material';
 
 import ModuleList from './ModuleList';
 import { useTranslation } from '../../lib/translations';
@@ -7,8 +7,9 @@ import { useTranslation } from '../../lib/translations';
 import styles from '../../styles/components/modules/Modules.module.css';
 
 import { toastError } from '../base/toast/Toast';
-import { getModules, ModuleFilters, ModuleWithProgress } from '../../lib/api/module';
+import { getModules, ModuleFilters, Module } from '../../lib/api/module';
 import { useLoginContext } from '../../lib/loginContext';
+import CenteredLoader from '../base/CenteredLoader';
 
 type Props = {
   filters: ModuleFilters;
@@ -20,7 +21,7 @@ export default function Modules({ filters }: Props) {
   const { i18n } = useTranslation();
   const { user, credentialsManager } = useLoginContext();
 
-  const [modules, setModules] = useState<ModuleWithProgress[]>([]);
+  const [modules, setModules] = useState<Module[]>([]);
   const [loading, setLoading] = useState(false);
 
   // --- handler events ---
@@ -48,13 +49,7 @@ export default function Modules({ filters }: Props) {
       </Typography>
 
       {/* list of modules */}
-      {!loading ? (
-        <ModuleList modules={modules} />
-      ) : (
-        <Box className={styles.loadingContainer}>
-          <CircularProgress size="4rem" />
-        </Box>
-      )}
+      {!loading ? <ModuleList modules={modules} /> : <CenteredLoader />}
     </Box>
   );
 }

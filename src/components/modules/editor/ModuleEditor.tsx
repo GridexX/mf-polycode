@@ -13,9 +13,9 @@ import { useTranslation } from '../../../lib/translations';
 import {
   createModule,
   getModule,
-  Module,
+  EditionModule,
   searchModule,
-  Submodule,
+  Module,
   updateModule,
 } from '../../../lib/api/module';
 import { Content, searchContent } from '../../../lib/api/content';
@@ -38,7 +38,7 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
 
   const router = useRouter();
 
-  const [moduleData, setModuleData] = useState<Module>({
+  const [moduleData, setModuleData] = useState<EditionModule>({
     name: '',
     description: '',
     contents: [],
@@ -67,13 +67,13 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
     }
   }, [id, credentialsManager, i18n]);
 
-  const handleSubmoduleChange = (submodules: Submodule[]) => {
+  const handleSubmoduleChange = (submodules: Module[]) => {
     setModuleData({ ...moduleData, modules: submodules });
   };
   const handleContentChange = (contents: Content[]) => {
     setModuleData({ ...moduleData, contents });
   };
-  const handleAddSubmodule = (submodule: Submodule) => {
+  const handleAddSubmodule = (submodule: Module) => {
     setModuleData({
       ...moduleData,
       modules: [...moduleData.modules, submodule],

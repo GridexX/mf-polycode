@@ -2,13 +2,13 @@ import React from 'react';
 import { Button, Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
-import { ModuleWithProgress } from '../../lib/api/module';
+import { Module } from '../../lib/api/module';
 
 import styles from '../../styles/components/home/HeroTale.module.css';
 import { useTranslation } from '../../lib/translations';
 
 type Props = {
-  module: ModuleWithProgress;
+  module: Module;
 };
 
 export default function HeroTale({ module }: Props) {

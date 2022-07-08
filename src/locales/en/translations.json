@@ -117,6 +117,9 @@
       "contents": {
         "title": "Contents",
         "fetchError": "Failed to fetch content from server"
+      },
+      "contentList": {
+        "notFound": "No contents found"
       }
     },
     "filters": {
@@ -158,11 +161,14 @@
       }
     },
     "modules": {
-      "heroTale": {
-        "resumeButton": "RESUME"
+      "moduleDetails": {
+        "heroTale": {
+          "resumeButton": "RESUME"
+        },
+        "fetchError": "Failed to fetch data from server"
       },
       "moduleList": {
-        "notFound": "No exercises found"
+        "notFound": "No modules found"
       },
       "modules": {
         "title": "Modules"
