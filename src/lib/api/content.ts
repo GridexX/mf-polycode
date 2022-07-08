@@ -1,17 +1,22 @@
-import useSWR from "swr";
-import { SortFilterType, StateFilterType } from "../common/filter";
+import useSWR from 'swr';
+import { SortFilterType, StateFilterType } from '../common/filter';
 import {
   AsyncResponse,
   CredentialsManager,
   fetchApiWithAuth,
   PaginationMeta,
   UnexpectedResponse,
-} from "./api";
+} from './api';
 
 // Variants
-export type EditorLanguage = "java" | "javascript" | "python" | "rust";
-export type ComponentType = "container" | "editor" | "markdown";
-export type ContentType = "exercise";
+export enum EditorLanguage {
+  Node = 'NODE',
+  Python = 'PYTHON',
+  Java = 'JAVA',
+  Rust = 'RUST',
+}
+export type ComponentType = 'container' | 'editor' | 'markdown';
+export type ContentType = 'exercise';
 
 export interface ContentFilters {
   limit: number;
@@ -32,15 +37,15 @@ export type Component =
   | CodeEditorComponent;
 
 export interface ContainerComponent extends BaseComponent {
-  type: "container";
+  type: 'container';
   data: {
     components: Component[];
-    orientation: "horizontal" | "vertical";
+    orientation: 'horizontal' | 'vertical';
   };
 }
 
 export interface MarkdownComponent extends BaseComponent {
-  type: "markdown";
+  type: 'markdown';
   data: {
     markdown: string;
   };
@@ -55,7 +60,7 @@ export interface EditorSettings {
 }
 
 export interface CodeEditorComponent extends BaseComponent {
-  type: "editor";
+  type: 'editor';
   data: {
     validators: Validator[];
     items: string[];
@@ -87,14 +92,14 @@ export interface Content {
 }
 
 export const defaultContent = {
-  type: "exercise",
-  name: "",
-  description: "",
+  type: 'exercise',
+  name: '',
+  description: '',
   reward: 0,
   rootComponent: {
-    type: "container",
+    type: 'container',
     data: {
-      orientation: "horizontal",
+      orientation: 'horizontal',
       components: [],
     },
   },
@@ -106,13 +111,13 @@ export const defaultContent = {
 // Create functions
 export async function createContent(
   credentialsManager: CredentialsManager,
-  request: Content,
+  request: Content
 ): Promise<Content> {
   const { data, status } = await fetchApiWithAuth<{}, Content>(
-    "/content",
+    '/content',
     credentialsManager,
-    "POST",
-    request,
+    'POST',
+    request
   );
 
   if (status === 201) return data;
@@ -127,7 +132,7 @@ function buildFilterQuery(filters: ContentFilters): string {
     return prev;
   }, [] as string[]);
 
-  url += `&states=[${states.join(",")}]`;
+  url += `&states=[${states.join(',')}]`;
   url += `&sort=${filters.sort}`;
 
   return url;
@@ -136,18 +141,14 @@ function buildFilterQuery(filters: ContentFilters): string {
 // Get functions
 export async function getContents(
   credentialsManager: CredentialsManager,
-  filters?: ContentFilters,
+  filters?: ContentFilters
 ) {
-  const endpoint = filters ? buildFilterQuery(filters) : "/content";
+  const endpoint = filters ? buildFilterQuery(filters) : '/content';
 
   const { data, /* metadata, */ status } = await fetchApiWithAuth<
     PaginationMeta,
     Content[]
-  >(
-    endpoint,
-    credentialsManager,
-    "GET",
-  );
+  >(endpoint, credentialsManager, 'GET');
 
   if (status === 200) {
     return {
@@ -164,12 +165,12 @@ export async function getContents(
 
 export async function getContent(
   credentialsManager: CredentialsManager,
-  id: string,
+  id: string
 ): Promise<Content> {
   const { data, status } = await fetchApiWithAuth<{}, Content>(
     `/content/${id}`,
     credentialsManager,
-    "GET",
+    'GET'
   );
 
   if (status === 200) return data;
@@ -180,13 +181,13 @@ export async function getContent(
 export async function updateContent(
   credentialsManager: CredentialsManager,
   id: string,
-  request: Content,
+  request: Content
 ): Promise<Content> {
   const { data, status } = await fetchApiWithAuth<{}, Content>(
     `/content/${id}`,
     credentialsManager,
-    "PUT",
-    request,
+    'PUT',
+    request
   );
 
   if (status === 200) return data;
@@ -196,12 +197,12 @@ export async function updateContent(
 // Delete functions
 export async function deleteContent(
   credentialsManager: CredentialsManager,
-  id: string,
+  id: string
 ): Promise<boolean> {
   const { status } = await fetchApiWithAuth<{}, void>(
     `/content/${id}`,
     credentialsManager,
-    "DELETE",
+    'DELETE'
   );
 
   if (status === 204) return true;
@@ -212,11 +213,11 @@ export async function deleteContent(
 
 export function useGetContents(
   credentialsManager: CredentialsManager,
-  filters?: ContentFilters,
+  filters?: ContentFilters
 ) {
   const { data, error } = useSWR(
     `/content?q=${JSON.stringify(filters || null)}`,
-    () => getContents(credentialsManager, filters),
+    () => getContents(credentialsManager, filters)
   );
 
   return {
@@ -228,11 +229,10 @@ export function useGetContents(
 
 export function useGetContent(
   credentialsManager: CredentialsManager,
-  id?: string,
+  id?: string
 ): AsyncResponse<Content> {
-  const { data, error } = useSWR(
-    `/content/${id}`,
-    () => id ? getContent(credentialsManager, id) : undefined,
+  const { data, error } = useSWR(`/content/${id}`, () =>
+    id ? getContent(credentialsManager, id) : undefined
   );
 
   return {
@@ -249,11 +249,11 @@ export function useGetContent(
 export async function searchContent(
   search: string,
   user: string | undefined,
-  credentialsManager: CredentialsManager,
+  credentialsManager: CredentialsManager
 ) {
   const { data, status } = await fetchApiWithAuth<{}, Content[]>(
-    "/content",
-    credentialsManager,
+    '/content',
+    credentialsManager
   );
 
   if (status !== 200) {
@@ -266,3 +266,38 @@ export async function searchContent(
 }
 
 export default ContentType;
+
+// Helpers
+export function getMonacoLanguageNameFromEditorLanguage(
+  language: EditorLanguage
+): string {
+  switch (language) {
+    case EditorLanguage.Java:
+      return 'java';
+    case EditorLanguage.Python:
+      return 'python';
+    case EditorLanguage.Node:
+      return 'javascript';
+    case EditorLanguage.Rust:
+      return 'rust';
+    default:
+      return 'plaintext';
+  }
+}
+
+export function getLanguageNameFromEditorLanguage(
+  language: EditorLanguage
+): string {
+  switch (language) {
+    case EditorLanguage.Java:
+      return 'Java';
+    case EditorLanguage.Python:
+      return 'Python';
+    case EditorLanguage.Node:
+      return 'JavaScript';
+    case EditorLanguage.Rust:
+      return 'Rust';
+    default:
+      return '';
+  }
+}

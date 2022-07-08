@@ -19,6 +19,7 @@ import {
   Component,
   ComponentType,
   ContainerComponent,
+  EditorLanguage,
 } from '../../../lib/api/content';
 import CodeEditorEditor from './CodeEditorEditor';
 import MarkdownEditor from './MarkdownEditor';
@@ -94,7 +95,7 @@ export default function ContainerEditor({
               editorSettings: {
                 languages: [
                   {
-                    language: 'javascript',
+                    language: EditorLanguage.Node,
                     defaultCode: '',
                     version: '',
                   },

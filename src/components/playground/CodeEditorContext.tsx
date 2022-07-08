@@ -20,9 +20,9 @@ interface ICodeEditorContext {
     testId: string | undefined;
   }) => void;
 
-  language: string;
-  setLanguage: (language: string) => void;
-  availableLanguages: string[];
+  language: EditorLanguage;
+  setLanguage: (language: EditorLanguage) => void;
+  availableLanguages: EditorLanguage[];
 
   validators: Validator[];
 
@@ -49,9 +49,10 @@ export function EditorContextProvider({
     {}
   );
 
-  const [selectedLanguage, setSelectedLanguage] = React.useState<string>(
-    editorComponent.data.editorSettings.languages[0].language
-  ); /* pick the first language, when the var will be available use the preferred language */
+  const [selectedLanguage, setSelectedLanguage] =
+    React.useState<EditorLanguage>(
+      editorComponent.data.editorSettings.languages[0].language
+    ); /* pick the first language, when the var will be available use the preferred language */
 
   const [lastOutput, setLastOutput] = React.useState<{
     stdout: string;
@@ -128,7 +129,7 @@ export function EditorContextProvider({
   const setLanguage = useCallback(
     (newLanguage: string) => {
       if (availableLanguages.includes(newLanguage as EditorLanguage))
-        setSelectedLanguage(newLanguage);
+        setSelectedLanguage(newLanguage as EditorLanguage);
     },
     [availableLanguages]
   );

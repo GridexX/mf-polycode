@@ -15,6 +15,10 @@ import { useEditorContext } from './CodeEditorContext';
 
 import styles from '../../styles/components/playground/Toolbar.module.css';
 import { useTranslation } from '../../lib/translations';
+import {
+  EditorLanguage,
+  getLanguageNameFromEditorLanguage,
+} from '../../lib/api/content';
 
 export default function Toolbar() {
   const { i18n } = useTranslation();
@@ -23,7 +27,9 @@ export default function Toolbar() {
 
   const handleChangeLanguage = useCallback(
     (evt: SelectChangeEvent<string>) => {
-      context.setLanguage(evt.target.value);
+      if (Object.values(EditorLanguage).find((c) => c === evt.target.value)) {
+        context.setLanguage(evt.target.value as EditorLanguage);
+      }
     },
     [context]
   );
@@ -35,7 +41,7 @@ export default function Toolbar() {
         value={context.language}
         onChange={handleChangeLanguage}
         items={context.availableLanguages.map((l) => ({
-          name: l,
+          name: getLanguageNameFromEditorLanguage(l),
           value: l,
         }))}
         size="small"

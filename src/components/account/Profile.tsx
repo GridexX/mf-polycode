@@ -11,11 +11,15 @@ import { useLoginContext } from '../../lib/loginContext';
 import { getUserEmails, getUserSettings, UserEmail } from '../../lib/api/user';
 import { toastError } from '../base/toast/Toast';
 import CenteredLoader from '../base/CenteredLoader';
+import {
+  EditorLanguage,
+  getLanguageNameFromEditorLanguage,
+} from '../../lib/api/content';
 
 export interface ProfileState {
   username: string;
   emails: string[];
-  preferredEditingLanguage: string;
+  preferredEditingLanguage: EditorLanguage;
   polypoints: number;
   rank: number;
   biography: string;
@@ -24,7 +28,7 @@ export interface ProfileState {
 const defaultProfileState: ProfileState = {
   username: '',
   emails: [],
-  preferredEditingLanguage: '',
+  preferredEditingLanguage: EditorLanguage.Node,
   polypoints: 0,
   rank: 0,
   biography: '',
@@ -141,7 +145,9 @@ export default function Profile() {
                 </Typography>
                 <Box className={styles.fieldValue}>
                   <Typography color="inherit">
-                    {profileState.preferredEditingLanguage}
+                    {getLanguageNameFromEditorLanguage(
+                      profileState.preferredEditingLanguage
+                    )}
                   </Typography>
                 </Box>
               </Box>

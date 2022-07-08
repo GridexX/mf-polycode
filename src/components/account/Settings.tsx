@@ -26,11 +26,15 @@ import {
   UserEmail,
 } from '../../lib/api/user';
 import { toastError, toastSuccess } from '../base/toast/Toast';
+import {
+  EditorLanguage,
+  getLanguageNameFromEditorLanguage,
+} from '../../lib/api/content';
 
 type EditorState = {
   username: string;
   emails: UserEmail[];
-  preferredEditingLanguage: string;
+  preferredEditingLanguage: EditorLanguage;
   biography: string;
 };
 
@@ -55,7 +59,7 @@ export default function Settings() {
     React.useState<EditorState>({
       username: '',
       emails: [],
-      preferredEditingLanguage: 'javascript',
+      preferredEditingLanguage: EditorLanguage.Node,
       biography: '',
     });
   const [editorState, setEditorState] =
@@ -191,10 +195,13 @@ export default function Settings() {
   };
 
   const handlePreferedLanguageChange = (event: SelectChangeEvent<string>) => {
-    setEditorState({
-      ...editorState,
-      preferredEditingLanguage: event.target.value,
-    });
+    // Making sure it's a correct enum value
+    if (Object.values(EditorLanguage).find((c) => c === event.target.value)) {
+      setEditorState({
+        ...editorState,
+        preferredEditingLanguage: event.target.value as EditorLanguage,
+      });
+    }
   };
 
   const handleBiographyChange = (
@@ -358,12 +365,10 @@ export default function Settings() {
             <Box className={styles.inputContainer}>
               <CustomSelect
                 label={i18n.t('components.account.settings.preferedLanguage')}
-                items={[
-                  { name: 'Java', value: 'java' },
-                  { name: 'JavaScript', value: 'javascript' },
-                  { name: 'Python', value: 'python' },
-                  { name: 'Rust', value: 'rust' },
-                ]}
+                items={Object.values(EditorLanguage).map((l) => ({
+                  name: getLanguageNameFromEditorLanguage(l),
+                  value: l,
+                }))}
                 value={editorState.preferredEditingLanguage}
                 onChange={handlePreferedLanguageChange}
               />

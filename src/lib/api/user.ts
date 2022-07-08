@@ -5,6 +5,7 @@ import {
   MissingData,
   UnexpectedResponse,
 } from './api';
+import { EditorLanguage } from './content';
 
 export const UserAlreadyExists = new Error('User already exists');
 
@@ -30,7 +31,7 @@ export interface UserEmail {
 export interface UserSettings {
   id: string;
   userId: string;
-  preferredEditingLanguage: string;
+  preferredEditingLanguage: EditorLanguage;
   preferredLanguage: string;
 }
 
@@ -51,7 +52,7 @@ export interface UpdateUserRequest {
 }
 
 export interface UpdateUserSettingsRequest {
-  preferredEditingLanguage?: string;
+  preferredEditingLanguage?: EditorLanguage;
   preferredLanguage?: string;
 }
 
@@ -227,12 +228,9 @@ export async function resendEmail(emailId: string) {
   throw UnexpectedResponse;
 }
 
-// validates the user's email, the code is sent to the user's email 
-export async function validateEmail(code:string){
-  const { status } = await fetchApi(
-    `/user/email/validate/${code}`,
-    "POST",
-  );
+// validates the user's email, the code is sent to the user's email
+export async function validateEmail(code: string) {
+  const { status } = await fetchApi(`/user/email/validate/${code}`, 'POST');
   if (status === 204) return true;
   throw UnexpectedResponse;
 }

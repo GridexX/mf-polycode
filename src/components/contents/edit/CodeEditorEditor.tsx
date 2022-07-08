@@ -28,6 +28,8 @@ import {
   CodeEditorComponent,
   EditorLanguage,
   EditorSettings,
+  getLanguageNameFromEditorLanguage,
+  getMonacoLanguageNameFromEditorLanguage,
   Validator,
 } from '../../../lib/api/content';
 import { useTranslation } from '../../../lib/translations';
@@ -49,7 +51,7 @@ export default function CodeEditorEditor({
   const { i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = React.useState<EditorLanguage>(
     (editor.data?.editorSettings?.languages[0]?.language ||
-      'javascript') as EditorLanguage
+      EditorLanguage.Node) as EditorLanguage
   );
 
   // --- Utils ---
@@ -58,24 +60,11 @@ export default function CodeEditorEditor({
       (languageSettings) => languageSettings.language === language
     ) !== undefined;
 
-  const getLanguageName = (language: EditorLanguage) => {
-    switch (language) {
-      case 'javascript':
-        return 'JavaScript';
-      case 'java':
-        return 'Java';
-      case 'python':
-        return 'Python';
-      case 'rust':
-        return 'Rust';
-      default:
-        return '';
-    }
-  };
-
   const getLanguages = () =>
     editor.data.editorSettings?.languages.map((languageSettings) => ({
-      name: getLanguageName(languageSettings.language as EditorLanguage),
+      name: getLanguageNameFromEditorLanguage(
+        languageSettings.language as EditorLanguage
+      ),
       value: languageSettings.language,
     })) || [];
 
@@ -202,7 +191,8 @@ export default function CodeEditorEditor({
         ) || [];
       if (language === currentLanguage) {
         setCurrentLanguage(
-          (updatedLanguages[0]?.language || 'javascript') as EditorLanguage
+          (updatedLanguages[0]?.language ||
+            EditorLanguage.Node) as EditorLanguage
         );
       }
       setEditorSettings({
@@ -244,7 +234,7 @@ export default function CodeEditorEditor({
           }
         />
       }
-      label={getLanguageName(language)}
+      label={getLanguageNameFromEditorLanguage(language)}
     />
   );
 
@@ -270,10 +260,9 @@ export default function CodeEditorEditor({
               )}
             </Divider>
             <FormGroup>
-              {renderLanguageCheckbox('javascript')}
-              {renderLanguageCheckbox('java')}
-              {renderLanguageCheckbox('python')}
-              {renderLanguageCheckbox('rust')}
+              {Object.values(EditorLanguage).map((language) =>
+                renderLanguageCheckbox(language)
+              )}
             </FormGroup>
           </Stack>
           <Divider textAlign="left">
@@ -283,9 +272,15 @@ export default function CodeEditorEditor({
             <Box>
               <Select
                 value={currentLanguage}
-                onChange={(event) =>
-                  setCurrentLanguage(event.target.value as EditorLanguage)
-                }
+                onChange={(event) => {
+                  if (
+                    Object.values(EditorLanguage).find(
+                      (c) => c === event.target.value
+                    )
+                  ) {
+                    setCurrentLanguage(event.target.value as EditorLanguage);
+                  }
+                }}
                 label={i18n.t(
                   'components.contents.edit.codeEditorEditor.language'
                 )}
@@ -301,7 +296,9 @@ export default function CodeEditorEditor({
               }
               theme="vs-dark"
               onChange={(value) => handleEditorDefaultCodeChange(value || '')}
-              language={currentLanguage}
+              language={getMonacoLanguageNameFromEditorLanguage(
+                currentLanguage
+              )}
               height="20vh"
               width="100%"
             />

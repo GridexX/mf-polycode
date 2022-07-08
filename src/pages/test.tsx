@@ -29,10 +29,10 @@ const content: Content = {
           data: {
             editorSettings: {
               languages: [
-                { defaultCode: 'test', language: 'typescript', version: '4' },
+                { defaultCode: 'test', language: 'NODE', version: '4' },
                 {
                   defaultCode: 'println!("test")',
-                  language: 'rust',
+                  language: 'RUST',
                   version: '4',
                 },
               ],
