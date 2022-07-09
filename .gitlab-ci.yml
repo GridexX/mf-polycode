@@ -60,10 +60,9 @@ docker_build:
     mkdir -p /kaniko/.docker/
 
     if [[ -n "${CI_COMMIT_TAG}" || "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-      REGISTRY_DESTINATION="--destination ${CI_REGISTRY_IMAGE}:${BUILD_VERSION}"
-      echo "REGISTRY_DESTINATION: ${REGISTRY_DESTINATION}"
+      REGISTRY_DESTINATION="--destination ${NEXUS_DOCKER_URL}/do-polycode/frontend:${BUILD_VERSION}"
     else
-      REGISTRY_DESTINATION="--no-push --cache-repo ${CI_REGISTRY_IMAGE}/cache"
+      REGISTRY_DESTINATION="--no-push --cache-repo ${NEXUS_DOCKER_URL}/do-polycode/frontend/cache"
     fi
 
     if [[ -n "${CI_COMMIT_TAG}" ]]; then
@@ -73,7 +72,7 @@ docker_build:
     fi
 
     DOCKER_CONTEXT_PATH=${CI_PROJECT_DIR}/
-    echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    echo "{\"auths\":{\"$NEXUS_DOCKER_URL\":{\"username\":\"$NEXUS_DOCKER_USER\",\"password\":\"$NEXUS_DOCKER_PASSWORD\"}}}" > /kaniko/.docker/config.json
     /kaniko/executor --context ${DOCKER_CONTEXT_PATH} --dockerfile ${DOCKER_CONTEXT_PATH}/${DOCKERFILE_PATH} --verbosity=info --cache=true --cache-ttl=336h --use-new-run --snapshotMode=redo ${REGISTRY_DESTINATION} ${DOCKER_BUILD_OPTIONS}
 
 bump_version:

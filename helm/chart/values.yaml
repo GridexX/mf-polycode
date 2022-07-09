@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: gitlab.polytech.umontpellier.fr:5050/do-polycode/frontend
+  repository: docker.repo.nexus.polycode.do-2021.fr/do-polycode/frontend
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
