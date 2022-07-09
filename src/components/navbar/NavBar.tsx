@@ -21,7 +21,6 @@ import styles from '../../styles/components/navbar/NavBar.module.css';
 import { useTranslation } from '../../lib/translations';
 
 import logo from '../../images/logo.png';
-import EmailNotification from './EmailNotification';
 
 export default function NavBar() {
   const { user } = useLoginContext();
@@ -93,8 +92,6 @@ export default function NavBar() {
 
             {/* separator */}
             <Box sx={{ flexGrow: 1 }} />
-
-            <EmailNotification />
 
             {/* stack of icons */}
             <Stack spacing={4} direction="row">

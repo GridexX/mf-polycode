@@ -8,7 +8,7 @@ const MuiInputLabel: {
       color: theme.palette.text.primary,
       fontFamily: 'Varela Round, sans-serif',
       '&.Mui-disabled': {
-        color: theme.palette.text.primary,
+        color: theme.palette.text.secondary,
       },
     }),
   },

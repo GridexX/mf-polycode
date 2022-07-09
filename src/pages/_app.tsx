@@ -15,6 +15,7 @@ import NavBar from '../components/navbar/NavBar';
 import '../styles/globals.css';
 import '../styles/components/base/toast.css';
 import styles from '../styles/pages/app.module.css';
+import RequireVerifiedMail from '../components/email/RequireVerifiedMail';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -40,7 +41,9 @@ export default function MyApp(props: MyAppProps) {
               <Box className={styles.nav}>
                 <NavBar />
               </Box>
-              <Component {...pageProps} />
+              <RequireVerifiedMail>
+                <Component {...pageProps} />
+              </RequireVerifiedMail>
             </Box>
             <ToastContainer
               theme="colored"

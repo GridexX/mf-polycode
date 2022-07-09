@@ -12,7 +12,7 @@ import { useTranslation } from '../../lib/translations';
 import { toastError } from '../base/toast/Toast';
 
 export default function HomeContent() {
-  const { credentialsManager } = useLoginContext();
+  const { credentialsManager,user } = useLoginContext();
 
   const { i18n } = useTranslation();
 
@@ -20,7 +20,7 @@ export default function HomeContent() {
   const [newModules, setNewModules] = React.useState<Module[]>([]);
 
   useEffect(() => {
-    if (credentialsManager.credentials) {
+    if (user) {
       getModules(credentialsManager, {
         limit: 10,
         offset: 0,
@@ -57,7 +57,7 @@ export default function HomeContent() {
           );
         });
     }
-  }, [credentialsManager, i18n]);
+  }, [credentialsManager, i18n, user]);
 
   return (
     <Box className={styles.container}>

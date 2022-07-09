@@ -12,14 +12,14 @@ import { useTranslation } from '../../lib/translations';
 
 export default function Home() {
   const theme = useTheme();
-  const { credentialsManager } = useLoginContext();
+  const { credentialsManager, user } = useLoginContext();
 
   const { i18n } = useTranslation();
 
   const [modules, setModules] = useState<Module[]>([]);
 
   useEffect(() => {
-    if (credentialsManager.credentials) {
+    if (user) {
       getModules(credentialsManager, {
         limit: 1,
         offset: 0,
@@ -37,7 +37,7 @@ export default function Home() {
           toastError(<Typography>{i18n.t('home.errors.module')}</Typography>);
         });
     }
-  }, [credentialsManager, i18n]);
+  }, [credentialsManager, i18n, user]);
 
   return (
     <Box

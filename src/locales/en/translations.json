@@ -1,5 +1,14 @@
 {
   "components": {
+    "email": {
+      "resendSuccess": "Email sent successfully",
+      "resendError": "Email could not be sent",
+      "title": "Email not verified",
+      "sentMail": "We have sent you an email to",
+      "sentMailSuite": "Please check your email and click the link to verify your account.",
+      "didNotReceive": "Did not receive the email?",
+      "resend": "Resend email"
+    },
     "account": {
       "menu": {
         "profile": "Profile",

@@ -93,7 +93,11 @@ export default function SignIn() {
     setEditorState({ ...editorState, password: event.target.value });
   };
 
-  const handleLogin = () => {
+  const handleLogin = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    evt.preventDefault();
+
     if (checkEmail() && checkPassword()) {
       setEditorErrors({ email: '', password: '' });
       setLoading(true);
