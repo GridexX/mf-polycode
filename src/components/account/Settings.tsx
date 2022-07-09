@@ -286,7 +286,10 @@ export default function Settings() {
   return (
     <Box className={styles.container}>
       {/* panel title */}
-      <Box className={styles.titleContainer}>
+      <Box
+        className={styles.titleContainer}
+        sx={{ color: theme.palette.text.primary }}
+      >
         <Typography variant="h3" color="inherit">
           {i18n.t('components.account.settings.titlePage')}
         </Typography>

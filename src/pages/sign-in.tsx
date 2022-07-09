@@ -125,7 +125,10 @@ export default function SignIn() {
   // --- render ---
 
   return (
-    <Box className={styles.container}>
+    <Box
+      className={styles.container}
+      sx={{ color: theme.palette.text.primary }}
+    >
       <Box className={styles.logo}>
         <Image src={polybunny} />
       </Box>

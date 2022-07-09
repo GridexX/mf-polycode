@@ -154,7 +154,10 @@ export default function Password() {
   return (
     <Box className={styles.container}>
       {/* window title */}
-      <Box className={styles.titleContainer}>
+      <Box
+        className={styles.titleContainer}
+        sx={{ color: theme.palette.text.primary }}
+      >
         <Typography variant="h3">
           {i18n.t('components.account.password.titlePage')}
         </Typography>

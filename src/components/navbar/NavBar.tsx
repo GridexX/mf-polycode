@@ -62,9 +62,14 @@ export default function NavBar() {
                   noWrap
                   component="div"
                   color={theme.palette.primary.main}
-                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                  sx={{
+                    display: { xs: 'none', sm: 'block' },
+                  }}
                 >
-                  Poly<span style={{ color: 'black' }}>Code</span>
+                  Poly
+                  <span style={{ color: theme.palette.text.primary }}>
+                    Code
+                  </span>
                 </Typography>
               </Box>
             </Link>

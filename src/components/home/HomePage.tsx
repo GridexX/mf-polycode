@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography, useTheme } from '@mui/material';
 
 import HeroTale from './HeroTale';
 import HomeContent from './HomeContent';
@@ -11,6 +11,7 @@ import { toastError } from '../base/toast/Toast';
 import { useTranslation } from '../../lib/translations';
 
 export default function Home() {
+  const theme = useTheme();
   const { credentialsManager } = useLoginContext();
 
   const { i18n } = useTranslation();
@@ -39,7 +40,10 @@ export default function Home() {
   }, [credentialsManager, i18n]);
 
   return (
-    <Box className={styles.container}>
+    <Box
+      className={styles.container}
+      sx={{ color: theme.palette.text.primary }}
+    >
       <Box className={styles.innerContainer}>
         {/* hero tale */}
         {modules.length >= 1 && <HeroTale module={modules[0]} />}

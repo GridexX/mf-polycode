@@ -229,7 +229,7 @@ export default function Profile() {
               {/* Bio content */}
               <Box className={styles.biographyContent}>
                 <Typography color="inherit">
-                  {profileState.biography.length > 0
+                  {profileState.biography && profileState.biography.length > 0
                     ? profileState.biography
                     : i18n.t('components.account.profile.noBiography')}
                 </Typography>
