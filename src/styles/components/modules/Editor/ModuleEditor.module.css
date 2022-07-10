@@ -1,3 +1,14 @@
+.titleContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+}
+
 .insertInterface {
   border-width: 1px;
   border-style: solid;

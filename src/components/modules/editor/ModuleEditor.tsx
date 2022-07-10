@@ -139,8 +139,13 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
 
   return (
     <Box className={styles.container}>
-      <Box>
-        <Typography variant="h3" component="span" color="text.primary">
+      <Box className={styles.titleContainer}>
+        <Typography
+          variant="h3"
+          component="span"
+          color="text.primary"
+          className={styles.title}
+        >
           {id
             ? i18n.t('components.modules.editor.titleEdit')
             : i18n.t('components.modules.editor.titleNew')}

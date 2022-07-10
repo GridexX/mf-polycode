@@ -118,7 +118,12 @@ export default function ContentEditorWizard({
   return (
     <Box className={styles.container}>
       <Stack direction="column" className={styles.innerContainer} spacing={4}>
-        <Typography variant="h2" className={styles.title}>
+        <Typography
+          variant="h3"
+          component="span"
+          color="text.primary"
+          className={styles.title}
+        >
           {titleText}
         </Typography>
         {isLoading ? (
