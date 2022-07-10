@@ -36,7 +36,7 @@ export interface EditionModule {
 }
 
 export const DEFAULT_IMAGE =
-  'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg';
+  '/module.png';
 
 export const defaultModule = {
   id: '',
