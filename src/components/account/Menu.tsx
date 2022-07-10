@@ -3,7 +3,6 @@ import { Box, Button, useTheme } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
-import LockIcon from '@mui/icons-material/Lock';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from '../../lib/translations';
@@ -61,16 +60,6 @@ export default function Menu({ buttonSelected }: Props) {
               color={buttonSelected === 'teams' ? 'primary' : 'inherit'}
             >
               {i18n.t('components.account.menu.teams')}
-            </Button>
-          </Link>
-          <Link href="/account/password">
-            <Button
-              id="password"
-              className={styles.button}
-              startIcon={<LockIcon className={styles.icon} />}
-              color={buttonSelected === 'password' ? 'primary' : 'inherit'}
-            >
-              {i18n.t('components.account.menu.password')}
             </Button>
           </Link>
         </Box>

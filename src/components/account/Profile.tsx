@@ -14,11 +14,11 @@ import {
   UserEmail,
 } from '../../lib/api/user';
 import { toastError } from '../base/toast/Toast';
-import {
-  EditorLanguage,
-  getLanguageNameFromEditorLanguage,
-} from '../../lib/api/content';
 import Polypoints from '../Polypoints';
+
+function capitalize(s: string): string {
+  return `${s[0].toUpperCase()}${s.slice(1)}`;
+}
 
 export interface ProfileState {
   username: string;
@@ -170,9 +170,7 @@ export default function ProfilePanel({ userId }: Props) {
                 </Typography>
                 <Box className={styles.fieldValue}>
                   <Typography color="inherit">
-                    {getLanguageNameFromEditorLanguage(
-                      profileState.preferredEditingLanguage as EditorLanguage
-                    )}
+                    {capitalize(profileState.preferredEditingLanguage)}
                   </Typography>
                 </Box>
               </Box>
