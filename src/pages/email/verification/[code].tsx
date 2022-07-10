@@ -20,14 +20,14 @@ export default function EmailVerification() {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    if (code) {
+    if (code && (user || user == null)) {
       setIsLoading(true);
       validateEmail(`${code}`)
         .then(() => setIsVerified(true))
         .catch(() => setIsVerified(false))
         .finally(() => setIsLoading(false));
     }
-  }, [code]);
+  }, [code, user]);
 
   return (
     <>
