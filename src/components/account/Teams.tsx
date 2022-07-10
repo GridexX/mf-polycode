@@ -8,7 +8,7 @@ import { Team } from '../../lib/api/team';
 import TeamRowGeneric from '../team/TeamRowGeneric';
 import { useLoginContext } from '../../lib/loginContext';
 import { toastError } from '../base/toast/Toast';
-import { useGetUserTeams } from '../../lib/api/user';
+import { getUserTeams } from '../../lib/api/user';
 
 export default function TeamsPanel() {
   // import mui theme
@@ -17,33 +17,37 @@ export default function TeamsPanel() {
   const { credentialsManager, user } = useLoginContext();
   const [teamsCaptainOf, setTeamsCaptainOf] = React.useState<Team[]>([]);
   const [teamsMemberOf, setTeamsMemberOf] = React.useState<Team[]>([]);
-  const teamsFetchResponse = useGetUserTeams(credentialsManager, '@me');
 
   React.useEffect(() => {
-    if (teamsFetchResponse.data && user) {
-      setTeamsCaptainOf(
-        teamsFetchResponse.data.filter((team) =>
-          team.members.some(
-            (teamMember) =>
-              teamMember.role === 'captain' && teamMember.id === user.id
+    if (user) {
+      getUserTeams(credentialsManager, user.id)
+        .then((teams) => {
+          setTeamsCaptainOf(
+            teams.filter((team) =>
+              team.members.some(
+                (teamMember) =>
+                  teamMember.role === 'captain' && teamMember.id === user.id
+              )
+            )
+          );
+          setTeamsMemberOf(
+            teams.filter((team) =>
+              team.members.some(
+                (teamMember) =>
+                  teamMember.role === 'member' && teamMember.id === user.id
+              )
+            )
+          );
+        })
+        .catch(() =>
+          toastError(
+            <Typography>
+              {i18n.t('components.account.teams.fetchError')}
+            </Typography>
           )
-        )
-      );
-      setTeamsMemberOf(
-        teamsFetchResponse.data.filter((team) =>
-          team.members.some(
-            (teamMember) =>
-              teamMember.role === 'member' && teamMember.id === user.id
-          )
-        )
-      );
+        );
     }
-    if (teamsFetchResponse.error) {
-      toastError(
-        <Typography>{i18n.t('components.account.teams.fetchError')}</Typography>
-      );
-    }
-  }, [i18n, teamsFetchResponse, user]);
+  }, [credentialsManager, i18n, user]);
 
   // --- render ---
   return (
