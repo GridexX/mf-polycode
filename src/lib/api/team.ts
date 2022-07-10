@@ -157,7 +157,7 @@ export async function addTeamMember(
   request: TeamMemberRequest
 ): Promise<TeamMember> {
   const { data, status } = await fetchApiWithAuth<{}, TeamMember>(
-    `/team/${teamId}/member`,
+    `/team/${teamId}/members`,
     credentialsManager,
     'POST',
     request
@@ -173,7 +173,7 @@ export async function removeTeamMember(
   request: TeamMemberRequest
 ): Promise<boolean> {
   const { status } = await fetchApiWithAuth<{}, void>(
-    `/team/${teamId}/member`,
+    `/team/${teamId}/members`,
     credentialsManager,
     'DELETE',
     request

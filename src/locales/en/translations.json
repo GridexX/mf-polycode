@@ -340,6 +340,9 @@
         "inviteMessage": "Invite a member to join your team",
         "selectLabel": "Team",
         "noTeam": "No team found",
+        "noTeamSelected": "Please select a team",
+        "addMemberSuccess": "Member added successfully",
+        "addMemberError": "There was an error when adding member",
         "fetchError": "Failed to fetch teams from server"
       },
       "contextualMenuUser": {

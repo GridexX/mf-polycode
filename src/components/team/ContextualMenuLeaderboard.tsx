@@ -14,9 +14,9 @@ import { useTranslation } from '../../lib/translations';
 import Modal from '../base/Modal';
 import CustomSelect from '../base/Select';
 import { useLoginContext } from '../../lib/loginContext';
-import { Team } from '../../lib/api/team';
+import { addTeamMember, Team } from '../../lib/api/team';
 import { useGetUserTeams, User } from '../../lib/api/user';
-import { toastError } from '../base/toast/Toast';
+import { toastError, toastSuccess } from '../base/toast/Toast';
 
 type Props = {
   member?: User;
@@ -59,7 +59,36 @@ export default function ContextualMenuLeaderboard({ member }: Props) {
   };
 
   const handleClick = () => {
-    setOpenModal(false);
+    if (teamSelected && member) {
+      addTeamMember(credentialsManager, teamSelected.id, {
+        userId: member.id,
+      })
+        .then(() =>
+          toastSuccess(
+            <Typography>
+              {i18n.t(
+                'components.team.contextualMenuLeaderboard.addMemberSuccess'
+              )}
+            </Typography>
+          )
+        )
+        .catch(() =>
+          toastError(
+            <Typography>
+              {i18n.t(
+                'components.team.contextualMenuLeaderboard.addMemberError'
+              )}
+            </Typography>
+          )
+        )
+        .finally(() => setOpenModal(false));
+    } else {
+      toastError(
+        <Typography>
+          {i18n.t('components.team.contextualMenuLeaderboard.noTeamSelected')}
+        </Typography>
+      );
+    }
   };
 
   return (
