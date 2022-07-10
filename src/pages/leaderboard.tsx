@@ -1,5 +1,6 @@
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 import React from 'react';
+import Head from 'next/head';
 import styles from '../styles/pages/leaderboard.module.css';
 import { useTranslation } from '../lib/translations';
 import PlayerRow from '../components/leaderboard/PlayerRow';
@@ -33,31 +34,38 @@ export default function Leaderboard() {
   }, [credentialsManager, i18n, user]);
 
   return (
-    <Box className={styles.innerContainer}>
-      <Typography
-        variant="h3"
-        color={theme.palette.text.primary}
-        className={styles.title}
-      >
-        {i18n.t('pages.leaderboard.title')}
-      </Typography>
-      <Stack direction="column" spacing={6}>
-        {fetchLoading && <CenteredLoader />}
-        {users &&
-          users.length > 0 &&
-          users.map((member, index) => (
-            <PlayerRow id={index + 1} key={member.id} user={member}>
-              <ContextualMenuLeaderboard member={member} />
-            </PlayerRow>
-          ))}
-        {!users &&
-          [0, 1, 2].map((index) => (
-            <PlayerRow key={index + 1} user={undefined}>
-              <ContextualMenuLeaderboard />
-            </PlayerRow>
-          ))}
-      </Stack>
-      {user && <PlayerRow user={user} classOverride={styles.userRow} userRow />}
-    </Box>
+    <>
+      <Head>
+        <title>{i18n.t('pages.leaderboard.title')}</title>
+      </Head>
+      <Box className={styles.innerContainer}>
+        <Typography
+          variant="h3"
+          color={theme.palette.text.primary}
+          className={styles.title}
+        >
+          {i18n.t('pages.leaderboard.title')}
+        </Typography>
+        <Stack direction="column" spacing={6}>
+          {fetchLoading && <CenteredLoader />}
+          {users &&
+            users.length > 0 &&
+            users.map((member, index) => (
+              <PlayerRow id={index + 1} key={member.id} user={member}>
+                <ContextualMenuLeaderboard member={member} />
+              </PlayerRow>
+            ))}
+          {!users &&
+            [0, 1, 2].map((index) => (
+              <PlayerRow key={index + 1} user={undefined}>
+                <ContextualMenuLeaderboard />
+              </PlayerRow>
+            ))}
+        </Stack>
+        {user && (
+          <PlayerRow user={user} classOverride={styles.userRow} userRow />
+        )}
+      </Box>
+    </>
   );
 }

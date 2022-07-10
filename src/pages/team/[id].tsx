@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Box, Divider, Typography } from '@mui/material';
+import Head from 'next/head';
 
 import Menu from '../../components/team/Menu';
 
@@ -32,12 +33,17 @@ export default function Team() {
   }, [i18n, teamFetchResponse]);
 
   return (
-    <Box className={styles.container}>
-      <Box className={styles.contentContainer}>
-        <Menu team={team} state="view" />
-        <Divider orientation="vertical" flexItem className={styles.divider} />
-        <TeamPanel team={team} />
+    <>
+      <Head>
+        <title>{team.name}</title>
+      </Head>
+      <Box className={styles.container}>
+        <Box className={styles.contentContainer}>
+          <Menu team={team} state="view" />
+          <Divider orientation="vertical" flexItem className={styles.divider} />
+          <TeamPanel team={team} />
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }

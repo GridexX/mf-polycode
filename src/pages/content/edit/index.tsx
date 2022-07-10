@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import Head from 'next/head';
 import React from 'react';
 import { toastError, toastSuccess } from '../../../components/base/toast/Toast';
 import ContentEditorWizard from '../../../components/contents/edit/ContentEditorWizard';
@@ -50,13 +51,18 @@ export default function ContentEditor() {
   // --- render ---
 
   return (
-    <ContentEditorWizard
-      content={content}
-      onChange={setContent}
-      onSave={handleSave}
-      isLoading={false}
-      isSaving={saveLoading}
-      titleText={i18n.t('pages.content.edit.index.title')}
-    />
+    <>
+      <Head>
+        <title>{i18n.t('pages.content.edit.index.title')}</title>
+      </Head>
+      <ContentEditorWizard
+        content={content}
+        onChange={setContent}
+        onSave={handleSave}
+        isLoading={false}
+        isSaving={saveLoading}
+        titleText={i18n.t('pages.content.edit.index.title')}
+      />
+    </>
   );
 }

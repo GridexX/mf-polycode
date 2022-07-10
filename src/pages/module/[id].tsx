@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Typography } from '@mui/material';
+import Head from 'next/head';
 
 // components
 import HeroTale from '../../components/modules/HeroTale';
@@ -67,29 +68,34 @@ export default function ModuleDetails() {
   }, [user, credentialsManager, router, i18n]);
 
   return (
-    <Box className={styles.container}>
-      {!loading ? (
-        <>
-          {/* header */}
-          <HeroTale module={moduleDetails} />
+    <>
+      <Head>
+        <title>{moduleDetails.name}</title>
+      </Head>
+      <Box className={styles.container}>
+        {!loading ? (
+          <>
+            {/* header */}
+            <HeroTale module={moduleDetails} />
 
-          {/* modules */}
-          {modules && modules.length > 0 && (
-            <Box className={styles.modulesContainer}>
-              <ModuleList modules={modules} />
-            </Box>
-          )}
+            {/* modules */}
+            {modules && modules.length > 0 && (
+              <Box className={styles.modulesContainer}>
+                <ModuleList modules={modules} />
+              </Box>
+            )}
 
-          {/* contents */}
-          {contents && contents.length > 0 && (
-            <Box className={styles.contentsContainer}>
-              <ContentList contents={contents} />
-            </Box>
-          )}
-        </>
-      ) : (
-        <CenteredLoader />
-      )}
-    </Box>
+            {/* contents */}
+            {contents && contents.length > 0 && (
+              <Box className={styles.contentsContainer}>
+                <ContentList contents={contents} />
+              </Box>
+            )}
+          </>
+        ) : (
+          <CenteredLoader />
+        )}
+      </Box>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Box, Divider, Typography } from '@mui/material';
+import Head from 'next/head';
 
 import Menu from '../../../components/team/Menu';
 
@@ -31,12 +32,17 @@ export default function EditTeam() {
   }, [credentialsManager, i18n, id]);
 
   return (
-    <Box className={styles.container}>
-      <Box className={styles.contentContainer}>
-        <Menu team={team} state="editor" />
-        <Divider orientation="vertical" flexItem className={styles.divider} />
-        <TeamEditionPanel team={team} />
+    <>
+      <Head>
+        <title>{i18n.t('pages.team.edit.id.title')}</title>
+      </Head>
+      <Box className={styles.container}>
+        <Box className={styles.contentContainer}>
+          <Menu team={team} state="editor" />
+          <Divider orientation="vertical" flexItem className={styles.divider} />
+          <TeamEditionPanel team={team} />
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }

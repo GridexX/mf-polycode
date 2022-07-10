@@ -395,6 +395,23 @@
     }
   },
   "pages": {
+    "account": {
+      "id": {
+        "title": "Account Profile"
+      },
+      "password": {
+        "title": "Account Password"
+      },
+      "profile": {
+        "title": "Account Profile"
+      },
+      "settings": {
+        "title": "Account Settings"
+      },
+      "teams": {
+        "title": "Account Teams"
+      }
+    },
     "content": {
       "edit": {
         "id": {
@@ -410,12 +427,14 @@
         }
       },
       "index": {
+        "title": "Contents",
         "filters": "Filters",
         "reset": "Reset"
       }
     },
     "email": {
       "verification": {
+        "title": "Verify your email",
         "progress": "Verification in progress",
         "success": "Email verified successfully",
         "failed": "Failed to verify email",
@@ -423,20 +442,34 @@
         "signIn": "Sign in"
       }
     },
+    "index": {
+      "homeTitle": "PolyCode",
+      "landingTitle": "Welcome to PolyCode"
+    },
     "leaderboard": {
       "title": "Leaderboard",
       "fetchError": "Failed to fetch users from server"
     },
     "module": {
+      "edit": {
+        "id": {
+          "title": "Edit module"
+        },
+        "index": {
+          "title": "New module"
+        }
+      },
       "path": {
         "modulesHere": "Display module here"
       },
       "index": {
+        "title": "Modules",
         "filters": "Filters",
         "resetButton": "Reset"
       }
     },
     "signIn": {
+      "title": "Sign In to PolyCode",
       "email": "Email",
       "password": "Password",
       "signIn": "Sign in",
@@ -449,6 +482,7 @@
       "unexpectedError": "Unexpected error"
     },
     "signUp": {
+      "title": "SignUp to PolyCode",
       "username": "Username",
       "email": "Email",
       "password": "Password",
@@ -473,16 +507,30 @@
     },
     "team": {
       "edit": {
+        "id": {
+          "title": "Edit team"
+        },
         "fetchError": "Failed to fetch team from server"
       },
       "id": {
         "fetchError": "Failed to fetch team from server"
+      },
+      "create": {
+        "title": "New team"
       },
       "index": {
         "title": "Teams",
         "noTeams": "No teams found",
         "fetchError": "Unable to fetch teams from server"
       }
+    },
+    "404": {
+      "title": "Page not found",
+      "message": "Go in safer place",
+      "button": "HOME"
+    },
+    "terms": {
+      "title": "Terms of Service"
     }
   },
   "error": {

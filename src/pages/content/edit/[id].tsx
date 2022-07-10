@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { toastError, toastSuccess } from '../../../components/base/toast/Toast';
@@ -64,13 +65,18 @@ export default function ContentEditor() {
   // --- render ---
 
   return (
-    <ContentEditorWizard
-      content={content}
-      onChange={setContent}
-      onSave={handleSave}
-      isLoading={fetchLoading}
-      isSaving={saveLoading}
-      titleText={i18n.t('pages.content.edit.id.title')}
-    />
+    <>
+      <Head>
+        <title>{i18n.t('pages.content.edit.id.title')}</title>
+      </Head>
+      <ContentEditorWizard
+        content={content}
+        onChange={setContent}
+        onSave={handleSave}
+        isLoading={fetchLoading}
+        isSaving={saveLoading}
+        titleText={i18n.t('pages.content.edit.id.title')}
+      />
+    </>
   );
 }

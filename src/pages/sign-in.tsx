@@ -8,6 +8,7 @@ import {
   Link as MuiLink,
   useTheme,
 } from '@mui/material';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -129,65 +130,70 @@ export default function SignIn() {
   // --- render ---
 
   return (
-    <Box
-      className={styles.container}
-      sx={{ color: theme.palette.text.primary }}
-    >
-      <Box className={styles.logo}>
-        <Image src={polybunny} />
+    <>
+      <Head>
+        <title>{i18n.t('pages.signIn.title')}</title>
+      </Head>
+      <Box
+        className={styles.container}
+        sx={{ color: theme.palette.text.primary }}
+      >
+        <Box className={styles.logo}>
+          <Image src={polybunny} />
+        </Box>
+
+        <Divider
+          orientation="vertical"
+          variant="middle"
+          flexItem
+          className={styles.divider}
+        />
+
+        <Box className={styles.form}>
+          <form className={styles.loginForm}>
+            <Typography variant="h4">
+              <span style={{ color: theme.palette.primary.main }}>Poly</span>
+              Code
+            </Typography>
+
+            <Stack spacing={2}>
+              <TextField
+                type="email"
+                onChange={handleEmailChange}
+                label={i18n.t('pages.signIn.email')}
+                variant="standard"
+                error={editorErrors.email !== ''}
+                helperText={editorErrors.email}
+              />
+
+              <TextField
+                type="password"
+                onChange={handlePasswordChange}
+                label={i18n.t('pages.signIn.password')}
+                variant="standard"
+                error={editorErrors.password !== ''}
+                helperText={editorErrors.password}
+              />
+            </Stack>
+            <LoadingButton
+              variant="contained"
+              className={styles.loginButton}
+              onClick={handleLogin}
+              loading={loading}
+              type="submit"
+            >
+              {i18n.t('pages.signIn.signIn')}
+            </LoadingButton>
+
+            <Typography variant="body1">
+              {i18n.t('pages.signIn.noAccountQuestion')}{' '}
+              <Link href="/sign-up" passHref>
+                <MuiLink>{i18n.t('pages.signIn.signUp')}</MuiLink>
+              </Link>
+            </Typography>
+          </form>
+        </Box>
       </Box>
-
-      <Divider
-        orientation="vertical"
-        variant="middle"
-        flexItem
-        className={styles.divider}
-      />
-
-      <Box className={styles.form}>
-        <form className={styles.loginForm}>
-          <Typography variant="h4">
-            <span style={{ color: theme.palette.primary.main }}>Poly</span>
-            Code
-          </Typography>
-
-          <Stack spacing={2}>
-            <TextField
-              type="email"
-              onChange={handleEmailChange}
-              label={i18n.t('pages.signIn.email')}
-              variant="standard"
-              error={editorErrors.email !== ''}
-              helperText={editorErrors.email}
-            />
-
-            <TextField
-              type="password"
-              onChange={handlePasswordChange}
-              label={i18n.t('pages.signIn.password')}
-              variant="standard"
-              error={editorErrors.password !== ''}
-              helperText={editorErrors.password}
-            />
-          </Stack>
-          <LoadingButton
-            variant="contained"
-            className={styles.loginButton}
-            onClick={handleLogin}
-            loading={loading}
-            type="submit"
-          >
-            {i18n.t('pages.signIn.signIn')}
-          </LoadingButton>
-
-          <Typography variant="body1">
-            {i18n.t('pages.signIn.noAccountQuestion')}{' '}
-            <Link href="/sign-up" passHref>
-              <MuiLink>{i18n.t('pages.signIn.signUp')}</MuiLink>
-            </Link>
-          </Typography>
-        </form>
-      </Box>
-    </Box>
+    </>
   );
 }

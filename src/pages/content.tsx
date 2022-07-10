@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTheme, Button, Box, Divider, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import ContentsPanel from '../components/contents/Contents';
 import StateFilter from '../components/filters/StateFilter';
@@ -45,41 +46,46 @@ export default function Contents() {
   if (user === null) router.push('/sign-in');
 
   return (
-    <Box
-      className={styles.container}
-      sx={{ color: theme.palette.text.primary }}
-    >
-      <Box className={styles.innerContainer}>
-        {/* filters */}
-        <Box className={styles.filters}>
-          <Typography variant="h5">
-            {i18n.t('pages.content.index.filters')}
-          </Typography>
-          <StateFilter
-            value={filters.state}
-            onChange={handleStateFilterChanges}
-          />
-          <SortFilter
-            value={filters.sort}
-            onChange={handleSortFiltersChanges}
-          />
-          <Box className={styles.resetButtonContainer}>
-            <Button
-              variant="outlined"
-              className={styles.resetButton}
-              onClick={handleReset}
-            >
-              {i18n.t('pages.content.index.reset')}
-            </Button>
+    <>
+      <Head>
+        <title>{i18n.t('pages.content.index.title')}</title>
+      </Head>
+      <Box
+        className={styles.container}
+        sx={{ color: theme.palette.text.primary }}
+      >
+        <Box className={styles.innerContainer}>
+          {/* filters */}
+          <Box className={styles.filters}>
+            <Typography variant="h5">
+              {i18n.t('pages.content.index.filters')}
+            </Typography>
+            <StateFilter
+              value={filters.state}
+              onChange={handleStateFilterChanges}
+            />
+            <SortFilter
+              value={filters.sort}
+              onChange={handleSortFiltersChanges}
+            />
+            <Box className={styles.resetButtonContainer}>
+              <Button
+                variant="outlined"
+                className={styles.resetButton}
+                onClick={handleReset}
+              >
+                {i18n.t('pages.content.index.reset')}
+              </Button>
+            </Box>
           </Box>
+
+          {/* Divider */}
+          <Divider orientation="vertical" flexItem className={styles.divider} />
+
+          {/* contents */}
+          <ContentsPanel filters={filters} />
         </Box>
-
-        {/* Divider */}
-        <Divider orientation="vertical" flexItem className={styles.divider} />
-
-        {/* contents */}
-        <ContentsPanel filters={filters} />
       </Box>
-    </Box>
+    </>
   );
 }

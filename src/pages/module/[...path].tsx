@@ -1,12 +1,13 @@
-import I18n from 'i18n-js';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Playground from '../../components/playground/Playground';
+import { useTranslation } from '../../lib/translations';
 
 export default function Module() {
   const router = useRouter();
-
   const { path } = router.query;
+  const { i18n } = useTranslation();
 
   if (!path) return null;
 
@@ -15,8 +16,13 @@ export default function Module() {
   }
 
   return (
-    <div>
-      <h1>{I18n.t('pages.module.path.modulesHere')}</h1>
-    </div>
+    <>
+      <Head>
+        <title>{i18n.t('pages.module.path.modulesHere')}</title>
+      </Head>
+      <div>
+        <h1>{i18n.t('pages.module.path.modulesHere')}</h1>
+      </div>
+    </>
   );
 }

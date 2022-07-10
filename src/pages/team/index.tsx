@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, Stack } from '@mui/material';
+import Head from 'next/head';
 
 import TeamRowGeneric from '../../components/team/TeamRowGeneric';
 import styles from '../../styles/components/account/Teams.module.css';
@@ -29,27 +30,34 @@ export default function Team() {
   }, [i18n, user, credentialsManager]);
 
   return (
-    <Box className={styles.container}>
-      {/* title */}
-      <Box className={styles.titleContainer}>
-        <Typography variant="h3" color="inherit">
-          {i18n.t('pages.team.index.title')}
-        </Typography>
-      </Box>
+    <>
+      <Head>
+        <title>{i18n.t('pages.team.index.title')}</title>
+      </Head>
+      <Box className={styles.container}>
+        {/* title */}
+        <Box className={styles.titleContainer}>
+          <Typography variant="h3" color="inherit">
+            {i18n.t('pages.team.index.title')}
+          </Typography>
+        </Box>
 
-      <Box className={styles.contentContainer}>
-        <Box className={styles.captainOf}>
-          <Stack className={styles.teamsList} spacing={4}>
-            {fetchLoading && <CenteredLoader />}
-            {!fetchLoading && teams && teams.length === 0 && (
-              <Typography>{i18n.t('pages.team.index.noTeams')}</Typography>
-            )}
-            {!fetchLoading &&
-              teams &&
-              teams.map((team) => <TeamRowGeneric key={team.id} team={team} />)}
-          </Stack>
+        <Box className={styles.contentContainer}>
+          <Box className={styles.captainOf}>
+            <Stack className={styles.teamsList} spacing={4}>
+              {fetchLoading && <CenteredLoader />}
+              {!fetchLoading && teams && teams.length === 0 && (
+                <Typography>{i18n.t('pages.team.index.noTeams')}</Typography>
+              )}
+              {!fetchLoading &&
+                teams &&
+                teams.map((team) => (
+                  <TeamRowGeneric key={team.id} team={team} />
+                ))}
+            </Stack>
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }
