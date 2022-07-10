@@ -47,6 +47,8 @@ export default function RequireVerifiedMail({
     return true;
   }, [emails, router.pathname]);
 
+  // excluded paths
+  if (excludedPaths.includes(router.pathname)) return children;
 
   // when loading email info
   if (user && emails.length === 0) return <CircularProgress />;
