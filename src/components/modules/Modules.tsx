@@ -33,7 +33,7 @@ export default function Modules({ filters }: Props) {
         .catch((e) =>
           toastError(
             <Typography>
-              {i18n.t('error.fetch')} : {e.message}
+              {i18n.t('components.modules.modules.fetchError')} : {e.message}
             </Typography>
           )
         )

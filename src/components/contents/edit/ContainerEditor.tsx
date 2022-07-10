@@ -254,7 +254,7 @@ export default function ContainerEditor({
             }
           })}
           <Button onClick={handleOpenDialog} variant="contained">
-            {i18n.t('components.contents.edit.componentListEditor.new')}
+            {i18n.t('components.contents.edit.containerEditor.new')}
           </Button>
           <NewComponentDialog
             isOpen={isDialogOpen}

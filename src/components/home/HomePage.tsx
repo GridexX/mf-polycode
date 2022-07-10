@@ -34,7 +34,11 @@ export default function Home() {
       })
         .then((c) => setModules(c.data))
         .catch(() => {
-          toastError(<Typography>{i18n.t('home.errors.module')}</Typography>);
+          toastError(
+            <Typography>
+              {i18n.t('components.home.homePage.moduleError')}
+            </Typography>
+          );
         });
     }
   }, [credentialsManager, i18n, user]);

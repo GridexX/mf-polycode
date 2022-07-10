@@ -2,71 +2,36 @@ import { Box, Stack, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import styles from '../styles/pages/leaderboard.module.css';
 import { useTranslation } from '../lib/translations';
-import { User } from '../lib/api/user';
 import PlayerRow from '../components/leaderboard/PlayerRow';
+import { useLoginContext } from '../lib/loginContext';
+import ContextualMenuLeaderboard from '../components/team/ContextualMenuLeaderboard';
+import { getUsers, User } from '../lib/api/user';
+import { toastError } from '../components/base/toast/Toast';
+import CenteredLoader from '../components/base/CenteredLoader';
 
 export default function Leaderboard() {
-  const users: User[] = [
-    {
-      id: '1',
-      username: 'John Doe',
-      description: 'John Doe is a cool person',
-      rank: 1,
-      points: 30000,
-    },
-    {
-      id: '1',
-      username: 'John Dash',
-      description: 'John Dash is a cool person',
-      rank: 2,
-      points: 24000,
-    },
-    {
-      id: '1',
-      username: 'John Milk',
-      description: 'John Milk is a cool person',
-      rank: 3,
-      points: 23000,
-    },
-    {
-      id: '1',
-      username: 'John Milk',
-      description: 'John Milk is a cool person',
-      rank: 4,
-      points: 21000,
-    },
-    {
-      id: '1',
-      username: 'John Ghetta',
-      description: 'John Ghetta is a cool person',
-      rank: 5,
-      points: 20000,
-    },
-    {
-      id: '1',
-      username: 'John John',
-      description: 'John John is a cool person',
-      rank: 6,
-      points: 19000,
-    },
-    {
-      id: '1',
-      username: 'John John',
-      description: 'John John is a cool person',
-      rank: 7,
-      points: 19000,
-    },
-    {
-      id: '1',
-      username: 'John John',
-      description: 'John John is a cool person',
-      rank: 8,
-      points: 19000,
-    },
-  ];
-
   const theme = useTheme();
   const { i18n } = useTranslation();
+  const { credentialsManager, user } = useLoginContext();
+  const [users, setUsers] = React.useState<User[]>([]);
+  const [fetchLoading, setFetchLoading] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    if (user) {
+      setFetchLoading(true);
+      getUsers(credentialsManager)
+        .then((fetchedUsers) =>
+          setUsers(fetchedUsers.data.sort((a, b) => b.points - a.points))
+        )
+        .catch(() =>
+          toastError(
+            <Typography>{i18n.t('pages.leaderboard.fetchError')}</Typography>
+          )
+        )
+        .finally(() => setFetchLoading(false));
+    }
+  }, [credentialsManager, i18n, user]);
+
   return (
     <Box className={styles.innerContainer}>
       <Typography
@@ -77,10 +42,22 @@ export default function Leaderboard() {
         {i18n.t('pages.leaderboard.title')}
       </Typography>
       <Stack direction="column" spacing={6}>
-        {users.length > 0 &&
-          users.map((user) => <PlayerRow key={user.rank} user={user} />)}
+        {fetchLoading && <CenteredLoader />}
+        {users &&
+          users.length > 0 &&
+          users.map((member, index) => (
+            <PlayerRow id={index + 1} key={member.id} user={member}>
+              <ContextualMenuLeaderboard member={member} />
+            </PlayerRow>
+          ))}
+        {!users &&
+          [0, 1, 2].map((index) => (
+            <PlayerRow key={index + 1} user={undefined}>
+              <ContextualMenuLeaderboard />
+            </PlayerRow>
+          ))}
       </Stack>
-      <PlayerRow user={users[0]} classOverride={styles.userRow} userRow />
+      {user && <PlayerRow user={user} classOverride={styles.userRow} userRow />}
     </Box>
   );
 }

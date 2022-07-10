@@ -6,22 +6,22 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import React, { useEffect } from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import React from 'react';
-import { User } from '../../lib/api/user';
 import styles from '../../styles/pages/leaderboard.module.css';
 import Polypoints from '../Polypoints';
-import ContextualMenu from '../base/ContextualMenu';
+import ContextualMenu from './ContextualMenu';
+import { TeamMember } from '../../lib/api/team';
 
 type Props = {
-  children?: React.ReactNode;
-  user?: User;
-  id?: number;
+  children: React.ReactNode;
+  id: number;
+  user?: TeamMember;
   classOverride?: string;
   userRow?: boolean;
 };
 
-export default function PlayerRow({
+export default function UserRow({
   children,
   id,
   user,
@@ -32,29 +32,34 @@ export default function PlayerRow({
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [target, setTarget] = React.useState<Element | null>(null);
+  const [rankColor, setRankcolor] = React.useState('inherit');
+  useEffect(() => {
+    if (id) {
+      setRankcolor(
+        /* eslint-disable no-nested-ternary */
+        id === 1
+          ? '#FFD700' // gold
+          : id === 2
+          ? '#C0C0C0' // silver
+          : id === 3
+          ? '#CD7F32' // bronze
+          : 'inherit'
+      );
+    }
+  }, [rankColor, id]);
 
   const handleClick = (event: any) => {
     setTarget(event.currentTarget);
     setIsOpen(true);
   };
 
-  /* eslint-disable no-nested-ternary */
-  const rankColor =
-    id === 1
-      ? '#FFD700' // gold
-      : id === 2
-      ? '#C0C0C0' // silver
-      : id === 3
-      ? '#CD7F32' // bronze
-      : 'inherit';
-
   return (
     <Stack
       direction="row"
       className={`${styles.playerRow} ${classOverride}`}
       style={{
-        borderColor: theme.palette.primary.main,
         backgroundColor: theme.palette.background.paper,
+        borderColor: theme.palette.primary.main,
         color: userRow
           ? theme.palette.primary.main
           : theme.palette.text.primary,
@@ -62,7 +67,8 @@ export default function PlayerRow({
       sx={{ minWidth: { xs: '75vw', sm: '400px', md: '550px' } }}
     >
       <Box className={styles.rankBox}>
-        <Typography color={rankColor}>{id ? `#${id}` : '???'}</Typography>
+        {id && user && <Typography color={rankColor}>{`#${id}`}</Typography>}
+        {!id && !user && <Skeleton width={100} />}
       </Box>
 
       <Box className={styles.userBox}>
@@ -71,9 +77,10 @@ export default function PlayerRow({
         </Typography>
       </Box>
       <Stack direction="row" spacing={2} className={styles.pointsBox}>
-        <Polypoints color="inherit" points={user?.points} size="normal" />
-
-        {!user && <Skeleton width={100} />}
+        {typeof user?.points !== 'undefined' && (
+          <Polypoints points={user.points} size="normal" />
+        )}
+        {typeof user?.points === 'undefined' && <Skeleton width={100} />}
         {children && (
           <>
             {user ? (
@@ -99,7 +106,7 @@ export default function PlayerRow({
   );
 }
 
-PlayerRow.defaultProps = {
+UserRow.defaultProps = {
   classOverride: '',
   userRow: false,
 };

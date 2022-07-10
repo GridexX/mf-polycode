@@ -51,7 +51,7 @@ export default function EmailVerification() {
           ) : (
             <Link href="/sign-in" passHref>
               <Button variant="contained" className={styles.button}>
-                {i18n.t('pages.email.signIn')}
+                {i18n.t('pages.email.verification.signIn')}
               </Button>
             </Link>
           )}

@@ -8,7 +8,7 @@ import ProfilePanel from '../../components/account/Profile';
 import styles from '../../styles/pages/account/common.module.css';
 import { useLoginContext } from '../../lib/loginContext';
 
-export default function Password() {
+export default function Profile() {
   const { user } = useLoginContext();
   const router = useRouter();
 

@@ -1,95 +1,49 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  useTheme,
-  IconButton,
-  Divider,
-  Stack,
-} from '@mui/material';
-import { LocalPolice, MoreVert } from '@mui/icons-material';
+import { Box, Typography, useTheme, Stack, Button } from '@mui/material';
+import Link from 'next/link';
 
 import styles from '../../styles/components/account/Teams.module.css';
 import { useTranslation } from '../../lib/translations';
 import { Team } from '../../lib/api/team';
+import TeamRowGeneric from '../team/TeamRowGeneric';
 import { useLoginContext } from '../../lib/loginContext';
-import Polypoints from '../Polypoints';
-import CenteredLoader from '../base/CenteredLoader';
+import { toastError } from '../base/toast/Toast';
+import { useGetUserTeams } from '../../lib/api/user';
 
-const fakeData: Team[] = [
-  {
-    id: '1',
-    name: 'DO_2021_2022fzefzefezfezfezfzefhziufheizfiuezuifheizhifhiezuifhuie',
-    description: 'DO 2021-2022 team',
-    captain: {
-      id: '1',
-      username: 'John Doe',
-      description: 'John Doe is a great player',
-      points: 20000,
-    },
-    points: 24000,
-    members: [],
-    rank: 1,
-  },
-  {
-    id: '2',
-    name: 'LesBestGamer34',
-    description: 'Play with the best',
-    captain: {
-      id: '1',
-      username: 'John Doe',
-      description: 'John Doe is a great player',
-      points: 20000,
-    },
-    points: 18250,
-    members: [],
-    rank: 2,
-  },
-  {
-    id: '3',
-    name: 'Les Lumières',
-    description: 'We light the world',
-    captain: {
-      id: '1',
-      username: 'John Doe',
-      description: 'John Doe is a great player',
-      points: 20000,
-    },
-    points: 9500,
-    members: [],
-    rank: 3,
-  },
-];
-
-export default function Teams() {
+export default function TeamsPanel() {
   // import mui theme
   const theme = useTheme();
   const { i18n } = useTranslation();
-  const [teams, setTeams] = React.useState<Team[]>([]);
-  const [loading, setLoading] = React.useState(false);
-  const { user } = useLoginContext();
-
+  const { credentialsManager, user } = useLoginContext();
   const [teamsCaptainOf, setTeamsCaptainOf] = React.useState<Team[]>([]);
   const [teamsMemberOf, setTeamsMemberOf] = React.useState<Team[]>([]);
-
-  // --- init data ---
-  const initData = async () => {
-    // Fake api call
-    setLoading(true);
-    setTimeout(() => {
-      setTeams(fakeData);
-      setLoading(false);
-    }, 2000);
-  };
+  const teamsFetchResponse = useGetUserTeams(credentialsManager, '@me');
 
   React.useEffect(() => {
-    initData();
-  }, []);
-
-  React.useEffect(() => {
-    setTeamsCaptainOf(teams.filter((team) => team.captain.id === user?.id));
-    setTeamsMemberOf(teams.filter((team) => team.captain.id !== user?.id));
-  }, [teams, user]);
+    if (teamsFetchResponse.data && user) {
+      setTeamsCaptainOf(
+        teamsFetchResponse.data.filter((team) =>
+          team.members.some(
+            (teamMember) =>
+              teamMember.role === 'captain' && teamMember.id === user.id
+          )
+        )
+      );
+      setTeamsMemberOf(
+        teamsFetchResponse.data.filter((team) =>
+          team.members.some(
+            (teamMember) =>
+              teamMember.role === 'member' && teamMember.id === user.id
+          )
+        )
+      );
+    }
+    if (teamsFetchResponse.error) {
+      toastError(
+        <Typography>{i18n.t('components.account.teams.fetchError')}</Typography>
+      );
+    }
+  }, [i18n, teamsFetchResponse, user]);
 
   // --- render ---
   return (
@@ -103,128 +57,66 @@ export default function Teams() {
       {/* content container */}
       <Box className={styles.contentContainer}>
         {/* Captain of */}
-        <Box className={styles.captainOf}>
-          <Typography
-            variant="h4"
-            sx={{ color: theme.palette.primary.main }}
-            className={styles.teamsListTitle}
-          >
+        <Box className={styles.memberOf}>
+          <Typography variant="h4" sx={{ color: theme.palette.primary.main }}>
             {i18n.t('components.account.teams.captainOf')}
           </Typography>
-
-          {loading ? (
-            <CenteredLoader />
-          ) : (
-            <Stack className={styles.teamsList} spacing={4}>
-              {teamsCaptainOf.length === 0 ? (
-                <Typography
-                  className={styles.noData}
-                  variant="h6"
-                  sx={{ color: theme.palette.primary.main }}
-                >
-                  {i18n.t('components.account.teams.notCaptainOf')}
-                </Typography>
-              ) : (
-                teamsCaptainOf.map((team) => (
-                  <Box className={styles.teamContainer}>
-                    <Stack direction="row" className={styles.teamInnerLeft}>
-                      <Typography
-                        className={styles.teamName}
-                        variant="h6"
-                        sx={{ color: theme.palette.primary.main }}
-                      >
-                        {team.name}
-                      </Typography>
-                    </Stack>
-                    <Stack
-                      direction="row"
-                      className={styles.teamInnerRight}
-                      spacing={2}
-                    >
-                      <Polypoints points={team.points} />
-                      <IconButton
-                        color="primary"
-                        aria-label="upload picture"
-                        component="span"
-                      >
-                        <MoreVert />
-                      </IconButton>
-                    </Stack>
-                  </Box>
-                ))
-              )}
-            </Stack>
-          )}
+          <Stack className={styles.teamsList} spacing={4}>
+            {teamsCaptainOf && teamsCaptainOf.length === 0 && (
+              <Typography
+                className={styles.noData}
+                variant="body1"
+                sx={{ color: theme.palette.text.primary }}
+              >
+                {i18n.t('components.account.teams.notCaptainOf')}
+              </Typography>
+            )}
+            {teamsCaptainOf &&
+              teamsCaptainOf.length > 0 &&
+              teamsCaptainOf.map((team: Team) => (
+                <TeamRowGeneric key={team.id} team={team} />
+              ))}
+            {!teamsCaptainOf &&
+              [0, 1, 2].map((index) => (
+                <TeamRowGeneric key={index + 1} team={undefined} />
+              ))}
+          </Stack>
         </Box>
         {/* Member of */}
         <Box className={styles.memberOf}>
-          <Typography
-            variant="h4"
-            sx={{ color: theme.palette.primary.main }}
-            className={styles.teamsListTitle}
-          >
+          <Typography variant="h4" sx={{ color: theme.palette.primary.main }}>
             {i18n.t('components.account.teams.memberOf')}
           </Typography>
-          {loading ? (
-            <CenteredLoader />
-          ) : (
-            <Stack className={styles.teamsList} spacing={4}>
-              {teamsMemberOf.length === 0 ? (
-                <Typography
-                  className={styles.noData}
-                  variant="h6"
-                  sx={{ color: theme.palette.primary.main }}
-                >
-                  {i18n.t('components.account.teams.notMemberOf')}
-                </Typography>
-              ) : (
-                teamsMemberOf.map((team) => (
-                  <Box className={styles.teamContainer}>
-                    <Stack
-                      direction="row"
-                      className={styles.teamInnerLeft}
-                      spacing={2}
-                    >
-                      <Typography
-                        className={styles.teamName}
-                        variant="h6"
-                        sx={{ color: theme.palette.primary.main }}
-                      >
-                        {team.name}
-                      </Typography>
-                      <Divider orientation="vertical" flexItem />
-                      <Stack
-                        direction="row"
-                        className={styles.captain}
-                        spacing={2}
-                      >
-                        <LocalPolice
-                          sx={{ fill: theme.palette.primary.main }}
-                        />
-                        <Typography variant="h6">
-                          {team.captain.username}
-                        </Typography>
-                      </Stack>
-                    </Stack>
-                    <Stack
-                      direction="row"
-                      className={styles.teamInnerRight}
-                      spacing={2}
-                    >
-                      <Polypoints points={team.points} />
-                      <IconButton
-                        color="primary"
-                        aria-label="upload picture"
-                        component="span"
-                      >
-                        <MoreVert />
-                      </IconButton>
-                    </Stack>
-                  </Box>
-                ))
-              )}
-            </Stack>
-          )}
+          <Stack className={styles.teamsList} spacing={4}>
+            {teamsMemberOf && teamsMemberOf.length === 0 && (
+              <Typography
+                className={styles.noData}
+                variant="body1"
+                sx={{ color: theme.palette.text.primary }}
+              >
+                {i18n.t('components.account.teams.notMemberOf')}
+              </Typography>
+            )}
+            {teamsMemberOf &&
+              teamsMemberOf.length > 0 &&
+              teamsMemberOf.map((team: Team) => (
+                <TeamRowGeneric showCaptainIcon key={team.id} team={team} />
+              ))}
+            {!teamsMemberOf &&
+              [0, 1, 2].map((index) => (
+                <TeamRowGeneric key={index + 1} team={undefined} />
+              ))}
+          </Stack>
+          <Stack direction="row" spacing={2}>
+            <Link href="/team">
+              <Button variant="contained">
+                {i18n.t('components.account.teams.seeAll')}
+              </Button>
+            </Link>
+            <Link href="/team/create">
+              <Button>{i18n.t('components.account.teams.create')}</Button>
+            </Link>
+          </Stack>
         </Box>
       </Box>
     </Box>

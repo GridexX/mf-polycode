@@ -53,7 +53,7 @@ export default function Hints() {
           } catch (e) {
             toastError(
               <Typography>
-                {i18n.t('component.playground.hints.fetchError')}
+                {i18n.t('components.playground.hints.fetchError')}
                 {id}
               </Typography>
             );
@@ -87,7 +87,7 @@ export default function Hints() {
     } catch (e) {
       toastError(
         <Typography>
-          {i18n.t('components.playground.hint.buyError')}
+          {i18n.t('components.playground.hints.buyError')}
           {id}
         </Typography>
       );
@@ -118,7 +118,7 @@ export default function Hints() {
           return (
             <Box key={h.id}>
               <Typography>
-                {i18n.t('components.playground.hint.item')}
+                {i18n.t('components.playground.hints.item')}
                 {index + 1}: {h.data.text}
               </Typography>
             </Box>

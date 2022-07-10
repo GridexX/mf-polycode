@@ -6,16 +6,15 @@
   width: 100%;
   border-top: #303030 1px solid;
 }
-.out{
+.out {
   height: 7.4rem;
   padding: 0.5rem;
   line-height: 1;
   overflow: auto;
-
 }
-.out pre{
+.out pre {
   margin: 0;
 }
-.buttonGroup{
+.buttonGroup {
   height: 2.5rem;
 }

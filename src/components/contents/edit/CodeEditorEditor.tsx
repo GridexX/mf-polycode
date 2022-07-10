@@ -324,13 +324,13 @@ export default function CodeEditorEditor({
                   </TableCell>
                   <TableCell align="center">
                     {i18n.t(
-                      'components.content.edit.codeEditorEditor.validators.hidden'
+                      'components.contents.edit.codeEditorEditor.validators.hidden'
                     )}
                   </TableCell>
                   <TableCell align="center">
                     <Button onClick={handleAddValidator} variant="outlined">
                       {i18n.t(
-                        'components.content.edit.codeEditorEditor.validators.new'
+                        'components.contents.edit.codeEditorEditor.validators.new'
                       )}
                     </Button>
                   </TableCell>

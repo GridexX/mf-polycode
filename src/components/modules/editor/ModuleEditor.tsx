@@ -59,7 +59,10 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
         })
         .catch((e) => {
           toastError(
-            <Typography> {i18n.t('modules.editor.error.getModule')}</Typography>
+            <Typography>
+              {' '}
+              {i18n.t('components.modules.moduleEditor.getModuleError')}
+            </Typography>
           );
 
           setFetchError(e.message);

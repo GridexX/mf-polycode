@@ -40,7 +40,7 @@
 .arrowUp::before,
 .arrowDown::before {
   background-color: #fff;
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   width: 12px;

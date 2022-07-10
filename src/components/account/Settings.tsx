@@ -78,7 +78,7 @@ export default function Settings() {
           username: user.username,
           emails: userEmails,
           preferredEditingLanguage: userSettings.preferredEditingLanguage,
-          biography: user.description,
+          biography: user.description || '',
         };
         setDefaultEditorState(state);
         setEditorState(state);

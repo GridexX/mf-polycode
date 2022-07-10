@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
-import { Stack, Typography, useTheme } from '@mui/material';
+import { Skeleton, Stack, Typography, useTheme } from '@mui/material';
 
 import carrot from '../images/carrot.png';
 
 type Props = {
-  points: number;
+  points?: number;
   size?: 'small' | 'medium' | 'normal' | 'large';
   color?: string;
 };
@@ -43,14 +43,20 @@ export default function Polypoints({ points, size, color }: Props) {
           textOverflow: 'ellipsis',
         }}
       >
-        {points}
+        {typeof points === 'undefined' ? (
+          <Skeleton width={100} height={widthAndHeight} />
+        ) : (
+          points
+        )}
       </Typography>
-      <Image
-        width={widthAndHeight}
-        height={widthAndHeight}
-        layout="fixed"
-        src={carrot}
-      />
+      {typeof points !== 'undefined' && (
+        <Image
+          width={widthAndHeight}
+          height={widthAndHeight}
+          layout="fixed"
+          src={carrot}
+        />
+      )}
     </Stack>
   );
 }

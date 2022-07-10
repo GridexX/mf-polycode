@@ -16,7 +16,8 @@ type Props = {
   value: string;
   onChange: (event: SelectChangeEvent<string>) => void;
   id?: string;
-  size?: 'small' | 'medium' | undefined;
+  size?: 'small' | 'medium';
+  minWidth?: number;
 };
 
 export default function CustomSelect({
@@ -26,9 +27,10 @@ export default function CustomSelect({
   onChange,
   id,
   size,
+  minWidth,
 }: Props) {
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: minWidth ?? 120 }}>
       <FormControl fullWidth>
         {/* label */}
         <InputLabel id={label}>{label}</InputLabel>

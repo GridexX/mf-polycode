@@ -1,11 +1,16 @@
+import useSWR from 'swr';
 import {
+  AsyncResponse,
   CredentialsManager,
   fetchApi,
   fetchApiWithAuth,
   MissingData,
+  PaginatedResponse,
+  PaginationMeta,
   UnexpectedResponse,
 } from './api';
 import { EditorLanguage } from './content';
+import { getTeam, Team } from './team';
 
 export const UserAlreadyExists = new Error('User already exists');
 
@@ -14,7 +19,7 @@ export const UserAlreadyExists = new Error('User already exists');
 export interface User {
   id: string;
   username: string;
-  description: string;
+  description?: string;
   points: number;
   rank?: number;
   updatedAt?: string;
@@ -56,6 +61,18 @@ export interface UpdateUserSettingsRequest {
   preferredLanguage?: string;
 }
 
+// Filters
+
+export interface UserFilters {
+  page?: number;
+  limit?: number;
+}
+
+export const defaultFilters: UserFilters = {
+  page: undefined,
+  limit: undefined,
+};
+
 // Create functions
 
 export async function createUser(request: CreateUserRequest): Promise<User> {
@@ -87,18 +104,35 @@ export async function createUserEmail(
 
 // Get functions
 
+export function buildUserQueryParams(filters: UserFilters): string {
+  const params = [];
+
+  if (filters.page) params.push(`page=${filters.page}`);
+  if (filters.limit) params.push(`limit=${filters.limit}`);
+
+  return params.length ? `?${params.join('&')}` : '';
+}
+
 export async function getUsers(
-  credentialsManager: CredentialsManager
-): Promise<User[]> {
-  const { data, status } = await fetchApiWithAuth<{}, User[]>(
-    '/user',
+  credentialsManager: CredentialsManager,
+  filters?: UserFilters
+): Promise<PaginatedResponse<User>> {
+  const { data, metadata, status } = await fetchApiWithAuth<
+    PaginationMeta,
+    User[]
+  >(
+    `/user${buildUserQueryParams(filters || defaultFilters)}`,
     credentialsManager,
     'GET'
   );
 
   if (status === 200) {
-    if (typeof data === 'undefined') throw MissingData;
-    return data;
+    return {
+      data,
+      page: metadata.pagination.page,
+      limit: metadata.pagination.limit,
+      total: metadata.pagination.total,
+    };
   }
   throw UnexpectedResponse;
 }
@@ -147,6 +181,26 @@ export async function getUserSettings(
   if (status === 200) {
     if (typeof data === 'undefined') throw MissingData;
     return data;
+  }
+  throw UnexpectedResponse;
+}
+
+export async function getUserTeams(
+  credentialsManager: CredentialsManager,
+  userId: string
+): Promise<Team[]> {
+  const { data, status } = await fetchApiWithAuth<{}, { teams: Team[] }>(
+    `/user/${userId}/teams`,
+    credentialsManager,
+    'GET'
+  );
+
+  if (status === 200) {
+    if (typeof data === 'undefined') throw MissingData;
+    const teamResponses = data.teams.map((partialTeam) =>
+      getTeam(credentialsManager, partialTeam.id)
+    );
+    return Promise.all(teamResponses);
   }
   throw UnexpectedResponse;
 }
@@ -233,4 +287,37 @@ export async function validateEmail(code: string) {
   const { status } = await fetchApi(`/user/email/validate/${code}`, 'POST');
   if (status === 204) return true;
   throw UnexpectedResponse;
+}
+
+// Hooks
+
+export function useGetUsers(
+  credentialsManager: CredentialsManager,
+  filters?: UserFilters
+): AsyncResponse<PaginatedResponse<User>> {
+  const { data, error } = useSWR(
+    `/user${buildUserQueryParams(filters || defaultFilters)}`,
+    () => getUsers(credentialsManager, filters)
+  );
+
+  return {
+    data,
+    loading: !error && !data,
+    error,
+  };
+}
+
+export function useGetUserTeams(
+  credentialsManager: CredentialsManager,
+  userId: string
+): AsyncResponse<Team[]> {
+  const { data, error } = useSWR(`/user/${userId}/teams`, () =>
+    getUserTeams(credentialsManager, userId)
+  );
+
+  return {
+    data,
+    loading: !error && !data,
+    error,
+  };
 }
