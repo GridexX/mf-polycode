@@ -11,6 +11,7 @@ import Validators from './Validators';
 
 import styles from '../../styles/components/playground/HorizontalContainer.module.css';
 import dividerStyles from '../../styles/components/playground/Divider.module.css';
+import vertStyles from '../../styles/components/playground/VerticalContainer.module.css';
 
 interface HorizontalContainerProps {
   components: Component[];
@@ -24,6 +25,17 @@ export default function HorizontalContainer({
   const editors = components.filter(
     (c) => c.type === 'editor'
   ) as CodeEditorComponent[];
+
+  // work like a vertical container if there is no editor
+  if (editors.length === 0) {
+    return (
+      <Box className={vertStyles.container}>
+        {components.map((c) => (
+          <PlaygroundComponent component={c} key={c.id} />
+        ))}
+      </Box>
+    );
+  }
 
   const leftComponents = components.filter((c) => c.type !== 'editor');
 

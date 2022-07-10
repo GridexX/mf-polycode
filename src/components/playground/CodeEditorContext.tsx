@@ -10,6 +10,8 @@ interface ICodeEditorContext {
   setCode: (code: string) => void;
   resetCode: () => void;
 
+  componentId: string;
+
   // customInput: string;
   // setCustomInput: (input: string) => void;
 
@@ -149,13 +151,14 @@ export function EditorContextProvider({
       // customInput,
       lastOutput,
       setLastOutput,
+      componentId: editorComponent.id || '',
     }),
     [
       availableLanguages,
       code,
-      // customInput,
       editorComponent.data.items,
       editorComponent.data.validators,
+      editorComponent.id,
       lastOutput,
       resetCode,
       selectedLanguage,

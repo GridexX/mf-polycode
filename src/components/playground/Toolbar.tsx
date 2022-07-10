@@ -1,12 +1,13 @@
 // import { PlayArrow } from '@mui/icons-material';
 import {
   Box,
-  Button,
   IconButton,
   SelectChangeEvent,
   Stack,
   Tooltip,
+  Typography,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import PublishIcon from '@mui/icons-material/Publish';
 import React, { useCallback } from 'react';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -19,11 +20,17 @@ import {
   EditorLanguage,
   getLanguageNameFromEditorLanguage,
 } from '../../lib/api/content';
+import { submitCode } from '../../lib/api/playground';
+import { useLoginContext } from '../../lib/loginContext';
+import { toastError, toastSuccess, toastWarning } from '../base/toast/Toast';
 
 export default function Toolbar() {
   const { i18n } = useTranslation();
 
+  const { credentialsManager } = useLoginContext();
   const context = useEditorContext();
+
+  const [loading, setLoading] = React.useState(false);
 
   const handleChangeLanguage = useCallback(
     (evt: SelectChangeEvent<string>) => {
@@ -33,6 +40,44 @@ export default function Toolbar() {
     },
     [context]
   );
+
+  const handleSubmit = () => {
+    setLoading(true);
+
+    submitCode(
+      context.componentId,
+      context.code,
+      context.language,
+      credentialsManager
+    )
+      .then((data) => {
+        if (data.success) {
+          toastSuccess(
+            <Typography>
+              {i18n.t('components.playground.toolbar.submitSuccess')}
+            </Typography>
+          );
+        } else {
+          toastWarning(
+            <Typography>
+              {data.validators.filter((v) => v.success).length}/
+              {data.validators.length}{' '}
+              {i18n.t('components.playground.toolbar.testsPassed')}
+            </Typography>
+          );
+        }
+      })
+      .catch(() => {
+        toastError(
+          <Typography>
+            {i18n.t('components.playground.toolbar.submitError')}
+          </Typography>
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <Box className={styles.container}>
@@ -65,9 +110,14 @@ export default function Toolbar() {
         >
           Run
         </Button> */}
-        <Button variant="contained" startIcon={<PublishIcon />}>
+        <LoadingButton
+          loading={loading}
+          variant="contained"
+          startIcon={<PublishIcon />}
+          onClick={handleSubmit}
+        >
           {i18n.t('components.playground.toolbar.submit')}
-        </Button>
+        </LoadingButton>
       </Stack>
     </Box>
   );

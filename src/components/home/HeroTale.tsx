@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
-import { Module } from '../../lib/api/module';
+import { DEFAULT_IMAGE, Module } from '../../lib/api/module';
 
 import styles from '../../styles/components/home/HeroTale.module.css';
 import { useTranslation } from '../../lib/translations';
@@ -18,7 +18,7 @@ export default function HeroTale({ module }: Props) {
     <Box
       className={styles.container}
       sx={{
-        // backgroundImage: `url(${module.image})`,
+        backgroundImage: `url(${DEFAULT_IMAGE})`,
         backgroundSize: 'cover',
         borderRadius: '5px',
       }}

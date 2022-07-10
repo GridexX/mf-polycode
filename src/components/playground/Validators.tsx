@@ -82,13 +82,14 @@ export default function Validators() {
       result = await runValidatorAPI(
         context.validators[index].id || '',
         context.code,
+        context.language,
         credentialsManager
       );
 
-      if (result.status === 200) {
+      if (result.status === 201) {
         success = result.data.success;
-        stderr = result.data.stderr;
-        stdout = result.data.stdout;
+        stderr = result.data.codeResult.stderr || '';
+        stdout = result.data.codeResult.stdout || '';
       } else {
         stderr = i18n.t('components.playground.validators.runAllError');
       }

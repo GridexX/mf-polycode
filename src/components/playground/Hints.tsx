@@ -2,7 +2,7 @@ import { Button, Typography, Box, IconButton } from '@mui/material';
 import React, { useEffect } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image from 'next/image';
-import { buyItem, getItem } from '../../lib/api/item';
+import { buyItem, getUserItem, UserItem } from '../../lib/api/item';
 import { useLoginContext } from '../../lib/loginContext';
 import { toastError } from '../base/toast/Toast';
 import { useEditorContext } from './CodeEditorContext';
@@ -15,12 +15,6 @@ import {
 import styles from '../../styles/components/playground/Hints.module.css';
 import { useTranslation } from '../../lib/translations';
 
-interface HintData {
-  id: string;
-  cost: number;
-  data: { text?: string };
-}
-
 export default function Hints() {
   const context = useEditorContext();
 
@@ -30,7 +24,7 @@ export default function Hints() {
 
   const { credentialsManager, user } = useLoginContext();
 
-  const [hints, setHints] = React.useState<(HintData | null)[]>(
+  const [hints, setHints] = React.useState<(UserItem | null)[]>(
     new Array(itemsIds.length).fill(null)
   );
   const [expand, setExpand] = React.useState<boolean>(false);
@@ -40,16 +34,7 @@ export default function Hints() {
       const newHints = await Promise.all(
         itemsIds.map(async (value, id) => {
           try {
-            const result = await getItem(value, credentialsManager);
-
-            if (result.status !== 200)
-              throw new Error('Unexpected return code');
-
-            return {
-              id: result.data.id,
-              cost: result.data.cost,
-              data: result.data.data,
-            };
+            return await getUserItem(value, credentialsManager);
           } catch (e) {
             toastError(
               <Typography>
@@ -76,14 +61,9 @@ export default function Hints() {
     try {
       const result = await buyItem(id, credentialsManager);
 
-      if (result.status !== 200) throw new Error('Unexpected return code');
-
       const newHints = [...hints];
-      newHints[index] = {
-        id: result.data.id,
-        cost: result.data.cost,
-        data: result.data.data,
-      };
+      newHints[index] = result;
+      setHints(newHints);
     } catch (e) {
       toastError(
         <Typography>
@@ -94,7 +74,8 @@ export default function Hints() {
     }
   };
 
-  const nextHintToBuyIndex = hints.findIndex((hint) => hint && !hint.data.text);
+  // get the first hint that has a null text
+  const nextHintToBuyIndex = hints.findIndex((hint) => hint && !hint.data);
 
   return (
     <Accordion expanded={expand} onChange={() => setExpand(!expand)}>
@@ -114,7 +95,7 @@ export default function Hints() {
 
       <AccordionDetails>
         {hints.map((h, index) => {
-          if (h === null || !h.data.text) return null;
+          if (h === null || !h.data) return null;
           return (
             <Box key={h.id}>
               <Typography>

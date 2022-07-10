@@ -4,7 +4,7 @@ const lightPalette: PaletteOptions = {
   mode: 'light',
   secondary: {
     main: '#FFBF00',
-    contrastText: '#000000',
+    contrastText: '#082946',
     dark: '#ff6d00',
     light: '#f0ff64',
   },

@@ -139,16 +139,16 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
 
   return (
     <Box className={styles.container}>
-      <Typography variant="h3">
-        <>
+      <Box>
+        <Typography variant="h3" component="span" color="text.primary">
           {id
             ? i18n.t('components.modules.editor.titleEdit')
-            : i18n.t('components.modules.editor.titleNew')}{' '}
-          <Typography variant="caption" component="span">
-            {id}
-          </Typography>
-        </>
-      </Typography>
+            : i18n.t('components.modules.editor.titleNew')}
+        </Typography>{' '}
+        <Typography variant="caption" component="span">
+          {id}
+        </Typography>
+      </Box>
       <Stack spacing={3}>
         <Box className={styles.metadataRow}>
           {/* TODO: require at least 3 characters */}

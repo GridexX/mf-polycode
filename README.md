@@ -18,7 +18,7 @@ Typescript files that are not react components should go in the `lib` folder (fo
 
 ## Set backend url
 
-To set the backen url you need to set the NEXT_PUBLIC_API_URL env variable to point to the api, ex : `https://api.polycode.dopolytech.fr`.
+To set the backend url you need to set the NEXT_PUBLIC_API_URL env variable to point to the api, ex : `https://api.polycode.dopolytech.fr`.
 
 This env variable must be set at build time.
 

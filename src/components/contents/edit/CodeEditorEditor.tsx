@@ -23,7 +23,7 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import Editor from '@monaco-editor/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   CodeEditorComponent,
   EditorLanguage,
@@ -36,6 +36,15 @@ import { useTranslation } from '../../../lib/translations';
 import Select from '../../base/Select';
 
 import stylesCommon from '../../../styles/components/contents/edit/common.module.css';
+import {
+  createItem,
+  deleteItem,
+  getItem,
+  Item,
+  updateItem,
+} from '../../../lib/api/item';
+import { useLoginContext } from '../../../lib/loginContext';
+import { toastError } from '../../base/toast/Toast';
 
 export type Props = {
   editor: CodeEditorComponent;
@@ -49,10 +58,80 @@ export default function CodeEditorEditor({
   removeButton,
 }: Props) {
   const { i18n } = useTranslation();
+  const { credentialsManager } = useLoginContext();
+
   const [currentLanguage, setCurrentLanguage] = React.useState<EditorLanguage>(
     (editor.data?.editorSettings?.languages[0]?.language ||
       EditorLanguage.Node) as EditorLanguage
   );
+
+  // This is a temporary workaround, this should be more deeply integrated in the next versions of the front / api
+
+  const [updateTimeout, setUpdateTimeout] = React.useState<number | null>(null);
+  const [itemsData, setItemsData] = React.useState<(Item | null)[]>([]);
+  const [itemsSaved, setItemsSaved] = React.useState<boolean>(true);
+
+  const saveItems = React.useCallback(async () => {
+    setUpdateTimeout(null);
+    try {
+      await Promise.all(
+        itemsData.map((item) => {
+          if (!item) return null;
+
+          return updateItem(
+            item.id,
+            item.cost,
+            item.type,
+            item.data.text,
+            credentialsManager
+          );
+        })
+      );
+      setItemsSaved(true);
+    } catch (err) {
+      toastError(
+        <Typography>
+          {i18n.t('components.contents.edit.codeEditorEditor.hints.errorSave')}
+        </Typography>
+      );
+      return false;
+    }
+    return true;
+  }, [credentialsManager, i18n, itemsData]);
+
+  useEffect(() => {
+    setItemsSaved(false);
+    const timeout = setTimeout(() => {
+      saveItems();
+    }, 1000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [saveItems]);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      const items = await Promise.all(
+        editor.data.items.map(async (id) => {
+          try {
+            return await getItem(id, credentialsManager);
+          } catch (e) {
+            toastError(
+              <Typography>
+                {i18n.t('components.contents.edit.codeEditorEditor.hints.errorFetch')}
+              </Typography>
+            );
+          }
+          return null;
+        })
+      );
+      setItemsData(items.filter((item) => item !== null));
+    };
+
+    if (credentialsManager.credentials) {
+      fetchItems();
+    }
+  }, [credentialsManager, editor.data.items, i18n]);
 
   // --- Utils ---
   const hasLanguage = (language: EditorLanguage) =>
@@ -218,6 +297,107 @@ export default function CodeEditorEditor({
     });
   };
 
+  // handle hints here
+
+  const handleAddHint = async () => {
+    try {
+      const hint = await createItem(10, 'hint', '', credentialsManager);
+
+      // save hints before triggering a fetch
+
+      if (updateTimeout !== null) clearTimeout(updateTimeout);
+      await saveItems();
+
+      // append hint to editor
+      onChange({
+        ...editor,
+        data: {
+          ...editor.data,
+          items: [...(editor.data.items || []), hint.id],
+        },
+      });
+    } catch (e) {
+      toastError(
+        <Typography>
+          {i18n.t('components.contents.edit.codeEditorEditor.hints.errorNew')}
+        </Typography>
+      );
+    }
+  };
+
+  const handleDeleteHint = async (hintId: string) => {
+    try {
+      // save hints before triggering a fetch
+      if (updateTimeout !== null) clearTimeout(updateTimeout);
+      await saveItems();
+
+      try {
+        await deleteItem(hintId, credentialsManager);
+      } catch (e) {
+        toastError(
+          <Typography>
+            {i18n.t(
+              'components.contents.edit.codeEditorEditor.hints.errorDelete'
+            )}
+          </Typography>
+        );
+      }
+      onChange({
+        ...editor,
+        data: {
+          ...editor.data,
+          items: editor.data.items.filter((id) => id !== hintId),
+        },
+      });
+    } catch (e) {
+      toastError(
+        <Typography>
+          {i18n.t(
+            'components.contents.edit.codeEditorEditor.hints.errorDelete'
+          )}
+        </Typography>
+      );
+    }
+  };
+
+  const handleHintCostChange = (
+    hintIndex: number,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setItemsData(
+      itemsData.map((item, index) => {
+        if (item === null) return null;
+        if (index === hintIndex) {
+          return {
+            ...item,
+            cost: parseInt(event.target.value, 10),
+          };
+        }
+        return item;
+      })
+    );
+  };
+
+  const handleHintTextChange = (
+    hintIndex: number,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setItemsData(
+      itemsData.map((item, index) => {
+        if (item === null) return null;
+        if (index === hintIndex) {
+          return {
+            ...item,
+            data: {
+              text: event.target.value,
+            },
+          };
+        }
+        return item;
+      })
+    );
+  };
+
   // --- Render ---
 
   const renderLanguageCheckbox = (language: EditorLanguage) => (
@@ -368,6 +548,68 @@ export default function CodeEditorEditor({
                     </TableCell>
                   </TableRow>
                 ))}
+              </TableBody>
+            </Table>
+          </Box>
+
+          <Divider textAlign="left">
+            {i18n.t('components.contents.edit.codeEditorEditor.hints.title')}{' '}
+            {itemsSaved
+              ? i18n.t('components.contents.edit.codeEditorEditor.hints.saved')
+              : i18n.t(
+                  'components.contents.edit.codeEditorEditor.hints.saving'
+                )}
+          </Divider>
+          <Box>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">
+                    {i18n.t(
+                      'components.contents.edit.codeEditorEditor.hints.text'
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    {i18n.t(
+                      'components.contents.edit.codeEditorEditor.hints.price'
+                    )}
+                  </TableCell>
+
+                  <TableCell align="right">
+                    <Button onClick={handleAddHint} variant="outlined">
+                      {i18n.t(
+                        'components.contents.edit.codeEditorEditor.hints.new'
+                      )}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {itemsData.map((item, index) => {
+                  if (!item) return null;
+                  return (
+                    <TableRow key={item.id}>
+                      <TableCell align="center">
+                        <TextField
+                          multiline
+                          value={item.data.text}
+                          onChange={(e) => handleHintTextChange(index, e)}
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <TextField
+                          value={item.cost}
+                          onChange={(e) => handleHintCostChange(index, e)}
+                        />
+                      </TableCell>
+                      <TableCell align="center">
+                        <IconButton onClick={() => handleDeleteHint(item.id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </Box>

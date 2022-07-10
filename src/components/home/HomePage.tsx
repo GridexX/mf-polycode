@@ -50,7 +50,7 @@ export default function Home() {
     >
       <Box className={styles.innerContainer}>
         {/* hero tale */}
-        {modules.length >= 1 && <HeroTale module={modules[0]} />}
+        {modules && modules.length >= 1 && <HeroTale module={modules[0]} />}
 
         {/* Divider */}
         <Divider orientation="vertical" flexItem className={styles.divider} />

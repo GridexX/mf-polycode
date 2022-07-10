@@ -83,9 +83,6 @@
       }
     },
     "contents": {
-      "contentList": {
-        "notFound": "No contents found"
-      },
       "edit": {
         "codeEditorEditor": {
           "type": "Editor",
@@ -98,6 +95,19 @@
             "expectedOutput": "Expected output",
             "hidden": "Hidden",
             "new": "+ New"
+          },
+          "hints": {
+            "title": "Hints",
+            "saving": "(saving...)",
+            "saved": "(saved)",
+            "new": "+ New",
+            "text": "Text",
+            "price": "Price",
+            "save": "Save",
+            "errorNew": "Failed to create hint",
+            "errorSave": "Failed to save hint",
+            "errorDelete": "Failed to delete hint",
+            "errorFetch": "Failed to fetch hints"
           }
         },
         "componentDialogButton": {
@@ -270,7 +280,10 @@
       },
       "toolbar": {
         "submit": "Submit",
-        "resetCode": "Reset code"
+        "resetCode": "Reset code",
+        "submitSuccess": "Submission successful, all test have passed",
+        "submitError": "Request failed, please try again later",
+        "testsPassed": "tests passed, fix all tests cases to pass this exercise"
       },
       "validator": {
         "#": "#",

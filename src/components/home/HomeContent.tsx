@@ -66,7 +66,7 @@ export default function HomeContent() {
         contents={newContents}
       />
       <TitledModuleList
-        title={i18n.t('components.home.homeContent.newContents')}
+        title={i18n.t('components.home.homeContent.newModules')}
         modules={newModules}
       />
       {/* <TitledContentList
