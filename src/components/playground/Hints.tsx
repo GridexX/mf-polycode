@@ -11,9 +11,11 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from './TopLevelAccordion';
+import { useTranslation } from '../../lib/translations';
 
 import styles from '../../styles/components/playground/Hints.module.css';
-import { useTranslation } from '../../lib/translations';
+import carrot from '../../images/carrot.png';
+
 
 export default function Hints() {
   const context = useEditorContext();
@@ -118,7 +120,7 @@ export default function Hints() {
               {i18n.t('components.playground.hints.buy')}{' '}
               {hints[nextHintToBuyIndex]?.cost}
               <Box className={styles.polypoint}>
-                <Image width={100} height={100} src="/images/carrot.png" />
+                <Image width={100} height={100} src={carrot} />
               </Box>
             </Button>
           )}
