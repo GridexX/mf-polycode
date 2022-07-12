@@ -215,19 +215,6 @@ export default function ProfilePanel({ userId }: Props) {
                   {i18n.t('components.account.profile.rank')}
                 </Typography>
                 <Box className={styles.atomicContentContainer}>
-                  <Typography
-                    color={
-                      profileState.rank === 1
-                        ? '#FFD700' // gold
-                        : profileState.rank === 2
-                        ? '#C0C0C0' // silver
-                        : profileState.rank === 3
-                        ? '#CD7F32' // bronze
-                        : 'inherit'
-                    }
-                  >
-                    {i18n.t('components.account.profile.rank')}
-                  </Typography>
                   <Box className={styles.atomicContentContainer}>
                     <Typography
                       color={
