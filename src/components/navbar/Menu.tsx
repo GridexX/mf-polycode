@@ -78,7 +78,7 @@ export default function Menu({ handleMenu }: Props) {
           </Link>
           <Link href="/content">
             <Typography className={styles.linkItem} variant="h1">
-              {i18n.t('components.navbar.menu.exercises')}
+              {i18n.t('components.navbar.menu.contents')}
             </Typography>
           </Link>
         </Stack>
