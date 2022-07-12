@@ -33,7 +33,11 @@ export default function Content({ content }: Props) {
           >
             {content.type}
           </Typography>
-          <Typography className={styles.title}>{content.name}</Typography>
+          <Box className={styles.titleContainer}>
+            <Typography title={content.name} className={styles.title}>
+              {content.name}
+            </Typography>
+          </Box>
         </Box>
 
         {/* footer */}
