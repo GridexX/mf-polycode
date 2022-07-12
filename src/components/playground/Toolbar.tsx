@@ -1,4 +1,6 @@
 // import { PlayArrow } from '@mui/icons-material';
+import React, { useCallback } from 'react';
+import { useRouter } from 'next/router';
 import {
   Box,
   IconButton,
@@ -9,7 +11,6 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import PublishIcon from '@mui/icons-material/Publish';
-import React, { useCallback } from 'react';
 import ReplayIcon from '@mui/icons-material/Replay';
 import CustomSelect from '../base/Select';
 import { useEditorContext } from './CodeEditorContext';
@@ -26,6 +27,11 @@ import { toastError, toastSuccess, toastWarning } from '../base/toast/Toast';
 
 export default function Toolbar() {
   const { i18n } = useTranslation();
+  const router = useRouter();
+
+  // get content id
+  const { id } = router.query;
+  const contentId: string = typeof id === 'string' ? id : '';
 
   const { credentialsManager } = useLoginContext();
   const context = useEditorContext();
@@ -45,6 +51,7 @@ export default function Toolbar() {
     setLoading(true);
 
     submitCode(
+      contentId,
       context.componentId,
       context.code,
       context.language,

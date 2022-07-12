@@ -29,6 +29,7 @@ interface SubmissionResult {
 }
 
 export async function submitCode(
+  contentId: string,
   componentId: string,
   code: string,
   language: string,
@@ -39,6 +40,7 @@ export async function submitCode(
     credentialsManager,
     'POST',
     {
+      contentId,
       componentId,
       code,
       language,
