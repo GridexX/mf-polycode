@@ -3,10 +3,9 @@ import {
   AsyncResponse,
   CredentialsManager,
   fetchApiWithAuth,
-  PaginatedResponse,
-  PaginationMeta,
   UnexpectedResponse,
 } from './api';
+import { PaginatedMeta, PaginatedResponse } from './pagination';
 
 // Response structures (models)
 export interface TeamMember {
@@ -93,7 +92,7 @@ export async function getTeams(
   filters?: TeamFilters
 ): Promise<PaginatedResponse<Team>> {
   const { data, metadata, status } = await fetchApiWithAuth<
-    PaginationMeta,
+    PaginatedMeta,
     Team[]
   >(buildUrl(filters), credentialsManager);
 

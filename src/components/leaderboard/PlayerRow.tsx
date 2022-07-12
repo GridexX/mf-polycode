@@ -1,5 +1,4 @@
 import {
-  Box,
   IconButton,
   Skeleton,
   Stack,
@@ -9,24 +8,24 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import React from 'react';
 import { User } from '../../lib/api/user';
-import styles from '../../styles/pages/leaderboard.module.css';
+import styles from '../../styles/components/leaderboard/PlayerRow.module.css';
 import Polypoints from '../Polypoints';
 import ContextualMenu from '../base/ContextualMenu';
 
 type Props = {
   children?: React.ReactNode;
   user?: User;
-  id?: number;
+  rank?: number;
   classOverride?: string;
   userRow?: boolean;
 };
 
 export default function PlayerRow({
   children,
-  id,
   user,
+  rank,
   classOverride,
-  userRow,
+  userRow = false,
 }: Props) {
   const theme = useTheme();
 
@@ -40,41 +39,34 @@ export default function PlayerRow({
 
   /* eslint-disable no-nested-ternary */
   const rankColor =
-    id === 1
+    rank === 1
       ? '#FFD700' // gold
-      : id === 2
+      : rank === 2
       ? '#C0C0C0' // silver
-      : id === 3
+      : rank === 3
       ? '#CD7F32' // bronze
       : 'inherit';
 
   return (
     <Stack
       direction="row"
-      className={`${styles.playerRow} ${classOverride}`}
+      className={`${styles.container} ${classOverride}`}
       style={{
-        borderColor: theme.palette.primary.main,
-        backgroundColor: theme.palette.background.paper,
-        color: userRow
-          ? theme.palette.primary.main
-          : theme.palette.text.primary,
+        borderColor: userRow ? theme.palette.primary.main : 'inherit',
       }}
-      sx={{ minWidth: { xs: '75vw', sm: '400px', md: '550px' } }}
     >
-      <Box className={styles.rankBox}>
-        <Typography color={rankColor}>{id ? `#${id}` : '???'}</Typography>
-      </Box>
+      <Typography color={rankColor} className={styles.column}>
+        {rank ? `#${rank}` : '???'}
+      </Typography>
+      <Typography color="inherit" className={styles.column}>
+        {user?.username ?? <Skeleton width={100} />}
+      </Typography>
 
-      <Box className={styles.userBox}>
-        <Typography color="inherit">
-          {user?.username ?? <Skeleton width={100} />}
-        </Typography>
-      </Box>
-      <Stack direction="row" spacing={2} className={styles.pointsBox}>
+      <Stack direction="row" spacing={2} className={styles.column}>
         <Polypoints color="inherit" points={user?.points} size="normal" />
 
         {!user && <Skeleton width={100} />}
-        {children && (
+        {children ? (
           <>
             {user ? (
               <IconButton size="medium" onClick={handleClick}>
@@ -93,6 +85,8 @@ export default function PlayerRow({
               {children}
             </ContextualMenu>
           </>
+        ) : (
+          <div />
         )}
       </Stack>
     </Stack>

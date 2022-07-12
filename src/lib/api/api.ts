@@ -17,22 +17,6 @@ export interface CredentialsManager {
   setCredentials: SetCredentials;
 }
 
-// pagination
-export interface PaginationMeta {
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-  };
-}
-
-export interface PaginatedResponse<T> {
-  data: T[];
-  page: number;
-  limit: number;
-  total: number;
-}
-
 // API response
 export interface AsyncResponse<T> {
   data?: T;

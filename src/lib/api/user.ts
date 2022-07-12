@@ -5,11 +5,10 @@ import {
   fetchApi,
   fetchApiWithAuth,
   MissingData,
-  PaginatedResponse,
-  PaginationMeta,
   UnexpectedResponse,
 } from './api';
 import { EditorLanguage } from './content';
+import { PaginatedMeta, PaginatedResponse } from './pagination';
 import { getTeam, Team } from './team';
 
 export const UserAlreadyExists = new Error('User already exists');
@@ -66,11 +65,15 @@ export interface UpdateUserSettingsRequest {
 export interface UserFilters {
   page?: number;
   limit?: number;
+  orderBy?: {
+    points?: 'asc' | 'desc';
+  };
 }
 
 export const defaultFilters: UserFilters = {
   page: undefined,
   limit: undefined,
+  orderBy: undefined,
 };
 
 // Create functions
@@ -109,6 +112,13 @@ export function buildUserQueryParams(filters: UserFilters): string {
 
   if (filters.page) params.push(`page=${filters.page}`);
   if (filters.limit) params.push(`limit=${filters.limit}`);
+  if (filters.orderBy) {
+    const orderByParams: string[] = [];
+    Object.entries(filters.orderBy).forEach(([key, value]) => {
+      orderByParams.push(`${key}:${value}`);
+    });
+    params.push(`order-by=${encodeURIComponent(orderByParams.join(','))}`);
+  }
 
   return params.length ? `?${params.join('&')}` : '';
 }
@@ -118,7 +128,7 @@ export async function getUsers(
   filters?: UserFilters
 ): Promise<PaginatedResponse<User>> {
   const { data, metadata, status } = await fetchApiWithAuth<
-    PaginationMeta,
+    PaginatedMeta,
     User[]
   >(
     `/user${buildUserQueryParams(filters || defaultFilters)}`,

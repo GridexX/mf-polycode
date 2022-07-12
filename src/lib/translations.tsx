@@ -22,7 +22,11 @@ function loadFromLocalStorage() {
 /*
   Translation context is used to pass translations to children.
 */
-export const TranslationContext = React.createContext<{
+export const TranslationContext: React.Context<{
+  locale: string;
+  setLocale: (locale: string) => void;
+  i18n: typeof I18n;
+}> = React.createContext<{
   locale: string;
   setLocale: (locale: string) => void;
   i18n: typeof I18n;

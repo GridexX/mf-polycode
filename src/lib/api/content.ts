@@ -4,9 +4,9 @@ import {
   AsyncResponse,
   CredentialsManager,
   fetchApiWithAuth,
-  PaginationMeta,
   UnexpectedResponse,
 } from './api';
+import { PaginatedMeta } from './pagination';
 
 // Variants
 export enum EditorLanguage {
@@ -146,7 +146,7 @@ export async function getContents(
   const endpoint = filters ? buildFilterQuery(filters) : '/content';
 
   const { data, /* metadata, */ status } = await fetchApiWithAuth<
-    PaginationMeta,
+    PaginatedMeta,
     Content[]
   >(endpoint, credentialsManager, 'GET');
 
