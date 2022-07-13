@@ -108,12 +108,15 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
         toastSuccess(
           <Typography>{i18n.t('components.modules.editor.updated')}</Typography>
         );
+
+        router.push(`/module/${id}`);
       } else {
         const newMod = await createModule(moduleData, credentialsManager);
         toastSuccess(
           <Typography>{i18n.t('components.modules.editor.created')}</Typography>
         );
-        router.push(`/module/edit/${newMod.id}`);
+
+        router.push(`/module/${newMod.id}`);
       }
     } catch (e) {
       toastError(

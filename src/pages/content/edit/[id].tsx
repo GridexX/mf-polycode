@@ -49,11 +49,13 @@ export default function ContentEditor() {
       id: undefined,
       data: {},
     })
-      .then(() =>
+      .then(() => {
         toastSuccess(
           <Typography>{i18n.t('pages.content.edit.id.saveSuccess')}</Typography>
-        )
-      )
+        );
+
+        router.push(`/content/${id}`);
+      })
       .catch(() =>
         toastError(
           <Typography>{i18n.t('pages.content.edit.id.saveError')}</Typography>

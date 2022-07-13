@@ -1,6 +1,7 @@
+import React from 'react';
+import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import Head from 'next/head';
-import React from 'react';
 import { toastError, toastSuccess } from '../../../components/base/toast/Toast';
 import ContentEditorWizard from '../../../components/contents/edit/ContentEditorWizard';
 import { Content, createContent } from '../../../lib/api/content';
@@ -10,6 +11,8 @@ import { useTranslation } from '../../../lib/translations';
 export default function ContentEditor() {
   const { i18n } = useTranslation();
   const { credentialsManager } = useRequireValidUser();
+  const router = useRouter();
+
   const [content, setContent] = React.useState<Content>({
     type: 'exercise',
     name: '',
@@ -31,13 +34,15 @@ export default function ContentEditor() {
   const handleSave = () => {
     setSaveLoading(true);
     createContent(credentialsManager, content)
-      .then(() =>
+      .then((data) => {
         toastSuccess(
           <Typography>
             {i18n.t('pages.content.edit.index.saveSuccess')}
           </Typography>
-        )
-      )
+        );
+
+        router.push(`/content/${data.id}`);
+      })
       .catch(() =>
         toastError(
           <Typography>
