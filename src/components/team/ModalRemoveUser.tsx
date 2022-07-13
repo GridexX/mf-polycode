@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import { useTranslation } from '../../lib/translations';
 import Modal from '../base/Modal';
 import { removeTeamMember } from '../../lib/api/team';
@@ -22,16 +23,18 @@ export default function ModalDeleteUser({
 }: Props) {
   const { i18n } = useTranslation();
   const { credentialsManager } = useLoginContext();
+  const router = useRouter();
 
   const handleClick = () => {
     removeTeamMember(credentialsManager, teamId, { userId })
-      .then(() =>
+      .then(() => {
         toastSuccess(
           <Typography>
             {i18n.t('components.team.modalDeleteUser.deleteSuccess')}
           </Typography>
-        )
-      )
+        );
+        if (router) router.reload();
+      })
       .catch(() =>
         toastError(
           <Typography>
@@ -43,7 +46,7 @@ export default function ModalDeleteUser({
 
   return (
     <Modal
-      primaryButtonText={i18n.t('components.team.modalDeleteUser.delete')}
+      primaryButtonText={i18n.t('components.team.modalDeleteUser.remove')}
       type="danger"
       title={i18n.t('components.team.modalDeleteUser.title')}
       open={openModal}

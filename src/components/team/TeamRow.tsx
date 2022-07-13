@@ -1,46 +1,68 @@
-import { IconButton, Stack, Typography, useTheme } from '@mui/material';
-import Image from 'next/image';
+import {
+  ButtonBase,
+  Divider,
+  Skeleton,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import { useRouter } from 'next/router';
+import { LocalPolice } from '@mui/icons-material';
 import React from 'react';
+import calcTeamPoints, { Team } from '../../lib/api/team';
+
+import styles from '../../styles/components/team/TeamRow.module.css';
 import Polypoints from '../Polypoints';
-import TrashIcon from './TrashIcon';
 
 type Props = {
-  name: string;
-  points: number;
-  isCaptain?: boolean;
+  team?: Team;
+  showCaptainIcon?: boolean;
 };
 
-export default function TeamRow({ name, points, isCaptain }: Props) {
+// Retrieve if the user is connected and show an icon if he is the captain
+
+export default function TeamRowGeneric({ team, showCaptainIcon }: Props) {
   const theme = useTheme();
-  const color = isCaptain
-    ? theme.palette.primary.main
-    : theme.palette.text.primary;
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (router && team) router.push(`/team/${team.id}`);
+  };
+
   return (
-    <Stack direction="row" sx={{ alignItems: 'center', color }}>
-      <Typography>{name}</Typography>
-      <Stack
-        direction="row"
-        spacing={3}
-        sx={{ flexGrow: 1, justifyContent: 'flex-end' }}
-      >
-        {/* Polypoints and icon */}
-        {/* TODO: Update icons when we will have better ones */}
-        <Polypoints color={color} points={points} size="normal" />
-        {isCaptain && (
-          <span>
-            <Image src="/images/captain.png" width={40} height={30} />
-          </span>
-        )}
-        {!isCaptain && (
-          <IconButton size="medium" sx={{ ml: 2, mr: -2 }} edge="start">
-            <TrashIcon />
-          </IconButton>
+    <ButtonBase
+      onClick={handleClick}
+      className={styles.container}
+      style={{ borderColor: theme.palette.primary.main }}
+    >
+      <Stack className={styles.innerContainer} direction="row">
+        <Stack direction="row" className={styles.leftSideContainer} spacing={2}>
+          {team ? (
+            <Typography sx={{ color: theme.palette.text.primary }}>
+              {team.name}
+            </Typography>
+          ) : (
+            <Skeleton width={150} />
+          )}
+          {showCaptainIcon && (
+            <>
+              <Divider orientation="vertical" flexItem />
+              <Stack direction="row" className={styles.captain} spacing={2}>
+                <LocalPolice sx={{ fill: theme.palette.primary.main }} />
+                <Typography>
+                  {team?.members.find((member) => member.role === 'captain')
+                    ?.username ?? <Skeleton width={100} />}
+                </Typography>
+              </Stack>
+            </>
+          )}
+        </Stack>
+        {team ? (
+          <Polypoints points={calcTeamPoints(team)} />
+        ) : (
+          <Skeleton width={50} />
         )}
       </Stack>
-    </Stack>
+    </ButtonBase>
   );
 }
-
-TeamRow.defaultProps = {
-  isCaptain: false,
-};

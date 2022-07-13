@@ -3,13 +3,13 @@ import React from 'react';
 import Head from 'next/head';
 import styles from '../styles/pages/leaderboard.module.css';
 import { useTranslation } from '../lib/translations';
-import PlayerRow from '../components/leaderboard/PlayerRow';
 import { useLoginContext } from '../lib/loginContext';
 import ContextualMenuLeaderboard from '../components/team/ContextualMenuLeaderboard';
 import { getUsers, User } from '../lib/api/user';
 import { toastError } from '../components/base/toast/Toast';
 import CenteredLoader from '../components/base/CenteredLoader';
 import { usePagination } from '../lib/api/pagination';
+import UserRow from '../components/base/UserRow';
 
 export default function Leaderboard() {
   const { i18n } = useTranslation();
@@ -67,22 +67,21 @@ export default function Leaderboard() {
         </Typography>
         <Stack direction="column" spacing={4} className={styles.userList}>
           {fetchLoading && <CenteredLoader />}
-          {users &&
+          {!fetchLoading && users.length === 0 && (
+            <Typography>{i18n.t('pages.leaderboard.noUsers')}</Typography>
+          )}
+          {!fetchLoading &&
             users.length > 0 &&
             users.map((member, index) => (
-              <PlayerRow
-                rank={(page - 1) * limit + index + 1}
-                key={member.id}
+              <UserRow
                 user={member}
-              >
-                <ContextualMenuLeaderboard member={member} />
-              </PlayerRow>
-            ))}
-          {!users &&
-            [0, 1, 2].map((index) => (
-              <PlayerRow key={(page - 1) * limit + index + 1} user={undefined}>
-                <ContextualMenuLeaderboard />
-              </PlayerRow>
+                rank={(page - 1) * limit + index + 1}
+                isMe={member.id === user?.id}
+                contextualMenuContent={
+                  <ContextualMenuLeaderboard member={member} />
+                }
+                key={member.id}
+              />
             ))}
         </Stack>
         <Divider flexItem />
@@ -91,7 +90,7 @@ export default function Leaderboard() {
           spacing={2}
           style={{ marginBottom: '2rem' }}
         >
-          {user && <PlayerRow user={user} rank={user.rank} userRow />}
+          {user && <UserRow user={user} rank={user.rank} isMe />}
           <Pagination
             count={Math.ceil(limit > 0 ? total / limit : 1)}
             page={page}

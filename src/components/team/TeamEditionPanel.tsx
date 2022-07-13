@@ -14,10 +14,10 @@ import { useRouter } from 'next/router';
 import styles from '../../styles/components/account/Settings.module.css';
 import TextInput from '../base/TextInput';
 import { useTranslation } from '../../lib/translations';
-import TeamRow from './TeamRow';
 import { Team, TeamRequest, updateTeam } from '../../lib/api/team';
 import { useLoginContext } from '../../lib/loginContext';
 import { toastError, toastSuccess } from '../base/toast/Toast';
+import UserRow from '../base/UserRow';
 
 type EditorState = {
   name: string;
@@ -121,7 +121,7 @@ export default function TeamEditionPanel({ team }: Props) {
               {i18n.t('components.team.teamEditionPanel.saveSuccess')}
             </Typography>
           );
-          if (router) router.reload();
+          if (router) router.push(`/team/${team.id}`);
         })
         .catch(() =>
           toastError(
@@ -212,12 +212,7 @@ export default function TeamEditionPanel({ team }: Props) {
               </Typography>
               {(team?.members?.length ?? 0) > 0 &&
                 team?.members?.map((member) => (
-                  <TeamRow
-                    name={member.username}
-                    points={member.points}
-                    isCaptain={member.role === 'captain'}
-                    key={`${member.username}-${member.id}`}
-                  />
+                  <UserRow key={member.id} user={member} />
                 ))}
             </>
           </Stack>

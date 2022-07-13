@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, Stack } from '@mui/material';
 import Head from 'next/head';
 
-import TeamRowGeneric from '../../components/team/TeamRowGeneric';
+import TeamRowGeneric from '../../components/team/TeamRow';
 import styles from '../../styles/components/account/Teams.module.css';
 import { useTranslation } from '../../lib/translations';
 import { getTeams, Team as ITeam } from '../../lib/api/team';

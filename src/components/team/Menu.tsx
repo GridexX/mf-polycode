@@ -16,7 +16,6 @@ import { Team } from '../../lib/api/team';
 import ButtonModalDelete from './ButtonModalDelete';
 import ButtonModalLeave from './ButtonModalLeave';
 import { useLoginContext } from '../../lib/loginContext';
-import useCaptain from './useCaptain';
 
 type Props = {
   team?: Team;
@@ -27,7 +26,15 @@ export default function Menu({ team, state }: Props) {
   const theme = useTheme();
   const { i18n } = useTranslation();
   const { user } = useLoginContext();
-  const isCaptain = useCaptain(team);
+  const isCaptain = React.useCallback(
+    () =>
+      user &&
+      team &&
+      team.members.some(
+        (member) => member.id === user.id && member.role === 'captain'
+      ),
+    [user, team]
+  );
 
   return (
     <Box className={styles.container}>
@@ -92,7 +99,7 @@ export default function Menu({ team, state }: Props) {
         {state === 'view' && (
           <Box className={stylesTeam.buttonContainer}>
             <Stack direction="column" spacing={2}>
-              {isCaptain && (
+              {isCaptain() && (
                 <>
                   <Link href={`/team/edit/${team?.id}`}>
                     <Button variant="contained" className={stylesTeam.button}>
@@ -102,7 +109,7 @@ export default function Menu({ team, state }: Props) {
                   <ButtonModalDelete teamId={team?.id ?? ''} />
                 </>
               )}
-              {!isCaptain && (
+              {!isCaptain() && (
                 <ButtonModalLeave
                   userId={user?.id ?? ''}
                   teamId={team?.id ?? ''}

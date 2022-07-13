@@ -323,12 +323,7 @@
       "contextualMenu": {
         "info": "Information",
         "edit": "Edit",
-        "delete": "Delete"
-      },
-      "contextualMenuAdmin": {
-        "info": "Information",
-        "edit": "Edit",
-        "delete": "Delete"
+        "remove": "Remove"
       },
       "contextualMenuDelete": {
         "delete": "Delete"
@@ -360,7 +355,7 @@
         "title": "Remove a user",
         "message": "Are you sure you want to remove this user?",
         "actionUndone": "This action can't be undone",
-        "delete": "Delete",
+        "remove": "Remove",
         "deleteSuccess": "User removed successfully",
         "deleteError": "There was an error when removing user"
       },
@@ -452,6 +447,7 @@
     },
     "leaderboard": {
       "title": "Leaderboard",
+      "noUsers": "No users found",
       "fetchError": "Failed to fetch users from server"
     },
     "module": {
@@ -517,6 +513,7 @@
         "fetchError": "Failed to fetch team from server"
       },
       "id": {
+        "title": "Team",
         "fetchError": "Failed to fetch team from server"
       },
       "create": {

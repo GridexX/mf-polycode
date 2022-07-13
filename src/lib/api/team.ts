@@ -51,12 +51,8 @@ export interface TeamFilters {
 }
 
 // Utils
-export default function calcTeamPoints(team: Team): Team {
-  const { members } = team;
-  return {
-    ...team,
-    points: members.reduce((acc, member) => acc + member.points, 0),
-  };
+export default function calcTeamPoints(team: Team): number {
+  return team.members.reduce((acc, member) => acc + member.points, 0);
 }
 
 function buildUrl(filters?: TeamFilters): string {
@@ -178,7 +174,7 @@ export async function removeTeamMember(
     request
   );
 
-  if (status !== 201) throw UnexpectedResponse;
+  if (status !== 200) throw UnexpectedResponse;
   return true;
 }
 

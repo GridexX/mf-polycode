@@ -5,10 +5,11 @@ import Link from 'next/link';
 import styles from '../../styles/components/account/Teams.module.css';
 import { useTranslation } from '../../lib/translations';
 import { Team } from '../../lib/api/team';
-import TeamRowGeneric from '../team/TeamRowGeneric';
 import { useLoginContext } from '../../lib/loginContext';
 import { toastError } from '../base/toast/Toast';
 import { getUserTeams } from '../../lib/api/user';
+import TeamRow from '../team/TeamRow';
+import CenteredLoader from '../base/CenteredLoader';
 
 export default function TeamsPanel() {
   // import mui theme
@@ -17,9 +18,11 @@ export default function TeamsPanel() {
   const { credentialsManager, user } = useLoginContext();
   const [teamsCaptainOf, setTeamsCaptainOf] = React.useState<Team[]>([]);
   const [teamsMemberOf, setTeamsMemberOf] = React.useState<Team[]>([]);
+  const [isFetchLoading, setFetchLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     if (user) {
+      setFetchLoading(true);
       getUserTeams(credentialsManager, user.id)
         .then((teams) => {
           setTeamsCaptainOf(
@@ -45,7 +48,8 @@ export default function TeamsPanel() {
               {i18n.t('components.account.teams.fetchError')}
             </Typography>
           )
-        );
+        )
+        .finally(() => setFetchLoading(false));
     }
   }, [credentialsManager, i18n, user]);
 
@@ -66,7 +70,10 @@ export default function TeamsPanel() {
             {i18n.t('components.account.teams.captainOf')}
           </Typography>
           <Stack className={styles.teamsList} spacing={4}>
-            {teamsCaptainOf && teamsCaptainOf.length === 0 && (
+            {/* While we are loading teams, we show a loader */}
+            {isFetchLoading && <CenteredLoader />}
+            {/* If we don't have teams, we show a message */}
+            {!isFetchLoading && teamsCaptainOf.length === 0 && (
               <Typography
                 className={styles.noData}
                 variant="body1"
@@ -75,14 +82,11 @@ export default function TeamsPanel() {
                 {i18n.t('components.account.teams.notCaptainOf')}
               </Typography>
             )}
-            {teamsCaptainOf &&
+            {/* If we have teams, we show them */}
+            {!isFetchLoading &&
               teamsCaptainOf.length > 0 &&
               teamsCaptainOf.map((team: Team) => (
-                <TeamRowGeneric key={team.id} team={team} />
-              ))}
-            {!teamsCaptainOf &&
-              [0, 1, 2].map((index) => (
-                <TeamRowGeneric key={index + 1} team={undefined} />
+                <TeamRow key={team.id} team={team} />
               ))}
           </Stack>
         </Box>
@@ -92,7 +96,10 @@ export default function TeamsPanel() {
             {i18n.t('components.account.teams.memberOf')}
           </Typography>
           <Stack className={styles.teamsList} spacing={4}>
-            {teamsMemberOf && teamsMemberOf.length === 0 && (
+            {/* While we are loading teams, we show a loader */}
+            {isFetchLoading && <CenteredLoader />}
+            {/* If we don't have teams, we show a message */}
+            {!isFetchLoading && teamsMemberOf.length === 0 && (
               <Typography
                 className={styles.noData}
                 variant="body1"
@@ -101,14 +108,11 @@ export default function TeamsPanel() {
                 {i18n.t('components.account.teams.notMemberOf')}
               </Typography>
             )}
-            {teamsMemberOf &&
+            {/* If we have teams, we show them */}
+            {!isFetchLoading &&
               teamsMemberOf.length > 0 &&
               teamsMemberOf.map((team: Team) => (
-                <TeamRowGeneric showCaptainIcon key={team.id} team={team} />
-              ))}
-            {!teamsMemberOf &&
-              [0, 1, 2].map((index) => (
-                <TeamRowGeneric key={index + 1} team={undefined} />
+                <TeamRow key={team.id} team={team} showCaptainIcon />
               ))}
           </Stack>
           <Stack direction="row" spacing={2}>
