@@ -4,6 +4,10 @@
 
 replicaCount: 1
 
+env:
+  - name: PUBLIC_API_URL
+    value: https://api.dev.polycode.do-2021.fr
+
 ingress:
   hosts:
     - host: www.dev.polycode.do-2021.fr

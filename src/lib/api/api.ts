@@ -27,11 +27,15 @@ export interface AsyncResponse<T> {
 // 1 minute timeout
 const fetchTimeout = 60000;
 
-export const apiServer =
+let apiServer =
   process.env.NEXT_PUBLIC_API_URL ??
   (process.env.NODE_ENV === 'production'
     ? 'https://api.polycode.dopolytech.fr'
     : 'http://localhost:3000');
+
+export const setApiServer = (newApiServer: string) => {
+  apiServer = newApiServer;
+}
 
 // Fetch the backend api
 export async function fetchApi<MetaDataType, DataType>(

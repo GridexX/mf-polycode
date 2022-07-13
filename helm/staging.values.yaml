@@ -4,6 +4,10 @@
 
 replicaCount: 1
 
+env:
+  - name: PUBLIC_API_URL
+    value: https://api.staging.polycode.do-2021.fr
+
 ingress:
   hosts:
     - host: www.staging.polycode.do-2021.fr
