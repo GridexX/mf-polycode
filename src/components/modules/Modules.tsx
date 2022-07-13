@@ -8,7 +8,7 @@ import styles from '../../styles/components/modules/Modules.module.css';
 
 import { toastError } from '../base/toast/Toast';
 import { getModules, ModuleFilters, Module } from '../../lib/api/module';
-import { useLoginContext } from '../../lib/loginContext';
+import { useRequireValidUser } from '../../lib/loginContext';
 import CenteredLoader from '../base/CenteredLoader';
 
 type Props = {
@@ -19,7 +19,7 @@ export default function Modules({ filters }: Props) {
   // import mui theme & i18n
   const theme = useTheme();
   const { i18n } = useTranslation();
-  const { user, credentialsManager } = useLoginContext();
+  const { credentialsManager, validUser } = useRequireValidUser();
 
   const [modules, setModules] = useState<Module[]>([]);
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ export default function Modules({ filters }: Props) {
   // --- handler events ---
   useEffect(() => {
     setLoading(true);
-    if (user) {
+    if (validUser) {
       getModules(credentialsManager, filters)
         .then((c) => setModules(c.data))
         .catch((e) =>
@@ -39,7 +39,7 @@ export default function Modules({ filters }: Props) {
         )
         .finally(() => setLoading(false));
     }
-  }, [filters, user, credentialsManager, i18n]);
+  }, [filters, validUser, credentialsManager, i18n]);
 
   return (
     <Box className={styles.container}>

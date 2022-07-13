@@ -6,7 +6,7 @@ import { toastError } from '../base/toast/Toast';
 import ContentList from './ContentList';
 
 import { getContents, ContentFilters, Content } from '../../lib/api/content';
-import { useLoginContext } from '../../lib/loginContext';
+import { useRequireValidUser } from '../../lib/loginContext';
 
 import styles from '../../styles/components/contents/Contents.module.css';
 import { useTranslation } from '../../lib/translations';
@@ -17,7 +17,7 @@ type Props = {
 
 export default function Contents({ filters }: Props) {
   // import mui theme
-  const { user, credentialsManager } = useLoginContext();
+  const { validUser, credentialsManager } = useRequireValidUser();
 
   const theme = useTheme();
   const { i18n } = useTranslation();
@@ -28,7 +28,7 @@ export default function Contents({ filters }: Props) {
   // --- handler events ---
   useEffect(() => {
     setLoading(true);
-    if (user) {
+    if (validUser) {
       getContents(credentialsManager, filters)
         .then((c) => setContents(c.data))
         .catch((e) =>
@@ -40,7 +40,7 @@ export default function Contents({ filters }: Props) {
         )
         .finally(() => setLoading(false));
     }
-  }, [filters, user, credentialsManager, i18n]);
+  }, [filters, validUser, credentialsManager, i18n]);
 
   return (
     <Box className={styles.container}>

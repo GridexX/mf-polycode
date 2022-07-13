@@ -6,20 +6,20 @@ import HomeContent from './HomeContent';
 
 import styles from '../../styles/pages/Home.module.css';
 import { getModules, Module } from '../../lib/api/module';
-import { useLoginContext } from '../../lib/loginContext';
+import { useRequireValidUser } from '../../lib/loginContext';
 import { toastError } from '../base/toast/Toast';
 import { useTranslation } from '../../lib/translations';
 
 export default function Home() {
   const theme = useTheme();
-  const { credentialsManager, user } = useLoginContext();
+  const { credentialsManager, validUser } = useRequireValidUser();
 
   const { i18n } = useTranslation();
 
   const [modules, setModules] = useState<Module[]>([]);
 
   useEffect(() => {
-    if (user) {
+    if (validUser) {
       getModules(credentialsManager, {
         limit: 1,
         offset: 0,
@@ -41,7 +41,7 @@ export default function Home() {
           );
         });
     }
-  }, [credentialsManager, i18n, user]);
+  }, [credentialsManager, i18n, validUser]);
 
   return (
     <Box

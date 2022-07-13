@@ -6,13 +6,13 @@ import TeamRowGeneric from '../../components/team/TeamRowGeneric';
 import styles from '../../styles/components/account/Teams.module.css';
 import { useTranslation } from '../../lib/translations';
 import { getTeams, Team as ITeam } from '../../lib/api/team';
-import { useLoginContext } from '../../lib/loginContext';
+import { useRequireValidUser } from '../../lib/loginContext';
 import { toastError } from '../../components/base/toast/Toast';
 import CenteredLoader from '../../components/base/CenteredLoader';
 
 export default function Team() {
   const { i18n } = useTranslation();
-  const { credentialsManager, user } = useLoginContext();
+  const { credentialsManager, user } = useRequireValidUser();
   const [teams, setTeams] = React.useState<ITeam[]>([]);
   const [fetchLoading, setFetchLoading] = React.useState<boolean>(true);
 

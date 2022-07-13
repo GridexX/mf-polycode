@@ -1,32 +1,41 @@
 import React from 'react';
-import { Typography, Button, Box } from '@mui/material';
-import { resendEmail, UserEmail } from '../../lib/api/user';
-import { useTranslation } from '../../lib/translations';
-import { toastError, toastSuccess } from '../base/toast/Toast';
+import { Typography, Button, Box, CircularProgress } from '@mui/material';
+import { useRouter } from 'next/router';
 
-import styles from '../../styles/components/email/MailMessage.module.css';
+import { resendEmail } from '../lib/api/user';
+import { useTranslation } from '../lib/translations';
+import { useLoginContext } from '../lib/loginContext';
+import { toastSuccess, toastError } from '../components/base/toast/Toast';
 
-interface VerificationMessageProps {
-  email: UserEmail;
-}
+import styles from '../styles/components/email/MailMessage.module.css';
 
-export default function MailMessage({ email }: VerificationMessageProps) {
+export default function MailMessage() {
   const { i18n } = useTranslation();
+  const { emails } = useLoginContext();
+  const router = useRouter();
+
+  if (emails === null) {
+    router.push('/');
+
+    return null;
+  }
+
+  if (typeof emails === 'undefined') return <CircularProgress />;
+
+  const email = emails[0];
+
+  if (email.isVerified) router.push('/');
 
   const handleResendEmail = () => {
     resendEmail(email.id)
       .then(() => {
         toastSuccess(
-          <Typography>
-            {i18n.t('components.email.resendSuccess')}
-          </Typography>
+          <Typography>{i18n.t('components.email.resendSuccess')}</Typography>
         );
       })
       .catch(() => {
         toastError(
-          <Typography>
-            {i18n.t('components.email.resendError')}
-          </Typography>
+          <Typography>{i18n.t('components.email.resendError')}</Typography>
         );
       });
   };

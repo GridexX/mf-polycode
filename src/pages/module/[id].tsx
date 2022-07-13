@@ -11,7 +11,7 @@ import CenteredLoader from '../../components/base/CenteredLoader';
 import { toastError } from '../../components/base/toast/Toast';
 
 // contexts
-import { useLoginContext } from '../../lib/loginContext';
+import { useRequireValidUser } from '../../lib/loginContext';
 import { useTranslation } from '../../lib/translations';
 
 // api
@@ -28,7 +28,7 @@ import styles from '../../styles/pages/module/ModuleDetails.module.css';
 
 export default function ModuleDetails() {
   const router = useRouter();
-  const { user, credentialsManager } = useLoginContext();
+  const { validUser, credentialsManager } = useRequireValidUser();
   const { i18n } = useTranslation();
 
   const [moduleDetails, setModuleDetails] = useState<Module>(defaultModule);
@@ -40,7 +40,7 @@ export default function ModuleDetails() {
 
   useEffect(() => {
     setLoading(true);
-    if (user) {
+    if (validUser) {
       const { id } = router.query;
 
       getModule(id as string, credentialsManager)
@@ -65,7 +65,7 @@ export default function ModuleDetails() {
         )
         .finally(() => setLoading(false));
     }
-  }, [user, credentialsManager, router, i18n]);
+  }, [validUser, credentialsManager, router, i18n]);
 
   return (
     <>

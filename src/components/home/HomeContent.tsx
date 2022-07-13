@@ -7,12 +7,12 @@ import TitledModuleList from '../titledLists/TitledModuleList';
 import styles from '../../styles/components/home/HomeContent.module.css';
 import { Content, getContents } from '../../lib/api/content';
 import { getModules, Module } from '../../lib/api/module';
-import { useLoginContext } from '../../lib/loginContext';
+import { useRequireValidUser } from '../../lib/loginContext';
 import { useTranslation } from '../../lib/translations';
 import { toastError } from '../base/toast/Toast';
 
 export default function HomeContent() {
-  const { credentialsManager,user } = useLoginContext();
+  const { credentialsManager, validUser } = useRequireValidUser();
 
   const { i18n } = useTranslation();
 
@@ -20,7 +20,7 @@ export default function HomeContent() {
   const [newModules, setNewModules] = React.useState<Module[]>([]);
 
   useEffect(() => {
-    if (user) {
+    if (validUser) {
       getModules(credentialsManager, {
         limit: 10,
         offset: 0,
@@ -57,7 +57,7 @@ export default function HomeContent() {
           );
         });
     }
-  }, [credentialsManager, i18n, user]);
+  }, [credentialsManager, i18n, validUser]);
 
   return (
     <Box className={styles.container}>

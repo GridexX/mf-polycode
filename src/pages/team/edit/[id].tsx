@@ -7,7 +7,7 @@ import Menu from '../../../components/team/Menu';
 
 import styles from '../../../styles/pages/account/common.module.css';
 import TeamEditionPanel from '../../../components/team/TeamEditionPanel';
-import { useLoginContext } from '../../../lib/loginContext';
+import { useRequireValidUser } from '../../../lib/loginContext';
 import { defaultTeam, getTeam, Team } from '../../../lib/api/team';
 import { toastError } from '../../../components/base/toast/Toast';
 import { useTranslation } from '../../../lib/translations';
@@ -16,11 +16,11 @@ export default function EditTeam() {
   const router = useRouter();
   const { i18n } = useTranslation();
   const { id } = router.query;
-  const { credentialsManager } = useLoginContext();
+  const { credentialsManager, validUser } = useRequireValidUser();
   const [team, setTeam] = React.useState<Team>(defaultTeam);
 
   React.useEffect(() => {
-    if (id && !Array.isArray(id)) {
+    if (id && !Array.isArray(id) && validUser) {
       getTeam(credentialsManager, id)
         .then(setTeam)
         .catch(() =>
@@ -29,7 +29,7 @@ export default function EditTeam() {
           )
         );
     }
-  }, [credentialsManager, i18n, id]);
+  }, [credentialsManager, i18n, id, validUser]);
 
   return (
     <>

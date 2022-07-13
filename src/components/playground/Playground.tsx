@@ -6,7 +6,7 @@ import {
   Content,
   useGetContent,
 } from '../../lib/api/content';
-import { useLoginContext } from '../../lib/loginContext';
+import { useRequireValidUser } from '../../lib/loginContext';
 import { useTranslation } from '../../lib/translations';
 
 import styles from '../../styles/components/playground/Playground.module.css';
@@ -18,7 +18,7 @@ import Container from './Container';
   Fetches the compenents and renders the entier playground
 */
 export default function Playground({ id }: { id: string }) {
-  const { credentialsManager } = useLoginContext();
+  const { credentialsManager } = useRequireValidUser();
   const { i18n } = useTranslation();
 
   const [content, setContent] = React.useState<Content | null | undefined>(

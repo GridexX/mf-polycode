@@ -10,7 +10,7 @@ import { ContentFilters } from '../lib/api/content';
 import { SortFilterType, StateFilterType } from '../lib/common/filter';
 
 import styles from '../styles/pages/Contents.module.css';
-import { useLoginContext } from '../lib/loginContext';
+import { useRequireValidUser } from '../lib/loginContext';
 import { useTranslation } from '../lib/translations';
 
 const DEFAULT_STATE: ContentFilters = {
@@ -24,7 +24,7 @@ export default function Contents() {
   // import mui theme
   const theme = useTheme();
   const router = useRouter();
-  const { user } = useLoginContext();
+  const { user } = useRequireValidUser();
   const { i18n } = useTranslation();
 
   // state

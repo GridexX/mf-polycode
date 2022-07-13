@@ -29,7 +29,7 @@ export interface UserEmail {
   id: string;
   userId: string;
   email: string;
-  isVerified: string;
+  isVerified: boolean;
 }
 
 export interface UserSettings {

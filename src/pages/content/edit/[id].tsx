@@ -10,12 +10,12 @@ import {
   getContent,
   updateContent,
 } from '../../../lib/api/content';
-import { useLoginContext } from '../../../lib/loginContext';
+import { useRequireValidUser } from '../../../lib/loginContext';
 import { useTranslation } from '../../../lib/translations';
 
 export default function ContentEditor() {
   const { i18n } = useTranslation();
-  const { credentialsManager } = useLoginContext();
+  const { credentialsManager } = useRequireValidUser();
   const router = useRouter();
   const { id } = router.query;
   const [content, setContent] = React.useState<Content>(

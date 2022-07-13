@@ -4,9 +4,12 @@ import Head from 'next/head';
 import styles from '../../styles/pages/account/common.module.css';
 import TeamCreationPanel from '../../components/team/TeamCreationPanel';
 import { useTranslation } from '../../lib/translations';
+import { useRequireValidUser } from '../../lib/loginContext';
 
 export default function CreateTeam() {
   const { i18n } = useTranslation();
+
+  useRequireValidUser();
 
   return (
     <>

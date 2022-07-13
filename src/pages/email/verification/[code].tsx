@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  PreviewData,
+} from 'next';
+import { ParsedUrlQuery } from 'querystring';
+
 import { Box, Button, Typography } from '@mui/material';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -8,10 +15,13 @@ import { useTranslation } from '../../../lib/translations';
 import { useLoginContext } from '../../../lib/loginContext';
 
 import styles from '../../../styles/pages/email/verification/EmailVerification.module.css';
+import { toastSuccess } from '../../../components/base/toast/Toast';
 
-export default function EmailVerification() {
+export default function EmailVerification({
+  code,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
-  const { code } = router.query;
+
   const { user } = useLoginContext();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -19,15 +29,24 @@ export default function EmailVerification() {
 
   const { i18n } = useTranslation();
 
+  console.log('render');
+
   useEffect(() => {
     if (code && (user || user === null)) {
+      console.log('trigger', user, code);
       setIsLoading(true);
       validateEmail(`${code}`)
-        .then(() => setIsVerified(true))
+        .then(() => {
+          setIsVerified(true);
+          toastSuccess(i18n.t('pages.email.verification.success'));
+
+          // redirect to the home page
+          router.push('/');
+        })
         .catch(() => setIsVerified(false))
         .finally(() => setIsLoading(false));
     }
-  }, [code, user]);
+  }, [code, i18n, router, user]);
 
   return (
     <>
@@ -39,11 +58,7 @@ export default function EmailVerification() {
           <Typography>{i18n.t('pages.email.verification.progress')}</Typography>
         ) : (
           <Box>
-            {isVerified ? (
-              <Typography>
-                {i18n.t('pages.email.verification.success')}
-              </Typography>
-            ) : (
+            {!!isVerified && (
               <Typography>
                 {i18n.t('pages.email.verification.failed')}
               </Typography>
@@ -67,4 +82,14 @@ export default function EmailVerification() {
       </Box>
     </>
   );
+}
+
+export async function getServerSideProps(
+  ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
+) {
+  const { code } = ctx.query;
+
+  return {
+    props: { code }, // will be passed to the page component as props
+  };
 }

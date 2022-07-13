@@ -6,7 +6,8 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { User } from './api/user';
+import { useRouter } from 'next/router';
+import { getUserEmails, User, UserEmail } from './api/user';
 import {
   Credentials,
   RefreshUser,
@@ -22,6 +23,8 @@ import {
   - user : the currently logged user, undefined means the user data is being fetched, null means no user is logged
   - refreshUser : a function to refresh the user data
   - credentialsManager : a structure containing a Credential object (accessToken and refreshToken) and a function to update the tokens
+  - validUser : true if the user is logged with a verified email, false if not connected or not verified. Undefined when the user or the mails is loading.
+  - userEmails : the list of emails of the user, undefined when the user and emails are loading, null when no user is logged
 
   To log out just set the tokens to undefined.
 
@@ -32,6 +35,8 @@ interface LoginContextInterface {
   user: User | undefined | null;
   credentialsManager: CredentialsManager;
   refreshUser: RefreshUser;
+  validUser: boolean | undefined;
+  emails: UserEmail[] | null | undefined;
 }
 
 /**
@@ -67,6 +72,9 @@ export function useCreateLoginContext(): LoginContextInterface {
   const [credentials, internalSetCredentials] = useState<
     Credentials | undefined
   >(undefined);
+  const [emails, setEmails] = useState<UserEmail[] | null | undefined>(
+    undefined
+  );
 
   // Read the local storage at start
   useEffect(() => {
@@ -107,7 +115,40 @@ export function useCreateLoginContext(): LoginContextInterface {
     refreshUser();
   }, [credentialsManager, refreshUser]);
 
-  return { user, credentialsManager, refreshUser };
+  const refreshEmail = useCallback(() => {
+    if (credentialsManager.credentials && user) {
+      getUserEmails(credentialsManager, user.id)
+        .then((data) => {
+          setEmails(data);
+        })
+        .catch(() => {
+          setEmails(null);
+        });
+    }
+  }, [credentialsManager, user]);
+
+  useEffect(() => {
+    refreshEmail();
+  }, [user, refreshEmail]);
+
+  const validUser = useMemo(() => {
+    if (user === undefined || emails === undefined) return undefined;
+    if (user === null || emails === null) return false;
+    return emails[0].isVerified;
+  }, [emails, user]);
+
+  const value = useMemo(
+    () => ({
+      user,
+      credentialsManager,
+      refreshUser,
+      validUser,
+      emails,
+    }),
+    [user, credentialsManager, refreshUser, validUser, emails]
+  );
+
+  return value;
 }
 
 /**
@@ -117,6 +158,8 @@ export const LoginContext = createContext<LoginContextInterface>({
   user: undefined,
   credentialsManager: { credentials: undefined, setCredentials: () => {} },
   refreshUser: () => {},
+  emails: [],
+  validUser: undefined,
 });
 
 export function LoginContextProvider({
@@ -132,10 +175,25 @@ export function LoginContextProvider({
 }
 
 // Retrieves the login context from the context provider
-export function useLoginContext(): {
-  user: User | undefined | null;
-  credentialsManager: CredentialsManager;
-  refreshUser: RefreshUser;
-} {
+export function useLoginContext(): LoginContextInterface {
   return useContext(LoginContext);
+}
+
+// Redirects the user to the correct page if he is not logged in or its email is not verified
+// validUser undefined means the informations are loading
+export function useRequireValidUser() {
+  const context = useLoginContext();
+  const { user, validUser } = context;
+  const router = useRouter();
+
+  useEffect(() => {
+    // user not logged in
+    if (user === null) router.push('/sign-in');
+    // loading
+    if (typeof validUser === 'undefined' || typeof user === 'undefined') return;
+    // user not verified
+    if (!validUser) router.push('/verify-email');
+  }, [validUser, user, router]);
+
+  return context;
 }
