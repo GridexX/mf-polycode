@@ -248,7 +248,6 @@ export function useGetContent(
  */
 export async function searchContent(
   search: string,
-  user: string | undefined,
   credentialsManager: CredentialsManager
 ) {
   const { data, status } = await fetchApiWithAuth<{}, Content[]>(

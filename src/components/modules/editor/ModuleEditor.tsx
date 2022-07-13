@@ -89,7 +89,10 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
     });
   };
   const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setModuleData({ ...moduleData, name: evt.target.value });
+    // backend limit set to 30 chars
+    const value = evt.target.value.substring(0, 30);
+
+    setModuleData({ ...moduleData, name: value });
   };
 
   const handleDescriptionChange = (
@@ -98,7 +101,12 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
     setModuleData({ ...moduleData, description: evt.target.value });
   };
   const handleRewardChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setModuleData({ ...moduleData, reward: parseInt(evt.target.value, 10) });
+    let value = parseInt(evt.target.value, 10);
+    if (value < 0) {
+      value = 0;
+    }
+
+    setModuleData({ ...moduleData, reward: value });
   };
 
   const handleSave = async () => {
@@ -174,6 +182,7 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
             value={moduleData.reward}
             onChange={handleRewardChange}
             className={styles.reward}
+            type="number"
           />
         </Box>
 

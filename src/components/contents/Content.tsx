@@ -7,8 +7,7 @@ import { Content as ContentType } from '../../lib/api/content';
 
 import styles from '../../styles/components/contents/Content.module.css';
 
-import exercise from '../../images/exercise.png';
-/* import lesson from '../../images/lesson.png'; */
+import exercise from '../../images/exercise.jpg';
 import carrot from '../../images/carrot.png';
 
 type Props = {

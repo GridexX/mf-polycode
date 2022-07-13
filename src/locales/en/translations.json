@@ -234,6 +234,7 @@
         "insertContent": "Insert a content",
         "search": "Search",
         "onlyMyModules": "Show only my modules",
+        "onlyMyContents": "Show only my contents",
         "error": {
           "save": "Failed to save module",
           "search": "Failed to search"

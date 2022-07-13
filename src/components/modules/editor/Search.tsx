@@ -21,7 +21,6 @@ type SearchProps<T extends Item> = {
   addNew: (submodule: T) => void;
   searchFunction: (
     search: string,
-    userId: string | undefined,
     credentialsManager: CredentialsManager
   ) => Promise<T[]>;
   type: string; // type to let swr index the search
@@ -46,7 +45,7 @@ export default function Search<T extends Item>({
   const { data, error } = useSWR(
     // fake url to index the search in swr
     `/${type}?q=${search}&user=${userId}&userConnected=${!!user}`,
-    () => searchFunction(search, userId, credentialsManager)
+    () => searchFunction(search, credentialsManager)
   );
 
   const modules =
@@ -77,7 +76,11 @@ export default function Search<T extends Item>({
         <Box className={styles.spacer} />
         <FormGroup>
           <FormControlLabel
-            label={i18n.t('components.modules.editor.onlyMyModules')}
+            label={
+              type === 'module'
+                ? i18n.t('components.modules.editor.onlyMyModules')
+                : i18n.t('components.modules.editor.onlyMyContents')
+            }
             control={
               <Checkbox checked={onlyByUser} onClick={handleOnlyByUserChange} />
             }

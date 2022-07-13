@@ -35,8 +35,7 @@ export interface EditionModule {
   contents: Content[];
 }
 
-export const DEFAULT_IMAGE =
-  '/module.png';
+export const DEFAULT_IMAGE = '/module.png';
 
 export const defaultModule = {
   id: '',
@@ -91,7 +90,6 @@ export function getModules(
  */
 export async function searchModule(
   search: string,
-  user: string | undefined,
   credentialsManager: CredentialsManager
 ) {
   const { data, status } = await fetchApiWithAuth<{}, Module[]>(
@@ -179,4 +177,18 @@ export async function updateModule(
   }
 
   return data;
+}
+
+export async function deleteModule(
+  credentialsManager: CredentialsManager,
+  id: string
+): Promise<boolean> {
+  const { status } = await fetchApiWithAuth<{}, void>(
+    `/module/${id}`,
+    credentialsManager,
+    'DELETE'
+  );
+
+  if (status === 204) return true;
+  throw UnexpectedResponse;
 }
