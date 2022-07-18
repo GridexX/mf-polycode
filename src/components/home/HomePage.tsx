@@ -25,7 +25,7 @@ export default function Home() {
         offset: 0,
         sort: 'date',
         tags: {
-          home: true,
+          frontpage: true,
           javascript: false,
           python: false,
           rust: false,
