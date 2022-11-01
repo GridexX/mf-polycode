@@ -1,66 +1,90 @@
-# Polycode frontend
+<div align="center">
+  <h1 align="center">
+    <br>
+    <a href="https://polycode.do-2021.fr"><img src="./src/images/polybunny-do.png" alt="PolyCode - Backend" width="200"></a>
+    <br>
+    PolyCode - Frontend
+    <br>
+  </h1>
 
-## Naming convention
+  <h4 align="center">Prepare yourself for coding interviews or learn new programming languages in minutes !</h4>
 
-To name variables and functions, use the camelCase convention.
+  <p align="center">
+    <a href="https://polycode.do-2021.fr">
+      <img src="https://img.shields.io/website?url=https%3A%2F%2Fpolycode.do-2021.fr"
+      alt="Website status">
+    </a>
+    <a href="https://api.polycode.do-2021.fr">
+      <img src="https://img.shields.io/website?label=api&url=https%3A%2F%2Fpolycode.do-2021.fr">
+    </a>
+  </p>
 
-For react components names should capitalized CamelCase, the filename should follow the name of the react component.
+  <p align="center">
+    <a href="#key-features">Key Features</a> •
+    <a href="#how-to-use">How To Use</a> •
+    <a href="#useful-commands">Useful Commands</a> •
+    <a href="#credits">Credits</a> •
+    <a href="#related">Related</a>
+  </p>
+</div>
 
-## Folder architecture
+## Key Features
 
-Pages related to the router should be in the pages folder (path-based routing).
+- Build on top of [NextJS](https://nextjs.org) with [React](https://reactjs.org)
+- [TypeScript](https://www.typescriptlang.org) & ES 2022+
+- Based on components brought by [MUI](https://mui.com), [Monaco Editor](https://microsoft.github.io/monaco-editor) and [React Markdown](https://github.com/remarkjs/react-markdown)
+- Translation with [i18n-js](https://github.com/fnando/i18n-js)
+- Monolith application
+- Run code in [Kubernetes](https://kubernetes.io/) with jobs
+- Include charts deployment with [Helm](https://helm.sh/)
 
-React components should be in the `components` folder, bse UI components should be in the `components/base` folder.
+## How To Use
 
-Stylesheets should be in the `styles` folder, then following the path where the style is used (try to use one stylesheet file per component/page), example : the styles for the `Home` page compenent should go in `styles/pages/Home.module.css`.
-
-Typescript files that are not react components should go in the `lib` folder (for typescript files interacting with the api : `lib/api/*.ts`)
-
-## Set backend url
-
-To set the backend url you need to set the NEXT_PUBLIC_API_URL env variable to point to the api, ex : `https://api.polycode.dopolytech.fr`.
-
-This env variable must be set at build time.
-
-## About
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)), installed on your computer. From your command line:
 
 ```bash
-npm run dev
-# or
-yarn dev
+# Clone this repository
+$ git clone git@gitlab.polytech.umontpellier.fr:do-polycode/frontend.git
+
+# Go into the repository
+$ cd frontend
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Note**
+> You can copy `.env.example` to `.env.local` to use default environment variables.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+> **Note**
+> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Useful Commands
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### Development server
 
-## Installing packages
+Run `npm run dev` for a dev server. Navigate to http://localhost:3000/ (or http://localhost:3001/ if another app is already running on this port). The app will automatically reload if you change any of the source files.
 
-- After cloning the project, you must have at least `npm >= 6` (see with `npm --version`) installed.
-Then run `npm install` to install packages.
+#### Build
 
-- As we are using [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), you must install them with
-`npm run setup`. These hooks are installed using [`husky`](https://github.com/typicode/husky)
-which is used in order to help you to not commit unformatted / unlinted code. Furthermore, [`commit-lint`](https://commitlint.js.org/#/) is used to ensure you respects [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). 
+Run `npm run build` to build the project. The build artifacts will be stored in the `.next/` directory.
 
-- Copy the file `.env.example` to `.env.local`, this new file won't be committed, it is used to define local environment
-variables.
+#### Running unit tests
 
-- You are now ready to code, get started with `npm run start`! 🚀
+Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io).
+
+#### Use git hooks
+
+In order to help you not commit unformatted / unlinted code, we use git hooks that you can install with `npm run setup`.  
+These hooks are setup with [husky](https://typicode.github.io/husky/).  
+Furthermore, [`commit-lint`](https://commitlint.js.org/#/) is used to ensure you respects [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
 ## Contributing
 
-To contribute to this repository, there are a few guidelines : 
+To contribute to this repository, there are a few guidelines :
 
 1. Create an issue with a descriptive title.
 2. Create an associated Merge Request.
@@ -68,17 +92,21 @@ To contribute to this repository, there are a few guidelines :
 4. When you're done, ensure you check all the Mark of the DoD
 5. Great job, you're MR is ready to be reviewed 🚀
 
-## Learn More
+## Credits
 
-To learn more about Next.js, take a look at the following resources:
+This software uses the following open source packages:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Node.js](https://nodejs.org/)
+- [NextJS](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/)
+- [MUI](https://mui.com/)
+- [Monaco Editor](https://microsoft.github.io/monaco-editor)
+- [React Markdown](https://github.com/remarkjs/react-markdown)
+- [i18n-js](https://github.com/fnando/i18n-js)
+- [Kubernetes](https://kubernetes.io/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Related
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[polycode-backend](https://gitlab.polytech.umontpellier.fr/do-polycode/backend) - PolyCode API  
+[polycode-ops](https://gitlab.polytech.umontpellier.fr/do-polycode/ops) - Operations management system for PolyCode
