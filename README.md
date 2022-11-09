@@ -49,6 +49,9 @@ $ git clone git@gitlab.polytech.umontpellier.fr:do-polycode/frontend.git
 # Go into the repository
 $ cd frontend
 
+# Create a .env file from .env.example
+$ cp .env.example .env
+
 # Install dependencies
 $ npm install
 
@@ -56,8 +59,10 @@ $ npm install
 $ npm start
 ```
 
-> **Note**
-> You can copy `.env.example` to `.env.local` to use default environment variables.
+> **WARNING**
+> Environment variables beginning with `NEXT_PUBLIC_` are used at the build time.
+> Do not forget to define them before building the application.
+> They aren't required at runtime.
 
 > **Note**
 > If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
