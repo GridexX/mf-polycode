@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import {
-  CodeEditorComponent,
-  EditorLanguage,
-  Validator,
-} from '../../lib/api/content';
+import { CodeEditorComponent, EditorLanguage } from '../../lib/api/component';
+import { Validator } from '../../lib/api/validator';
 
 interface ICodeEditorContext {
   code: string;

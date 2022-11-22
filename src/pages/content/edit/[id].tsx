@@ -44,11 +44,7 @@ export default function ContentEditor() {
 
   const handleSave = () => {
     setSaveLoading(true);
-    updateContent(credentialsManager, typeof id === 'string' ? id : '', {
-      ...content,
-      id: undefined,
-      data: {},
-    })
+    updateContent(credentialsManager, typeof id === 'string' ? id : '', content)
       .then(() => {
         toastSuccess(
           <Typography>{i18n.t('pages.content.edit.id.saveSuccess')}</Typography>

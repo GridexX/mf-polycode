@@ -8,7 +8,7 @@ import Toolbar from './Toolbar';
 import Output from './Output';
 
 import styles from '../../styles/components/playground/InlineEditor.module.css';
-import { getMonacoLanguageNameFromEditorLanguage } from '../../lib/api/content';
+import { getMonacoLanguageNameFromEditorLanguage } from '../../lib/api/component';
 // import dividerStyles from '../../styles/components/playground/Divider.module.css';
 
 export default function InlineEditor() {

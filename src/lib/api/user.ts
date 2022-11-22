@@ -7,7 +7,7 @@ import {
   MissingData,
   UnexpectedResponse,
 } from './api';
-import { EditorLanguage } from './content';
+import { EditorLanguage } from './component';
 import { PaginatedMeta, PaginatedResponse } from './pagination';
 import { getTeam, Team } from './team';
 

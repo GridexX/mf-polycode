@@ -3,7 +3,7 @@ import {
   fetchApiWithAuth,
   UnexpectedResponse,
 } from './api';
-import { EditorLanguage } from './content';
+import { EditorLanguage } from './component';
 
 export default function runValidator(
   validatorId: string,

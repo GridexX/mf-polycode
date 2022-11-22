@@ -20,7 +20,7 @@ import {
   ComponentType,
   ContainerComponent,
   EditorLanguage,
-} from '../../../lib/api/content';
+} from '../../../lib/api/component';
 import CodeEditorEditor from './CodeEditorEditor';
 import MarkdownEditor from './MarkdownEditor';
 import NewComponentDialog from './NewComponentDialog';

@@ -13,10 +13,11 @@ import { useTranslation } from '../../../lib/translations';
 import {
   createModule,
   getModule,
-  EditionModule,
   searchModule,
   Module,
   updateModule,
+  defaultPracticeModule,
+  PracticeModule,
 } from '../../../lib/api/module';
 import { Content, searchContent } from '../../../lib/api/content';
 import Search from './Search';
@@ -24,6 +25,7 @@ import Search from './Search';
 import styles from '../../../styles/components/modules/Editor/ModuleEditor.module.css';
 import { useLoginContext } from '../../../lib/loginContext';
 import { toastError, toastSuccess } from '../../base/toast/Toast';
+import { CredentialsManager } from '../../../lib/api/api';
 
 interface ModuleEditorProps {
   id?: string; // undefined if new module
@@ -38,15 +40,7 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
 
   const router = useRouter();
 
-  const [moduleData, setModuleData] = useState<EditionModule>({
-    name: '',
-    description: '',
-    contents: [],
-    tags: [],
-    modules: [],
-    reward: 100,
-    type: 'module',
-  });
+  const [moduleData, setModuleData] = useState<Module>(defaultPracticeModule);
 
   const [fetchError, setFetchError] = useState<string>();
 
@@ -70,17 +64,19 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
     }
   }, [id, credentialsManager, i18n]);
 
-  const handleSubmoduleChange = (submodules: Module[]) => {
-    setModuleData({ ...moduleData, modules: submodules });
+  const handleSubmoduleChange = (submodules: PracticeModule[]) => {
+    if (moduleData.type === 'practice' || moduleData.type === 'submodule')
+      setModuleData({ ...moduleData, modules: submodules });
   };
   const handleContentChange = (contents: Content[]) => {
     setModuleData({ ...moduleData, contents });
   };
-  const handleAddSubmodule = (submodule: Module) => {
-    setModuleData({
-      ...moduleData,
-      modules: [...moduleData.modules, submodule],
-    });
+  const handleAddSubmodule = (submodule: PracticeModule) => {
+    if (moduleData.type === 'practice' || moduleData.type === 'submodule')
+      setModuleData({
+        ...moduleData,
+        modules: [...moduleData.modules, submodule],
+      });
   };
   const handleAddContent = (content: Content) => {
     setModuleData({
@@ -101,12 +97,13 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
     setModuleData({ ...moduleData, description: evt.target.value });
   };
   const handleRewardChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    let value = parseInt(evt.target.value, 10);
-    if (value < 0) {
-      value = 0;
+    if (moduleData.type === 'practice' || moduleData.type === 'submodule') {
+      let value = parseInt(evt.target.value, 10);
+      if (value < 0) {
+        value = 0;
+      }
+      setModuleData({ ...moduleData, reward: value });
     }
-
-    setModuleData({ ...moduleData, reward: value });
   };
 
   const handleSave = async () => {
@@ -176,14 +173,17 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
             onChange={handleNameChange}
           />
 
-          <TextField
-            label={i18n.t('components.modules.editor.reward')}
-            variant="standard"
-            value={moduleData.reward}
-            onChange={handleRewardChange}
-            className={styles.reward}
-            type="number"
-          />
+          {moduleData.type === 'practice' ||
+            (moduleData.type === 'submodule' && (
+              <TextField
+                label={i18n.t('components.modules.editor.reward')}
+                variant="standard"
+                value={moduleData.reward}
+                onChange={handleRewardChange}
+                className={styles.reward}
+                type="number"
+              />
+            ))}
         </Box>
 
         {/* TODO : require at least 3 chararcters */}
@@ -214,26 +214,50 @@ export default function ModuleEditor({ id }: ModuleEditorProps) {
         />
       </Stack>
 
-      <Typography variant="h4" color="primary" className={styles.categoryTitle}>
-        {i18n.t('components.modules.submodules')}
-      </Typography>
-      <ContentListEditor
-        items={moduleData.modules}
-        setItems={handleSubmoduleChange}
-      />
-      <Box sx={{ borderColor: 'divider' }} className={styles.insertInterface}>
-        <Typography variant="h6">
-          {i18n.t('components.modules.editor.insertSubmodule')}
-        </Typography>
+      {moduleData.type === 'practice' ||
+        (moduleData.type === 'submodule' && (
+          <>
+            <Typography
+              variant="h4"
+              color="primary"
+              className={styles.categoryTitle}
+            >
+              {i18n.t('components.modules.submodules')}
+            </Typography>
+            <ContentListEditor
+              items={moduleData.modules}
+              setItems={handleSubmoduleChange}
+            />
+            <Box
+              sx={{ borderColor: 'divider' }}
+              className={styles.insertInterface}
+            >
+              <Typography variant="h6">
+                {i18n.t('components.modules.editor.insertSubmodule')}
+              </Typography>
 
-        <Search
-          alreadyAdded={moduleData.modules}
-          addNew={handleAddSubmodule}
-          searchFunction={searchModule}
-          type="module"
-          excludeId={moduleData.id}
-        />
-      </Box>
+              <Search
+                alreadyAdded={moduleData.modules}
+                addNew={handleAddSubmodule}
+                searchFunction={async (
+                  search: string,
+                  cm: CredentialsManager
+                ) => {
+                  const modules = await searchModule(search, cm);
+                  return modules
+                    .filter(
+                      (module: Module) =>
+                        module.type === 'practice' ||
+                        module.type === 'submodule'
+                    )
+                    .map((module: Module) => module as PracticeModule);
+                }}
+                type="module"
+                excludeId={moduleData.id}
+              />
+            </Box>
+          </>
+        ))}
 
       <Typography variant="h4" color="primary" className={styles.categoryTitle}>
         {i18n.t('components.modules.contents')}

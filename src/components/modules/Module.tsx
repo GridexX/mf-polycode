@@ -62,38 +62,42 @@ export default function Module({ module }: Props) {
           {/* Progress and carrot */}
           <Box className={styles.progressAndCarrotContainer}>
             {/* progress */}
-            <Box className={styles.progressContainer}>
-              {/* number of percentage */}
-              <Box className={styles.percentageProgressContainer}>
-                <Typography className={styles.percentageProgress}>
-                  {module.progress || 0 || 0}%
-                </Typography>
+            {module.type === 'practice' && (
+              <Box className={styles.progressContainer}>
+                {/* number of percentage */}
+                <Box className={styles.percentageProgressContainer}>
+                  <Typography className={styles.percentageProgress}>
+                    {module.progress || 0 || 0}%
+                  </Typography>
+                </Box>
+                {/* progress bar */}
+                <Box>
+                  <LinearProgress
+                    variant="determinate"
+                    value={module.progress || 0}
+                    className={styles.progress}
+                  />
+                </Box>
               </Box>
-              {/* progress bar */}
-              <Box>
-                <LinearProgress
-                  variant="determinate"
-                  value={module.progress || 0}
-                  className={styles.progress}
-                />
-              </Box>
-            </Box>
+            )}
 
             {/* carrot */}
-            <Box className={styles.carrotContainer}>
-              <Box className={styles.innerCarrotContainer}>
-                <Typography className={styles.nbCarrot}>
-                  {module.reward}
-                </Typography>
-                <Image
-                  className={styles.carrot}
-                  src={carrot}
-                  alt="Polypoint logo"
-                  width="25px"
-                  height="25px"
-                />
+            {(module.type === 'practice' || module.type === 'submodule') && (
+              <Box className={styles.carrotContainer}>
+                <Box className={styles.innerCarrotContainer}>
+                  <Typography className={styles.nbCarrot}>
+                    {module.reward}
+                  </Typography>
+                  <Image
+                    className={styles.carrot}
+                    src={carrot}
+                    alt="Polypoint logo"
+                    width="25px"
+                    height="25px"
+                  />
+                </Box>
               </Box>
-            </Box>
+            )}
           </Box>
         </Box>
       </Box>

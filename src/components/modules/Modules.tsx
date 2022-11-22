@@ -29,7 +29,7 @@ export default function Modules({ filters }: Props) {
     setLoading(true);
     if (validUser) {
       getModules(credentialsManager, filters)
-        .then((c) => setModules(c.data))
+        .then(setModules)
         .catch((e) =>
           toastError(
             <Typography>

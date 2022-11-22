@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContainerComponent } from '../../lib/api/content';
+import { ContainerComponent } from '../../lib/api/component';
 
 // Cycle looks inevitable since we can render a container in a container
 // eslint-disable-next-line import/no-cycle

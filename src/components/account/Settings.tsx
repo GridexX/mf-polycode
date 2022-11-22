@@ -29,7 +29,7 @@ import { toastError, toastSuccess } from '../base/toast/Toast';
 import {
   EditorLanguage,
   getLanguageNameFromEditorLanguage,
-} from '../../lib/api/content';
+} from '../../lib/api/component';
 
 type EditorState = {
   username: string;

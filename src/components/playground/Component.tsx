@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component } from '../../lib/api/content';
+import { Component } from '../../lib/api/component';
 import { EditorContextProvider } from './CodeEditorContext';
 
 // Cycle looks inevitable since we can render a container in a container

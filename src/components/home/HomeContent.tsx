@@ -33,7 +33,7 @@ export default function HomeContent() {
           java: false,
         },
       })
-        .then((c) => setNewModules(c.data))
+        .then(setNewModules)
         .catch(() => {
           toastError(
             <Typography>

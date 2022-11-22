@@ -8,7 +8,7 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import { Validator as IValidator } from '../../lib/api/content';
+import { Validator as IValidator } from '../../lib/api/validator';
 
 import styles from '../../styles/components/playground/Validator.module.css';
 import { useTranslation } from '../../lib/translations';

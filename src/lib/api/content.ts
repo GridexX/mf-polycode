@@ -6,82 +6,14 @@ import {
   fetchApiWithAuth,
   UnexpectedResponse,
 } from './api';
+import { ContainerComponent } from './component';
 import { PaginatedMeta } from './pagination';
 
-// Variants
-export enum EditorLanguage {
-  Node = 'NODE',
-  Python = 'PYTHON',
-  Java = 'JAVA',
-  Rust = 'RUST',
-}
-export type ComponentType = 'container' | 'editor' | 'markdown';
-export type ContentType = 'exercise';
+// Types
 
-export interface ContentFilters {
-  limit: number;
-  offset: number;
-  state: StateFilterType;
-  sort: SortFilterType;
-}
+export type ContentType = 'exercise' | 'question';
 
-// Components
-interface BaseComponent {
-  id?: string;
-  type: ComponentType;
-}
-
-export type Component =
-  | ContainerComponent
-  | MarkdownComponent
-  | CodeEditorComponent;
-
-export interface ContainerComponent extends BaseComponent {
-  type: 'container';
-  data: {
-    components: Component[];
-    orientation: 'horizontal' | 'vertical';
-  };
-}
-
-export interface MarkdownComponent extends BaseComponent {
-  type: 'markdown';
-  data: {
-    markdown: string;
-  };
-}
-
-export interface EditorSettings {
-  languages: {
-    defaultCode: string;
-    language: EditorLanguage;
-    version: string;
-  }[];
-}
-
-export interface CodeEditorComponent extends BaseComponent {
-  type: 'editor';
-  data: {
-    validators: Validator[];
-    items: string[];
-    editorSettings: EditorSettings;
-  };
-}
-
-// Validators
-export interface Validator {
-  id?: string;
-  isHidden: boolean;
-  input?: {
-    stdin: string[];
-  };
-  expected?: {
-    stdout: string[];
-  };
-}
-
-// Content
-export interface Content {
+interface BaseContent {
   id?: string;
   type: ContentType;
   name: string;
@@ -90,6 +22,28 @@ export interface Content {
   rootComponent: ContainerComponent;
   data: {};
 }
+export interface ExerciceContent extends BaseContent {
+  type: 'exercise';
+}
+
+export interface QuestionContent extends BaseContent {
+  type: 'question';
+  data: {
+    internalName: string;
+    allowedDuration: number;
+  };
+}
+
+export type Content = ExerciceContent | QuestionContent;
+
+export interface ContentFilters {
+  limit: number;
+  offset: number;
+  state: StateFilterType;
+  sort: SortFilterType;
+}
+
+// Default values
 
 export const defaultContent = {
   type: 'exercise',
@@ -106,24 +60,7 @@ export const defaultContent = {
   data: {},
 };
 
-// API calls
-
-// Create functions
-export async function createContent(
-  credentialsManager: CredentialsManager,
-  request: Content
-): Promise<Content> {
-  const { data, status } = await fetchApiWithAuth<{}, Content>(
-    '/content',
-    credentialsManager,
-    'POST',
-    request
-  );
-
-  if (status === 201) return data;
-  throw UnexpectedResponse;
-}
-
+// Utils
 function buildFilterQuery(filters: ContentFilters): string {
   let url = `/content?limit=${filters.limit}&offset=${filters.offset}`;
 
@@ -136,6 +73,31 @@ function buildFilterQuery(filters: ContentFilters): string {
   url += `&sort=${filters.sort}`;
 
   return url;
+}
+
+function formatContent(content: Content): Content {
+  return {
+    ...content,
+    id: undefined,
+  };
+}
+
+// API calls
+
+// Create functions
+export async function createContent(
+  credentialsManager: CredentialsManager,
+  request: Content
+): Promise<Content> {
+  const { data, status } = await fetchApiWithAuth<{}, Content>(
+    '/content',
+    credentialsManager,
+    'POST',
+    formatContent(request)
+  );
+
+  if (status === 201) return data;
+  throw UnexpectedResponse;
 }
 
 // Get functions
@@ -187,7 +149,7 @@ export async function updateContent(
     `/content/${id}`,
     credentialsManager,
     'PUT',
-    request
+    formatContent(request)
   );
 
   if (status === 200) return data;
@@ -265,38 +227,3 @@ export async function searchContent(
 }
 
 export default ContentType;
-
-// Helpers
-export function getMonacoLanguageNameFromEditorLanguage(
-  language: EditorLanguage
-): string {
-  switch (language) {
-    case EditorLanguage.Java:
-      return 'java';
-    case EditorLanguage.Python:
-      return 'python';
-    case EditorLanguage.Node:
-      return 'javascript';
-    case EditorLanguage.Rust:
-      return 'rust';
-    default:
-      return 'plaintext';
-  }
-}
-
-export function getLanguageNameFromEditorLanguage(
-  language: EditorLanguage
-): string {
-  switch (language) {
-    case EditorLanguage.Java:
-      return 'Java';
-    case EditorLanguage.Python:
-      return 'Python';
-    case EditorLanguage.Node:
-      return 'JavaScript';
-    case EditorLanguage.Rust:
-      return 'Rust';
-    default:
-      return '';
-  }
-}

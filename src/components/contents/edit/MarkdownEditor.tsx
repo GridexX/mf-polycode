@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import { MarkdownComponent } from '../../../lib/api/content';
+import { MarkdownComponent } from '../../../lib/api/component';
 import { useTranslation } from '../../../lib/translations';
 import Markdown from '../../playground/Markdown';
 

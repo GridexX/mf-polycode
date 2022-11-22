@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import { Component } from '../../lib/api/content';
+import { Component } from '../../lib/api/component';
 // eslint-disable-next-line import/no-cycle
 import PlaygroundComponent from './Component';
 

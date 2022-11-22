@@ -5,7 +5,7 @@ import {
   DashboardRounded as DashboardIcon,
   SubjectRounded as SubjectIcon,
 } from '@mui/icons-material';
-import { ComponentType } from '../../../lib/api/content';
+import { ComponentType } from '../../../lib/api/component';
 import { useTranslation } from '../../../lib/translations';
 
 import styles from '../../../styles/components/contents/edit/ComponentDialogButton.module.css';
@@ -51,7 +51,9 @@ export default function ComponentDialogButton({
           <>
             <SubjectIcon sx={{ fontSize: '4rem' }} />
             <Typography>
-              {i18n.t('components.contents.edit.componentDialogButton.markdown')}
+              {i18n.t(
+                'components.contents.edit.componentDialogButton.markdown'
+              )}
             </Typography>
           </>
         );

@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Stack,
 } from '@mui/material';
-import { ComponentType } from '../../../lib/api/content';
+import { ComponentType } from '../../../lib/api/component';
 import { useTranslation } from '../../../lib/translations';
 import ComponentDialogButton from './ComponentDialogButton';
 

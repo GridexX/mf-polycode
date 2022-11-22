@@ -18,9 +18,10 @@ import { useTranslation } from '../../lib/translations';
 import { Content } from '../../lib/api/content';
 import {
   Module,
-  defaultModule,
   getModule,
   DEFAULT_IMAGE,
+  defaultPracticeModule,
+  PracticeModule,
 } from '../../lib/api/module';
 
 // style
@@ -31,7 +32,9 @@ export default function ModuleDetails() {
   const { validUser, credentialsManager } = useRequireValidUser();
   const { i18n } = useTranslation();
 
-  const [moduleDetails, setModuleDetails] = useState<Module>(defaultModule);
+  const [moduleDetails, setModuleDetails] = useState<PracticeModule>(
+    defaultPracticeModule
+  );
   const [loading, setLoading] = useState(false);
 
   // built states
@@ -45,15 +48,24 @@ export default function ModuleDetails() {
 
       getModule(id as string, credentialsManager)
         .then((data) => {
-          const details = data;
+          if (data.type === 'practice') {
+            const details = data;
 
-          // set default values not handled by the back
-          details.image = DEFAULT_IMAGE;
-          details.progress = details.progress || 0;
+            // set default values not handled by the back
+            details.image = DEFAULT_IMAGE;
+            details.progress = details.progress || 0;
 
-          setModuleDetails(details);
-          setModules(details.modules);
-          setContents(details.contents);
+            setModuleDetails(details);
+            setModules(details.modules);
+            setContents(details.contents);
+          } else {
+            toastError(
+              <Typography>
+                {i18n.t('components.modules.moduleDetails.fetchError')}
+              </Typography>
+            );
+            router.push('/modules');
+          }
         })
         .catch((e) =>
           toastError(

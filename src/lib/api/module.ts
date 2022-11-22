@@ -8,47 +8,35 @@ import { Content } from './content';
 
 export const MissingModuleId = new Error('Missing module id');
 
-type ModuleType = 'challenge' | 'practice' | 'certification' | 'submodule';
+// Types
 
-export interface Module {
-  id: string;
-  name: string;
-  description: string;
-  tags: string[];
-  type: ModuleType;
-  progress: number;
-  reward: number;
-  image?: string;
-  modules: Module[];
-  contents: Content[];
-}
+type ModuleType = 'practice' | 'test' | 'submodule';
 
-// module without user progress
-export interface EditionModule {
+interface BaseModule {
   id?: string;
   name: string;
   description: string;
-  type: string;
-  reward: number;
+  type: ModuleType;
+  image?: string;
   tags: string[];
-  modules: Module[];
   contents: Content[];
+  data: {};
 }
 
-export const DEFAULT_IMAGE = '/module.png';
+export interface PracticeModule extends BaseModule {
+  type: 'practice' | 'submodule';
+  modules: PracticeModule[];
+  progress?: number;
+  reward: number;
+}
+export interface TestModule extends BaseModule {
+  type: 'test';
+  data: {
+    allowedDuration: number;
+  };
+}
 
-export const defaultModule = {
-  id: '',
-  name: '',
-  description: '',
-  tags: [],
-  type: 'challenge' as ModuleType,
-  progress: 0,
-  reward: 0,
-  image: DEFAULT_IMAGE,
-  modules: [],
-  contents: [],
-};
+export type Module = PracticeModule | TestModule;
 
 export interface ModuleFilters {
   limit: number;
@@ -57,7 +45,35 @@ export interface ModuleFilters {
   sort: SortFilterType;
 }
 
-function buildQuery(filters: ModuleFilters): string {
+// Default values
+
+export const DEFAULT_IMAGE = '/module.png';
+export const defaultPracticeModule = {
+  name: '',
+  description: '',
+  tags: [],
+  type: 'practice',
+  reward: 0,
+  modules: [],
+  contents: [],
+  data: {},
+} as PracticeModule;
+export const defaultTestModule = {
+  name: '',
+  description: '',
+  tags: [],
+  type: 'test',
+  reward: 0,
+  modules: [],
+  contents: [],
+  data: {
+    allowedDuration: 0,
+  },
+} as TestModule;
+
+// Utils
+
+function buildFilterQuery(filters: ModuleFilters): string {
   let url = `/module?limit=${filters.limit}&offset=${filters.offset}`;
 
   const tags = Object.keys(filters.tags).reduce((prev, key) => {
@@ -71,29 +87,52 @@ function buildQuery(filters: ModuleFilters): string {
   return url;
 }
 
-export function getModules(
-  credentialsManager: CredentialsManager,
-  filters?: ModuleFilters
-) {
-  const endpoint = filters ? buildQuery(filters) : '/module';
-
-  return fetchApiWithAuth<{ total: number }, Module[]>(
-    endpoint,
-    credentialsManager
-  );
+function formatModule(module: Module) {
+  if (module.type === 'test') {
+    return {
+      ...module,
+      id: undefined,
+      author: undefined,
+      contents: module.contents.map((c: Content) => c.id),
+    };
+  }
+  return {
+    ...module,
+    id: undefined,
+    author: undefined,
+    modules: module.modules.map((m) => m.id),
+    contents: module.contents.map((c) => c.id),
+  };
 }
 
-/**
- * Fetches all the modules then filters by matching the search with the name field.
- * user parameter has no effect for now.
- * This function should change when the api permits searching.
- */
-export async function searchModule(
-  search: string,
+// API
+
+export async function createModule(
+  module: Module,
   credentialsManager: CredentialsManager
 ) {
-  const { data, status } = await fetchApiWithAuth<{}, Module[]>(
+  const moduleToSend = formatModule(module);
+  const { data, status } = await fetchApiWithAuth<{}, Module>(
     '/module',
+    credentialsManager,
+    'POST',
+    moduleToSend
+  );
+
+  if (status !== 201) {
+    throw UnexpectedResponse;
+  }
+
+  return data;
+}
+
+export async function getModules(
+  credentialsManager: CredentialsManager,
+  filters?: ModuleFilters
+): Promise<Module[]> {
+  const endpoint = filters ? buildFilterQuery(filters) : '/module';
+  const { data, status } = await fetchApiWithAuth<{ total: number }, Module[]>(
+    endpoint,
     credentialsManager
   );
 
@@ -101,9 +140,7 @@ export async function searchModule(
     throw UnexpectedResponse;
   }
 
-  return data.filter((module) =>
-    module.name.toLowerCase().includes(search.toLowerCase())
-  );
+  return data;
 }
 
 export async function getModule(
@@ -122,41 +159,8 @@ export async function getModule(
   return data;
 }
 
-function formatModule(module: EditionModule) {
-  return {
-    name: module.name,
-    description: module.description,
-    type: module.type,
-    reward: module.reward,
-    tags: module.tags,
-    modules: module.modules.map((m) => m.id),
-    contents: module.contents.map((c) => c.id),
-    data: {},
-  };
-}
-
-export async function createModule(
-  module: EditionModule,
-  credentialsManager: CredentialsManager
-) {
-  const moduleToSend = formatModule(module);
-
-  const { data, status } = await fetchApiWithAuth<{}, EditionModule>(
-    '/module',
-    credentialsManager,
-    'POST',
-    moduleToSend
-  );
-
-  if (status !== 201) {
-    throw UnexpectedResponse;
-  }
-
-  return data;
-}
-
 export async function updateModule(
-  module: EditionModule,
+  module: Module,
   credentialsManager: CredentialsManager
 ) {
   if (!module.id) {
@@ -165,7 +169,7 @@ export async function updateModule(
 
   const moduleToSend = formatModule(module);
 
-  const { data, status } = await fetchApiWithAuth<{}, EditionModule>(
+  const { data, status } = await fetchApiWithAuth<{}, Module>(
     `/module/${module.id}`,
     credentialsManager,
     'PATCH',
@@ -191,4 +195,27 @@ export async function deleteModule(
 
   if (status === 204) return true;
   throw UnexpectedResponse;
+}
+
+/**
+ * Fetches all the modules then filters by matching the search with the name field.
+ * user parameter has no effect for now.
+ * This function should change when the api permits searching.
+ */
+export async function searchModule(
+  search: string,
+  credentialsManager: CredentialsManager
+) {
+  const { data, status } = await fetchApiWithAuth<{}, Module[]>(
+    '/module',
+    credentialsManager
+  );
+
+  if (status !== 200) {
+    throw UnexpectedResponse;
+  }
+
+  return data.filter((module) =>
+    module.name.toLowerCase().includes(search.toLowerCase())
+  );
 }

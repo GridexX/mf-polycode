@@ -30,8 +30,7 @@ import {
   EditorSettings,
   getLanguageNameFromEditorLanguage,
   getMonacoLanguageNameFromEditorLanguage,
-  Validator,
-} from '../../../lib/api/content';
+} from '../../../lib/api/component';
 import { useTranslation } from '../../../lib/translations';
 import Select from '../../base/Select';
 
@@ -45,6 +44,7 @@ import {
 } from '../../../lib/api/item';
 import { useLoginContext } from '../../../lib/loginContext';
 import { toastError } from '../../base/toast/Toast';
+import { Validator } from '../../../lib/api/validator';
 
 export type Props = {
   editor: CodeEditorComponent;
@@ -118,7 +118,9 @@ export default function CodeEditorEditor({
           } catch (e) {
             toastError(
               <Typography>
-                {i18n.t('components.contents.edit.codeEditorEditor.hints.errorFetch')}
+                {i18n.t(
+                  'components.contents.edit.codeEditorEditor.hints.errorFetch'
+                )}
               </Typography>
             );
           }
@@ -224,6 +226,7 @@ export default function CodeEditorEditor({
         stdout: [''],
       },
       isHidden: false,
+      weight: 1,
     } as Validator;
     setValidators([...(editor.data.validators || []), validator]);
   };

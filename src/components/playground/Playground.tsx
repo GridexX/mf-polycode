@@ -1,11 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import Head from 'next/head';
 import React, { useEffect } from 'react';
-import {
-  ContainerComponent,
-  Content,
-  useGetContent,
-} from '../../lib/api/content';
+import { ContainerComponent } from '../../lib/api/component';
+import { Content, useGetContent } from '../../lib/api/content';
 import { useRequireValidUser } from '../../lib/loginContext';
 import { useTranslation } from '../../lib/translations';
 

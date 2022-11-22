@@ -1,6 +1,6 @@
 import { Box, Divider } from '@mui/material';
 import React from 'react';
-import { Component, CodeEditorComponent } from '../../lib/api/content';
+import { Component, CodeEditorComponent } from '../../lib/api/component';
 import { EditorContextProvider } from './CodeEditorContext';
 // Cycle looks inevitable since we can render a container in a container
 // eslint-disable-next-line import/no-cycle

@@ -7,7 +7,7 @@ import { useEditorContext } from './CodeEditorContext';
 import Toolbar from './Toolbar';
 
 import styles from '../../styles/components/playground/SideEditor.module.css';
-import { getMonacoLanguageNameFromEditorLanguage } from '../../lib/api/content';
+import { getMonacoLanguageNameFromEditorLanguage } from '../../lib/api/component';
 
 export default function SideEditor() {
   const context = useEditorContext();

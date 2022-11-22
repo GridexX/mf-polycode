@@ -9,13 +9,13 @@ import {
 import Link from 'next/link';
 
 import { useTranslation } from '../../lib/translations';
-import { DEFAULT_IMAGE, Module } from '../../lib/api/module';
+import { DEFAULT_IMAGE, PracticeModule } from '../../lib/api/module';
 import Polypoints from '../Polypoints';
 
 import styles from '../../styles/components/modules/HeroTale.module.css';
 
 type Props = {
-  module: Module;
+  module: PracticeModule;
 };
 
 export default function HeroTale({ module }: Props) {

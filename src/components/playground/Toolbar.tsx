@@ -20,7 +20,7 @@ import { useTranslation } from '../../lib/translations';
 import {
   EditorLanguage,
   getLanguageNameFromEditorLanguage,
-} from '../../lib/api/content';
+} from '../../lib/api/component';
 import { submitCode } from '../../lib/api/playground';
 import { useLoginContext } from '../../lib/loginContext';
 import { toastError, toastSuccess, toastWarning } from '../base/toast/Toast';

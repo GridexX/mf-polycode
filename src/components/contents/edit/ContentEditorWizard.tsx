@@ -1,12 +1,13 @@
 import { Box, FormGroup, Stack, TextField, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import React from 'react';
-import { ContainerComponent, Content } from '../../../lib/api/content';
+import { Content } from '../../../lib/api/content';
 import { useTranslation } from '../../../lib/translations';
 import ContainerEditor from './ContainerEditor';
 
 import styles from '../../../styles/components/contents/edit/ContentEditorWizard.module.css';
 import CenteredLoader from '../../base/CenteredLoader';
+import { ContainerComponent } from '../../../lib/api/component';
 
 type EditorErrors = {
   name: string;
