@@ -205,7 +205,8 @@
         "fetchError": "Failed to fetch data from server"
       },
       "moduleEditor": {
-        "getModuleError": "Failed to fetch module from server"
+        "getModuleError": "Failed to fetch module from server",
+        "invalidModuleType": "Invalid module type"
       },
       "index": {
         "filters": "Filters"
@@ -238,6 +239,26 @@
         "error": {
           "save": "Failed to save module",
           "search": "Failed to search"
+        }
+      }
+    },
+    "tests": {
+      "testEditor": {
+        "gettestError": "Failed to fetch test from server"
+      },
+      "editor": {
+        "titleNew": "New Test",
+        "titleEdit": "Edit Test",
+        "name": "Name",
+        "allowedDuration": "Allowed duration (min)",
+        "description": "Description",
+        "create": "Create",
+        "update": "Update",
+        "updated": "Test updated successfully",
+        "created": "Test created successfully",
+        "tags": "Tags (comma separated)",
+        "error": {
+          "save": "Failed to save test"
         }
       }
     },
@@ -466,6 +487,16 @@
         "title": "Modules",
         "filters": "Filters",
         "resetButton": "Reset"
+      }
+    },
+    "test": {
+      "edit": {
+        "id": {
+          "title": "Edit Test"
+        },
+        "index": {
+          "title": "Create Test"
+        }
       }
     },
     "signIn": {

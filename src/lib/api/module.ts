@@ -10,7 +10,7 @@ export const MissingModuleId = new Error('Missing module id');
 
 // Types
 
-type ModuleType = 'practice' | 'test' | 'submodule';
+export type ModuleType = 'practice' | 'test' | 'submodule';
 
 interface BaseModule {
   id?: string;

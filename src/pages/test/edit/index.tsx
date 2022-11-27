@@ -11,9 +11,9 @@ export default function NewModule() {
   return (
     <>
       <Head>
-        <title>{i18n.t('pages.module.edit.index.title')}</title>
+        <title>{i18n.t('pages.test.edit.index.title')}</title>
       </Head>
-      <ModuleEditor type='practice' />
+      <ModuleEditor type="test" />
     </>
   );
 }
