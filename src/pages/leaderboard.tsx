@@ -1,4 +1,4 @@
-import { Divider, Pagination, Stack, Typography } from '@mui/material';
+import { Divider, Stack, Typography } from '@mui/material';
 import React from 'react';
 import Head from 'next/head';
 import styles from '../styles/pages/leaderboard.module.css';
@@ -8,7 +8,7 @@ import ContextualMenuLeaderboard from '../components/team/ContextualMenuLeaderbo
 import { getUsers, User } from '../lib/api/user';
 import { toastError } from '../components/base/toast/Toast';
 import CenteredLoader from '../components/base/CenteredLoader';
-import { usePagination } from '../lib/api/pagination';
+import { defaultPaginatedResponse, Paginator } from '../lib/pagination';
 import UserRow from '../components/base/UserRow';
 
 export default function Leaderboard() {
@@ -16,38 +16,27 @@ export default function Leaderboard() {
   const { credentialsManager, user } = useLoginContext();
   const [users, setUsers] = React.useState<User[]>([]);
   const [fetchLoading, setFetchLoading] = React.useState<boolean>(true);
-  const { page, total, limit, setPage, setTotal, setLimit } = usePagination(1);
+  const [pageRank, setPageRank] = React.useState<number>(0);
 
-  // --- handlers ---
-
-  const handleFetchPage = React.useCallback(
-    (value: number) => {
-      setFetchLoading(true);
-      getUsers(credentialsManager, { orderBy: { points: 'desc' }, page: value })
-        .then((fetchedUsers) => {
-          setLimit(fetchedUsers.limit);
-          setTotal(fetchedUsers.total);
-          setUsers(fetchedUsers.data);
-        })
-        .catch(() =>
-          toastError(
-            <Typography>{i18n.t('pages.leaderboard.fetchError')}</Typography>
-          )
-        )
-        .finally(() => {
-          setFetchLoading(false);
-          setPage(value);
+  const request = React.useCallback(
+    async (page: number, limit: number) => {
+      if (user) {
+        setPageRank((page - 1) * limit);
+        setFetchLoading(true);
+        return getUsers(credentialsManager, {
+          orderBy: { points: 'desc' },
+          page,
         });
+      }
+      return Promise.resolve(defaultPaginatedResponse);
     },
-    [credentialsManager, i18n, setLimit, setPage, setTotal]
+    [credentialsManager, user]
   );
-
-  // --- effects ---
-  React.useEffect(() => {
-    if (user) {
-      handleFetchPage(1);
-    }
-  }, [credentialsManager, handleFetchPage, i18n, user]);
+  const handleFetchError = React.useCallback(
+    () => toastError(i18n.t('pages.leaderboard.fetchError')),
+    [i18n]
+  );
+  const handleFetchDone = React.useCallback(() => setFetchLoading(false), []);
 
   // --- render ---
 
@@ -75,7 +64,7 @@ export default function Leaderboard() {
             users.map((member, index) => (
               <UserRow
                 user={member}
-                rank={(page - 1) * limit + index + 1}
+                rank={pageRank + index + 1}
                 isMe={member.id === user?.id}
                 contextualMenuContent={
                   <ContextualMenuLeaderboard member={member} />
@@ -91,15 +80,12 @@ export default function Leaderboard() {
           style={{ marginBottom: '2rem' }}
         >
           {user && <UserRow user={user} rank={user.rank} isMe />}
-          <Pagination
-            count={Math.ceil(limit > 0 ? total / limit : 1)}
-            page={page}
-            onChange={(_event: React.ChangeEvent<unknown>, value: number) =>
-              handleFetchPage(value)
-            }
-            color="primary"
-            variant="outlined"
-            shape="rounded"
+          <Paginator
+            request={request}
+            onChange={setUsers}
+            onError={handleFetchError}
+            onDone={handleFetchDone}
+            props={{ color: 'primary', variant: 'outlined', shape: 'rounded' }}
           />
         </Stack>
       </Stack>

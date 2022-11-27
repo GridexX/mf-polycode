@@ -7,7 +7,7 @@ import {
   UnexpectedResponse,
 } from './api';
 import { ContainerComponent } from './component';
-import { PaginatedMeta } from './pagination';
+import { PaginatedMeta } from '../pagination';
 
 // Types
 

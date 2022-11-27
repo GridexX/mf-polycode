@@ -8,7 +8,7 @@ import {
   UnexpectedResponse,
 } from './api';
 import { EditorLanguage } from './component';
-import { PaginatedMeta, PaginatedResponse } from './pagination';
+import { PaginatedMeta, PaginatedResponse } from '../pagination';
 import { getTeam, Team } from './team';
 
 export const UserAlreadyExists = new Error('User already exists');

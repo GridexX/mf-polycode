@@ -22,7 +22,7 @@ export default function Home() {
     if (validUser) {
       getModules(credentialsManager, {
         limit: 1,
-        offset: 0,
+        page: 0,
         sort: 'date',
         tags: {
           frontpage: true,

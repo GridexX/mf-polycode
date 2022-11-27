@@ -5,7 +5,7 @@ import {
   fetchApiWithAuth,
   UnexpectedResponse,
 } from './api';
-import { PaginatedMeta, PaginatedResponse } from './pagination';
+import { PaginatedMeta, PaginatedResponse } from '../pagination';
 
 // Response structures (models)
 export interface TeamMember {

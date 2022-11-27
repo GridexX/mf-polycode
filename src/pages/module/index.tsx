@@ -24,7 +24,7 @@ const DEFAULT_STATE: ModuleFilters = {
     javascript: true,
   },
   limit: 10,
-  offset: 0,
+  page: 0,
 };
 
 export default function Modules() {
@@ -67,10 +67,13 @@ export default function Modules() {
             <Typography variant="h5">
               {i18n.t('pages.module.index.filters')}
             </Typography>
-            <TagFilter onChange={handleTagFilterChanges} value={filters.tags} />
+            <TagFilter
+              onChange={handleTagFilterChanges}
+              value={filters.tags || ({} as TagFilterType)}
+            />
             <SortFilter
               onChange={handleSortFiltersChanges}
-              value={filters.sort}
+              value={filters.sort || ({} as SortFilterType)}
             />
             <Box className={styles.resetButtonContainer}>
               <Button

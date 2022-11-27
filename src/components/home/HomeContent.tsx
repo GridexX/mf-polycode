@@ -23,7 +23,7 @@ export default function HomeContent() {
     if (validUser) {
       getModules(credentialsManager, {
         limit: 10,
-        offset: 0,
+        page: 0,
         sort: 'date',
         tags: {
           home: true,

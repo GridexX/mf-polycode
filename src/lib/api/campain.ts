@@ -3,7 +3,7 @@ import {
   fetchApiWithAuth,
   UnexpectedResponse,
 } from './api';
-import { PaginatedMeta, PaginatedResponse } from './pagination';
+import { PaginatedMeta, PaginatedResponse } from '../pagination';
 
 // Types
 

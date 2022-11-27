@@ -5,6 +5,7 @@ import {
 } from './api';
 import { SortFilterType, TagFilterType } from '../common/filter';
 import { Content } from './content';
+import { buildPaginatedQuery, PaginatedFilter } from '../pagination';
 
 export const MissingModuleId = new Error('Missing module id');
 
@@ -38,11 +39,10 @@ export interface TestModule extends BaseModule {
 
 export type Module = PracticeModule | TestModule;
 
-export interface ModuleFilters {
-  limit: number;
-  offset: number;
-  tags: TagFilterType;
-  sort: SortFilterType;
+export interface ModuleFilters extends PaginatedFilter {
+  types?: ModuleType[];
+  tags?: TagFilterType;
+  sort?: SortFilterType;
 }
 
 // Default values
@@ -73,18 +73,25 @@ export const defaultTestModule = {
 
 // Utils
 
-function buildFilterQuery(filters: ModuleFilters): string {
-  let url = `/module?limit=${filters.limit}&offset=${filters.offset}`;
+function buildModuleUrl(filters: ModuleFilters): string {
+  let params = buildPaginatedQuery(filters);
 
-  const tags = Object.keys(filters.tags).reduce((prev, key) => {
-    if (filters.tags[key]) return [...prev, key];
-    return prev;
-  }, [] as string[]);
+  if (filters.types) {
+    params += `&types=[${filters.types.join(',')}]`;
+  }
+  if (filters.tags) {
+    const formattedTags = Object.keys(filters.tags).reduce((prev, key) => {
+      if (filters.tags && filters.tags[key]) return [...prev, key];
+      return prev;
+    }, [] as string[]);
+    params += `&tags=[${formattedTags.join(',')}]`;
+  }
+  if (filters.sort) {
+    params += `&sort=${filters.sort}`;
+  }
 
-  url += `&tags=[${tags.join(',')}]`;
-  url += `&sort=${filters.sort}`;
-
-  return url;
+  const query = params.length > 0 ? `?${params.slice(1)}` : '';
+  return `/modules${query}`;
 }
 
 function formatModule(module: Module) {
@@ -130,7 +137,7 @@ export async function getModules(
   credentialsManager: CredentialsManager,
   filters?: ModuleFilters
 ): Promise<Module[]> {
-  const endpoint = filters ? buildFilterQuery(filters) : '/module';
+  const endpoint = filters ? buildModuleUrl(filters) : '/module';
   const { data, status } = await fetchApiWithAuth<{ total: number }, Module[]>(
     endpoint,
     credentialsManager
