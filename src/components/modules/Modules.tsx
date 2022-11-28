@@ -45,7 +45,9 @@ export default function Modules({ filters }: Props) {
     <Box className={styles.container}>
       {/* title */}
       <Typography variant="h3" sx={{ color: theme.palette.primary.main }}>
-        {i18n.t('components.modules.modules.title')}
+        {filters.types?.includes('test')
+          ? i18n.t(`components.modules.modules.testTitle`)
+          : i18n.t(`components.modules.modules.practiceTitle`)}
       </Typography>
 
       {/* list of modules */}

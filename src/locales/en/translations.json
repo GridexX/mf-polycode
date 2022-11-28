@@ -215,7 +215,8 @@
         "notFound": "No modules found"
       },
       "modules": {
-        "title": "Modules",
+        "testTitle": "Test",
+        "practiceTitle": "Modules",
         "fetchError": "Failed to fetch modules from server"
       },
       "submodules": "Submodules",
@@ -497,6 +498,11 @@
         "index": {
           "title": "Create Test"
         }
+      },
+      "index": {
+        "title": "Tests",
+        "filters": "Filters",
+        "resetButton": "Reset"
       }
     },
     "signIn": {

@@ -35,7 +35,7 @@ let apiServer =
 
 export const setApiServer = (newApiServer: string) => {
   apiServer = newApiServer;
-}
+};
 
 // Fetch the backend api
 export async function fetchApi<MetaDataType, DataType>(

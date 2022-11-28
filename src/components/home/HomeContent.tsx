@@ -25,6 +25,7 @@ export default function HomeContent() {
         limit: 10,
         page: 0,
         sort: 'date',
+        types: ['practice'],
         tags: {
           home: true,
           javascript: false,

@@ -16,7 +16,6 @@ import { useTranslation } from '../../lib/translations';
 import styles from '../../styles/components/playground/Hints.module.css';
 import carrot from '../../images/carrot.png';
 
-
 export default function Hints() {
   const context = useEditorContext();
 

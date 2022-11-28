@@ -49,7 +49,9 @@ export function useThemeManager() {
   const context = React.useContext(ThemeManagerContext);
 
   if (context === undefined) {
-    throw new Error('useThemeManager must be used within a ThemeManagerProvider');
+    throw new Error(
+      'useThemeManager must be used within a ThemeManagerProvider'
+    );
   }
 
   return context;

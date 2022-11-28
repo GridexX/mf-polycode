@@ -24,6 +24,7 @@ export default function Home() {
         limit: 1,
         page: 0,
         sort: 'date',
+        types: ['practice'],
         tags: {
           frontpage: true,
           javascript: false,

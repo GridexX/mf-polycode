@@ -25,10 +25,10 @@ const DEFAULT_STATE: ModuleFilters = {
   },
   limit: 10,
   page: 0,
-  types: ['practice'],
+  types: ['test'],
 };
 
-export default function Modules() {
+export default function Test() {
   // import mui theme & i18n
   const theme = useTheme();
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function Modules() {
   return (
     <>
       <Head>
-        <title>{i18n.t('pages.module.index.title')}</title>
+        <title>{i18n.t('pages.test.index.title')}</title>
       </Head>
       <Box
         className={styles.container}
@@ -66,7 +66,7 @@ export default function Modules() {
           {/* filters */}
           <Box className={styles.filters}>
             <Typography variant="h5">
-              {i18n.t('pages.module.index.filters')}
+              {i18n.t('pages.test.index.filters')}
             </Typography>
             <TagFilter
               onChange={handleTagFilterChanges}
@@ -82,7 +82,7 @@ export default function Modules() {
                 className={styles.resetButton}
                 onClick={handleReset}
               >
-                {i18n.t('pages.module.index.resetButton')}
+                {i18n.t('pages.test.index.resetButton')}
               </Button>
             </Box>
           </Box>
