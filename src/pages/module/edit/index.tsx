@@ -13,7 +13,7 @@ export default function NewModule() {
       <Head>
         <title>{i18n.t('pages.module.edit.index.title')}</title>
       </Head>
-      <ModuleEditor type='practice' />
+      <ModuleEditor type="practice" />
     </>
   );
 }

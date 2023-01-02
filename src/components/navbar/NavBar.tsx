@@ -21,6 +21,7 @@ import styles from '../../styles/components/navbar/NavBar.module.css';
 import { useTranslation } from '../../lib/translations';
 
 import logo from '../../images/logo.png';
+import dynamic from 'next/dynamic';
 
 export default function NavBar() {
   const { user } = useLoginContext();
@@ -87,6 +88,9 @@ export default function NavBar() {
               </NavBarLink>
               <NavBarLink href="/certification">
                 {i18n.t('components.navbar.navBar.certification')}
+              </NavBarLink>
+              <NavBarLink href="/mcq">
+                {i18n.t('components.navbar.navBar.mcq')}
               </NavBarLink>
             </Stack>
 

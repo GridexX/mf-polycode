@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  frontend:
+    hostname: "poc-microfrontend.dockerlocal"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MCQ_API_URL="http://mcq:3001"
+    expose:
+      - "3000"
+    networks:
+      - isc
+
+  mcq:
+    image: gridexx/mf-mcq:0.1.0
+    expose:
+      - "3001"
+    networks:
+      - isc
+  
+
+networks:
+  isc:

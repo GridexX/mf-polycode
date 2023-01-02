@@ -17,7 +17,7 @@ export default function Editor() {
       <Head>
         <title>{i18n.t('pages.module.edit.id.title')}</title>
       </Head>
-      <ModuleEditor id={`${id}`} type='practice' />
+      <ModuleEditor id={`${id}`} type="practice" />
     </>
   );
 }
